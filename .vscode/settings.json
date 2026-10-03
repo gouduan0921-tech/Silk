@@ -1,0 +1,19 @@
+{
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "Library/": true,
+        "Temp/": true,
+        "Obj/": true,
+        "Logs/": true,
+        "UserSettings/": true,
+        "Build/": true,
+        "Builds/": true
+    },
+    "files.associations": {
+        "*.asset": "yaml",
+        "*.meta": "yaml",
+        "*.prefab": "yaml",
+        "*.unity": "yaml"
+    },
+    "dotnet.defaultSolution": "Silk to Divinity.slnx"
+}

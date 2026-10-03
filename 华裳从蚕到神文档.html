@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#4a2c24">
+  <title>华裳·从蚕到神 · 设计文档</title>
+  <style>
+    :root {
+      --forest-950: #3a2418;
+      --forest-900: #4a2c24;
+      --forest-800: #6b3a32;
+      --forest-700: #8c4a3a;
+      --forest-600: #a85a42;
+      --leaf-300: #e4c99a;
+      --leaf-100: #f3e6d4;
+      --fiber-50: #fbf8ee;
+      --fiber-100: #f6efe2;
+      --fiber-200: #eadcc4;
+      --fiber-300: #d2b48c;
+      --ink: #2c2118;
+      --muted: #7a6a5c;
+      --accent: #9a6232;
+      --sidebar: 316px;
+      --shadow: 0 18px 48px rgba(58, 36, 24, .12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 78% 8%, rgba(212, 176, 122, .35), transparent 25rem),
+        repeating-linear-gradient(105deg, rgba(94, 73, 37, .025) 0 1px, transparent 1px 8px),
+        var(--fiber-100);
+      font: 16px/1.85 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+    a { color: var(--forest-700); text-underline-offset: .22em; }
+    a:hover { color: var(--forest-900); }
+    button, input { font: inherit; }
+    button:focus-visible, input:focus-visible, a:focus-visible, [tabindex]:focus-visible {
+      outline: 3px solid #e6b96d;
+      outline-offset: 3px;
+    }
+    .skip-link {
+      position: fixed;
+      z-index: 100;
+      top: 10px;
+      left: 12px;
+      padding: 8px 12px;
+      color: #fff;
+      background: var(--forest-950);
+      border-radius: 6px;
+      transform: translateY(-150%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .sidebar {
+      position: fixed;
+      z-index: 20;
+      inset: 0 auto 0 0;
+      width: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      color: #f8f4e8;
+      background:
+        linear-gradient(155deg, rgba(255,255,255,.055), transparent 28%),
+        repeating-linear-gradient(35deg, rgba(244,236,217,.025) 0 1px, transparent 1px 10px),
+        var(--forest-900);
+      border-right: 1px solid rgba(255,255,255,.1);
+      box-shadow: 8px 0 28px rgba(48, 28, 20, .12);
+    }
+    .brand-block { padding: 28px 24px 18px; }
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+    .brand-icon {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid rgba(244,236,217,.52);
+      border-radius: 50% 42% 50% 38%;
+      background:
+        repeating-linear-gradient(45deg, rgba(90,52,40,.28) 0 2px, transparent 2px 7px),
+        var(--fiber-200);
+      color: var(--forest-900);
+      font-size: 23px;
+      font-weight: 800;
+      transform: rotate(-4deg);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 31px;
+      line-height: 1;
+      letter-spacing: .15em;
+      font-weight: 800;
+    }
+    .brand-subtitle {
+      margin: 8px 0 0;
+      color: rgba(248,244,232,.7);
+      font-size: 12px;
+      letter-spacing: .12em;
+    }
+    .search-box { padding: 0 20px 12px; }
+    .search-box label {
+      display: block;
+      margin-bottom: 7px;
+      color: rgba(248,244,232,.72);
+      font-size: 12px;
+    }
+    #search {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px 10px 38px;
+      color: var(--ink);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 9px;
+      background:
+        linear-gradient(90deg, transparent 0 34px, rgba(90,52,40,.16) 34px 35px, transparent 35px),
+        #fffdf7;
+    }
+    .search-field { position: relative; }
+    .search-field::before {
+      content: "⌕";
+      position: absolute;
+      z-index: 1;
+      left: 12px;
+      top: 4px;
+      color: var(--forest-700);
+      font-size: 23px;
+      pointer-events: none;
+    }
+    #search-status {
+      min-height: 25px;
+      margin: 7px 2px 0;
+      color: var(--leaf-300);
+      font-size: 12px;
+    }
+    .chapter-nav {
+      min-height: 0;
+      padding: 4px 12px 30px;
+      overflow-y: auto;
+      scrollbar-color: rgba(244,236,217,.28) transparent;
+    }
+    .nav-link {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 7px;
+      align-items: start;
+      padding: 10px 10px;
+      color: rgba(255,255,255,.78);
+      border-left: 2px solid transparent;
+      border-radius: 7px;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .nav-link[hidden] { display: none; }
+    .nav-link:hover { color: #fff; background: rgba(255,255,255,.07); }
+    .nav-link.active {
+      color: #fff;
+      border-left-color: var(--fiber-300);
+      background: rgba(255,255,255,.11);
+    }
+    .nav-number {
+      color: var(--fiber-300);
+      font: 700 11px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .08em;
+    }
+    .mobile-bar { display: none; }
+    .page {
+      width: calc(100% - var(--sidebar));
+      margin-left: var(--sidebar);
+      padding: 44px clamp(24px, 6vw, 88px) 80px;
+    }
+    .page-inner { max-width: 1180px; margin: 0 auto; }
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 245px;
+      padding: 42px clamp(28px, 5vw, 62px);
+      overflow: hidden;
+      color: #fffdf5;
+      border-radius: 20px;
+      background:
+        linear-gradient(112deg, rgba(58,36,24,.98), rgba(107,58,50,.94)),
+        var(--forest-900);
+      box-shadow: var(--shadow);
+    }
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border: 1px solid rgba(244,236,217,.23);
+      border-radius: 45% 55% 38% 62%;
+      transform: rotate(-18deg);
+    }
+    .hero::before { width: 330px; height: 150px; right: -60px; top: -35px; }
+    .hero::after { width: 250px; height: 105px; right: 45px; bottom: -65px; }
+    .eyebrow {
+      color: var(--fiber-300);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      margin: 12px 0 10px;
+      font-size: clamp(38px, 5vw, 66px);
+      line-height: 1.08;
+      letter-spacing: .08em;
+    }
+    .hero p { max-width: 680px; margin: 0; color: rgba(255,255,255,.77); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .pill {
+      padding: 5px 11px;
+      border: 1px solid rgba(244,236,217,.25);
+      border-radius: 999px;
+      color: var(--fiber-100);
+      background: rgba(255,255,255,.065);
+      font-size: 12px;
+    }
+    .toolbar {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 20px 0;
+      padding: 10px;
+      border: 1px solid rgba(210,189,149,.48);
+      border-radius: 12px;
+      background: rgba(251,248,238,.9);
+      box-shadow: 0 8px 24px rgba(74,44,36,.08);
+      backdrop-filter: blur(12px);
+    }
+    .toolbar button, .mobile-nav-button {
+      min-height: 42px;
+      padding: 8px 14px;
+      color: var(--forest-900);
+      border: 1px solid var(--fiber-300);
+      border-radius: 8px;
+      background: #fffdf7;
+      cursor: pointer;
+    }
+    .toolbar button:hover:not(:disabled), .mobile-nav-button:hover {
+      background: var(--leaf-100);
+      border-color: var(--forest-600);
+    }
+    .toolbar button:disabled { cursor: not-allowed; opacity: .45; }
+    .toolbar .print-button { margin-left: auto; }
+    .chapter {
+      display: none;
+      padding: clamp(28px, 5vw, 58px);
+      overflow: hidden;
+      border: 1px solid rgba(210,189,149,.5);
+      border-radius: 18px;
+      background: rgba(255,253,247,.94);
+      box-shadow: var(--shadow);
+    }
+    .chapter.active { display: block; }
+    .show-all .chapter { display: block; margin-bottom: 24px; }
+    .chapter-kicker {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .chapter h2 {
+      margin: 0 0 28px;
+      color: var(--forest-950);
+      font-size: clamp(28px, 4vw, 43px);
+      line-height: 1.3;
+      letter-spacing: -.015em;
+    }
+    .chapter h3 {
+      margin: 42px 0 15px;
+      padding-bottom: 9px;
+      color: var(--forest-900);
+      border-bottom: 1px solid var(--fiber-200);
+      font-size: 23px;
+      line-height: 1.45;
+    }
+    .chapter h4 { margin: 30px 0 10px; color: var(--forest-800); font-size: 19px; }
+    .chapter h5, .chapter h6 { margin: 24px 0 8px; color: var(--forest-700); }
+    .chapter p { margin: 13px 0; }
+    .chapter ul, .chapter ol { padding-left: 1.5em; }
+    .chapter li { margin: 5px 0; padding-left: .2em; }
+    .chapter li::marker { color: var(--forest-600); font-weight: 700; }
+    .chapter blockquote {
+      margin: 20px 0;
+      padding: 13px 20px;
+      color: #6a5348;
+      border-left: 4px solid var(--leaf-300);
+      background: linear-gradient(90deg, var(--leaf-100), rgba(228,236,220,.25));
+      border-radius: 0 9px 9px 0;
+    }
+    .chapter blockquote p:first-child { margin-top: 0; }
+    .chapter blockquote p:last-child { margin-bottom: 0; }
+    hr { margin: 34px 0; border: 0; border-top: 1px solid var(--fiber-200); }
+    code {
+      padding: .12em .38em;
+      color: #5c3a32;
+      border: 1px solid rgba(168,90,66,.18);
+      border-radius: 4px;
+      background: #f3ebe3;
+      font: .88em/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      overflow-wrap: anywhere;
+    }
+    .code-wrap {
+      max-width: 100%;
+      margin: 20px 0;
+      overflow: hidden;
+      border: 1px solid #e0d0bc;
+      border-radius: 10px;
+      background: #f6efe6;
+    }
+    .code-label {
+      padding: 7px 14px;
+      color: var(--forest-700);
+      border-bottom: 1px solid #e0d0bc;
+      background: #efe4d6;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+    pre {
+      max-width: 100%;
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #3a2a22;
+      scrollbar-color: var(--forest-600) #efe4d6;
+    }
+    pre code {
+      padding: 0;
+      white-space: pre;
+      border: 0;
+      background: transparent;
+      overflow-wrap: normal;
+    }
+    .table-wrap {
+      width: 100%;
+      margin: 20px 0;
+      overflow-x: auto;
+      border: 1px solid #d9d4c5;
+      border-radius: 10px;
+      background: #fff;
+      scrollbar-color: var(--forest-600) var(--fiber-100);
+    }
+    table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 13px; line-height: 1.6; }
+    th, td {
+      padding: 10px 12px;
+      border-right: 1px solid #e1ddd0;
+      border-bottom: 1px solid #e1ddd0;
+      text-align: left;
+      vertical-align: top;
+    }
+    th:last-child, td:last-child { border-right: 0; }
+    tr:last-child td { border-bottom: 0; }
+    th {
+      color: var(--forest-900);
+      background: #f0e4d4;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+    tbody tr:nth-child(even) { background: #fbf9f1; }
+    .external-mark { margin-left: .2em; font-size: .75em; text-decoration: none; }
+    #no-results {
+      display: none;
+      padding: 56px 24px;
+      border: 1px dashed var(--fiber-300);
+      border-radius: 16px;
+      color: var(--muted);
+      background: rgba(255,253,247,.72);
+      text-align: center;
+    }
+    #no-results strong { display: block; color: var(--forest-900); font-size: 21px; }
+    footer {
+      margin: 28px 4px 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+    .nav-scrim { display: none; }
+    @media (max-width: 920px) {
+      body { padding-top: 58px; }
+      .mobile-bar {
+        position: fixed;
+        z-index: 30;
+        inset: 0 0 auto;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 14px;
+        color: #fff;
+        background: var(--forest-900);
+        box-shadow: 0 3px 18px rgba(58,36,24,.2);
+      }
+      .mobile-bar strong { letter-spacing: .12em; }
+      .mobile-nav-button { min-height: 38px; padding: 5px 12px; }
+      .sidebar {
+        z-index: 40;
+        width: min(86vw, 340px);
+        transform: translateX(-105%);
+        transition: transform .2s ease;
+      }
+      .nav-open .sidebar { transform: translateX(0); }
+      .nav-scrim {
+        position: fixed;
+        z-index: 35;
+        inset: 0;
+        background: rgba(28,16,12,.48);
+      }
+      .nav-open .nav-scrim { display: block; }
+      .page { width: 100%; margin-left: 0; padding: 22px 14px 60px; }
+      .hero { min-height: 220px; padding: 34px 24px; border-radius: 14px; }
+      .toolbar { top: 58px; }
+      .chapter { padding: 28px 20px; border-radius: 14px; }
+    }
+    @media (max-width: 560px) {
+      body { font-size: 15px; }
+      .hero h1 { font-size: 38px; }
+      .toolbar { gap: 7px; }
+      .toolbar button { flex: 1 1 calc(50% - 7px); padding-inline: 8px; }
+      .toolbar .print-button { margin-left: 0; }
+      .chapter h3 { font-size: 20px; }
+      table { min-width: 560px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+    @media print {
+      @page { margin: 16mm; }
+      body { padding: 0; color: #111; background: #fff; font-size: 11pt; }
+      .sidebar, .mobile-bar, .nav-scrim, .toolbar, footer { display: none !important; }
+      .page { width: auto; margin: 0; padding: 0; }
+      .hero {
+        min-height: 0;
+        margin-bottom: 18mm;
+        padding: 18mm 14mm;
+        color: #111;
+        border: 1px solid #999;
+        box-shadow: none;
+        background: #fff;
+      }
+      .hero p, .eyebrow { color: #333; }
+      .pill { color: #111; border-color: #999; background: #fff; }
+      .chapter, .show-all .chapter {
+        display: block !important;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        break-before: page;
+      }
+      .chapter h2 { margin-top: 0; }
+      .table-wrap, .code-wrap { overflow: visible; break-inside: avoid; }
+      table { min-width: 0; font-size: 8pt; }
+      pre { overflow: visible; white-space: pre-wrap; }
+      pre code { white-space: pre-wrap; }
+      a { color: inherit; text-decoration: none; }
+      .external-mark { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#reader">跳到正文</a>
+  <div class="mobile-bar">
+    <strong>华裳·从蚕到神 · 设计文档</strong>
+    <button class="mobile-nav-button" id="mobile-nav-button" type="button"
+      aria-controls="sidebar" aria-expanded="false">章节</button>
+  </div>
+  <div class="nav-scrim" id="nav-scrim" aria-hidden="true"></div>
+  <aside class="sidebar" id="sidebar" aria-label="文档章节">
+    <div class="brand-block">
+      <div class="brand-mark">
+        <div class="brand-icon" aria-hidden="true">裳</div>
+        <div>
+          <div class="brand-name">华裳</div>
+          <p class="brand-subtitle">SILK · 从蚕茧到展柜</p>
+        </div>
+      </div>
+    </div>
+    <div class="search-box">
+      <label for="search">中文全文搜索</label>
+      <div class="search-field">
+        <input id="search" type="search" autocomplete="off"
+          placeholder="输入关键词…" aria-describedby="search-status">
+      </div>
+      <div id="search-status" role="status" aria-live="polite"></div>
+    </div>
+    <nav class="chapter-nav" aria-label="章节导航"><a class="nav-link" href="#00_文档地图"><span class="nav-number">00</span><span>文档地图</span></a><a class="nav-link" href="#01_游戏总体策划案"><span class="nav-number">01</span><span>游戏总体策划案</span></a><a class="nav-link" href="#02_核心玩法循环与系统框架"><span class="nav-number">02</span><span>核心玩法循环与系统框架</span></a><a class="nav-link" href="#03_布料仿真技术实现方案"><span class="nav-number">03</span><span>布料仿真技术实现方案</span></a><a class="nav-link" href="#04_数值平衡初版"><span class="nav-number">04</span><span>数值平衡初版</span></a><a class="nav-link" href="#05_配置表结构"><span class="nav-number">05</span><span>配置表结构</span></a><a class="nav-link" href="#06_养蚕与原料"><span class="nav-number">06</span><span>养蚕与原料</span></a><a class="nav-link" href="#07_织染裁缝工序"><span class="nav-number">07</span><span>织染裁缝工序</span></a><a class="nav-link" href="#08_舞台演出"><span class="nav-number">08</span><span>舞台演出</span></a><a class="nav-link" href="#09_博物馆策展"><span class="nav-number">09</span><span>博物馆策展</span></a><a class="nav-link" href="#10_升级与成长"><span class="nav-number">10</span><span>升级与成长</span></a><a class="nav-link" href="#11_神话与跨文化篇章"><span class="nav-number">11</span><span>神话与跨文化篇章</span></a><a class="nav-link" href="#12_UIUX流程与线框"><span class="nav-number">12</span><span>UI / UX 流程与线框</span></a><a class="nav-link" href="#13_品质热度与展览转化"><span class="nav-number">13</span><span>品质热度与展览转化</span></a><a class="nav-link" href="#14_视觉风格指南"><span class="nav-number">14</span><span>视觉风格指南</span></a><a class="nav-link" href="#15_灯光风场色彩联动"><span class="nav-number">15</span><span>灯光风场色彩联动</span></a><a class="nav-link" href="#16_美人与好感"><span class="nav-number">16</span><span>美人与好感</span></a><a class="nav-link" href="#17_美术资源与命名规范"><span class="nav-number">17</span><span>美术资源与命名规范</span></a><a class="nav-link" href="#18_音效与音乐设计"><span class="nav-number">18</span><span>音效与音乐设计</span></a><a class="nav-link" href="#19_技术架构"><span class="nav-number">19</span><span>技术架构</span></a><a class="nav-link" href="#20_项目目录与资源管理"><span class="nav-number">20</span><span>项目目录与资源管理</span></a><a class="nav-link" href="#21_存档与数据结构"><span class="nav-number">21</span><span>存档与数据结构</span></a><a class="nav-link" href="#22_多平台发布与适配"><span class="nav-number">22</span><span>多平台发布与适配</span></a><a class="nav-link" href="#23_活动与运营接口"><span class="nav-number">23</span><span>活动与运营接口</span></a><a class="nav-link" href="#24_社区与分享功能"><span class="nav-number">24</span><span>社区与分享功能</span></a><a class="nav-link" href="#25_商业化与内购DLC"><span class="nav-number">25</span><span>商业化与内购 DLC</span></a><a class="nav-link" href="#26_测试用例与验收标准"><span class="nav-number">26</span><span>测试用例与验收标准</span></a><a class="nav-link" href="#27_开发计划"><span class="nav-number">27</span><span>开发计划</span></a><a class="nav-link" href="#28_变更记录"><span class="nav-number">28</span><span>变更记录</span></a></nav>
+  </aside>
+  <main class="page" id="reader">
+    <div class="page-inner">
+      <header class="hero">
+        <div class="eyebrow">HUASHANG · PRODUCTION HANDBOOK</div>
+        <h1>从一缕丝，到能穿上舞台的衣服。</h1>
+        <p>《华裳·从蚕到神》设计文档离线阅读器。查阅玩法边界、工序、数值、布料仿真、演出、验收和开发顺序。</p>
+        <div class="hero-meta">
+          <span class="pill">单文件离线阅读</span>
+          <span class="pill">全文搜索</span>
+          <span class="pill">29 个章节</span>
+          <span class="pill">适合打印与另存 PDF</span>
+        </div>
+      </header>
+      <div class="toolbar" aria-label="阅读工具">
+        <button id="previous" type="button" aria-label="上一章节">← 上一章</button>
+        <button id="next" type="button" aria-label="下一章节">下一章 →</button>
+        <button id="show-all" type="button" aria-pressed="false">展开全文</button>
+        <button class="print-button" id="print" type="button">打印 / 另存 PDF</button>
+      </div>
+      <div id="chapters"><section id="00_文档地图" class="chapter" data-title="《华裳·从蚕到神》文档地图" tabindex="-1"><div class="chapter-kicker">文档 00</div><h2>《华裳·从蚕到神》文档地图</h2><p>版本：0.3 · 2026-10-03<br>状态：设计基线。数值尚未实机验证。此前散稿在 <code>doc/</code>，不作为配置源。变更见 <code>28</code>。</p>
+<p>产品名：《华裳·从蚕到神》。英文名：Silk to Divinity。工程代号：HuaShang。<br>技术基线：Unity 6 + MagicaCloth 2。渲染用 URP。角色与服装经 Blender 导出 FBX。<br>首发平台：电脑端（键鼠）。主机不约束首发规则。</p>
+<h3>1. 一段话读懂 0.2</h3>
+<p>玩家在一条能看清的工艺链上做衣服：养蚕、缫丝、织布、染色、裁缝。做成的衣服穿到美人身上，在戏台上走一段短演出，再放进博物馆。布的差别必须能看出来。织机不模拟每一根经线。人台、舞台和近处展柜用 MagicaCloth 2。</p>
+<h3>2. 文档索引</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">编号</th><th scope="col">文档</th><th scope="col">主责</th><th scope="col">优先级</th></tr></thead><tbody><tr><td>00</td><td><a href="#00_文档地图">文档地图</a></td><td>导航、术语、冲突优先级</td><td>—</td></tr><tr><td>01</td><td><a href="#01_游戏总体策划案">游戏总体策划案</a></td><td>定位、支柱、范围、成功标准</td><td>最高</td></tr><tr><td>02</td><td><a href="#02_核心玩法循环与系统框架">核心玩法循环与系统框架</a></td><td>地点、工时、季节、工序边界</td><td>最高</td></tr><tr><td>03</td><td><a href="#03_布料仿真技术实现方案">布料仿真技术实现方案</a></td><td>什么实时解算、什么烘焙</td><td>最高</td></tr><tr><td>04</td><td><a href="#04_数值平衡初版">数值平衡初版</a></td><td><strong>全部数字</strong></td><td>最高</td></tr><tr><td>05</td><td><a href="#05_配置表结构">配置表结构</a></td><td>表字段、ID</td><td>最高</td></tr><tr><td>06</td><td><a href="#06_养蚕与原料">养蚕与原料</a></td><td>茧、丝、麻、葛</td><td>高</td></tr><tr><td>07</td><td><a href="#07_织染裁缝工序">织染裁缝工序</a></td><td>织、染、裁、缝的规则</td><td>高</td></tr><tr><td>08</td><td><a href="#08_舞台演出">舞台演出</a></td><td>Solo 如何装配</td><td>高</td></tr><tr><td>09</td><td><a href="#09_博物馆策展">博物馆策展</a></td><td>收录、布展、得分</td><td>高</td></tr><tr><td>10</td><td><a href="#10_升级与成长">升级与成长</a></td><td>工艺等级与解锁</td><td>高</td></tr><tr><td>11</td><td><a href="#11_神话与跨文化篇章">神话与跨文化篇章</a></td><td>非首发角色与形制</td><td>中（首发关闭）</td></tr><tr><td>12</td><td><a href="#12_UIUX流程与线框">UI/UX 流程与线框</a></td><td>工位操作与信息层级</td><td>中</td></tr><tr><td>13</td><td><a href="#13_品质热度与展览转化">品质热度与展览转化</a></td><td>公式结构</td><td>中</td></tr><tr><td>14</td><td><a href="#14_视觉风格指南">视觉风格指南</a></td><td>画面气质</td><td>中</td></tr><tr><td>15</td><td><a href="#15_灯光风场色彩联动">灯光风场色彩联动</a></td><td>光、风、色怎么配合</td><td>中</td></tr><tr><td>16</td><td><a href="#16_美人与好感">美人与好感</a></td><td>角色、契合、档位</td><td>中</td></tr><tr><td>17</td><td><a href="#17_美术资源与命名规范">美术资源与命名规范</a></td><td>命名与交付</td><td>中</td></tr><tr><td>18</td><td><a href="#18_音效与音乐设计">音效与音乐设计</a></td><td>操作声、舞台、语音</td><td>中</td></tr><tr><td>19</td><td><a href="#19_技术架构">技术架构</a></td><td>模块与边界</td><td>技术</td></tr><tr><td>20</td><td><a href="#20_项目目录与资源管理">项目目录与资源管理</a></td><td>目录归属</td><td>技术</td></tr><tr><td>21</td><td><a href="#21_存档与数据结构">存档与数据结构</a></td><td>schema</td><td>技术</td></tr><tr><td>22</td><td><a href="#22_多平台发布与适配">多平台发布与适配</a></td><td>电脑端首发</td><td>技术</td></tr><tr><td>23</td><td><a href="#23_活动与运营接口">活动与运营接口</a></td><td>默认关闭</td><td>后期</td></tr><tr><td>24</td><td><a href="#24_社区与分享功能">社区与分享功能</a></td><td>首发不做</td><td>后期</td></tr><tr><td>25</td><td><a href="#25_商业化与内购DLC">商业化与内购 DLC</a></td><td>买断，默认无内购</td><td>后期</td></tr><tr><td>26</td><td><a href="#26_测试用例与验收标准">测试用例与验收标准</a></td><td>发布门</td><td>执行</td></tr><tr><td>27</td><td><a href="#27_开发计划">开发计划</a></td><td>里程碑</td><td>执行</td></tr><tr><td>28</td><td><a href="#28_变更记录">变更记录</a></td><td>散稿到本版</td><td>—</td></tr></tbody></table></div>
+<h3>3. 权威来源与冲突处理</h3>
+<p>同一件事只在一处定义。冲突时先改主责文档，再改引用方。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">事项</th><th scope="col">主责</th><th scope="col">引用方只能</th></tr></thead><tbody><tr><td>做什么、不做什么、体验承诺</td><td><code>01</code></td><td>引用</td></tr><tr><td>地点、工时、季节、工序顺序</td><td><code>02</code></td><td>引用</td></tr><tr><td>仿真边界（实时或烘焙）</td><td><code>03</code></td><td>引用</td></tr><tr><td>任何数字</td><td><code>04</code></td><td>写「见 <code>04</code> §x」</td></tr><tr><td>品质、热度、展览的公式结构</td><td><code>13</code>（系数在 <code>04</code>）</td><td>引用</td></tr><tr><td>织、染、裁、缝何时计分</td><td><code>07</code></td><td>引用</td></tr><tr><td>演出如何删档、如何绑轨道</td><td><code>08</code></td><td>引用</td></tr><tr><td>布展与展览分规则</td><td><code>09</code></td><td>引用</td></tr><tr><td>表字段与 ID</td><td><code>05</code>；运行时结构 <code>21</code></td><td>引用</td></tr><tr><td>角色、契合、好感门槛的含义</td><td><code>16</code></td><td>引用</td></tr><tr><td>是否可发布 <code>26</code>；开发顺序 <code>27</code></td><td>各自</td><td>不覆盖 <code>01</code>–<code>25</code></td></tr></tbody></table></div>
+<p><code>doc/</code> 里的面料长文、分镜散文和上一轮体系稿，都是本手册的材料，不是第二套规则。</p>
+<h3>4. 统一术语</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">词</th><th scope="col">含义</th></tr></thead><tbody><tr><td>工坊日</td><td>一天。8 工时。不绑定现实时钟</td></tr><tr><td>工时</td><td>工序消耗的节拍。见 <code>04</code> §2</td></tr><tr><td>季</td><td>6 个工坊日。春夏秋冬循环</td></tr><tr><td>束</td><td>一束纱线，原料单位</td></tr><tr><td>匹</td><td>一块下机的布，默认 8 米、幅宽 50 厘米</td></tr><tr><td>件</td><td>一件成衣，由部件组成</td></tr><tr><td>品种</td><td>素纱、绢、绸等 19 种织物品类。物理行见 <code>04</code> §8</td></tr><tr><td>朝代风格</td><td>汉、唐、宋、明。用来夹紧参数和推荐形制</td></tr><tr><td>过程分</td><td>某一道工序的 0–100 分。界面默认不展示精确值</td></tr><tr><td>品质 Q</td><td>成衣总分。档位：普通、精良、传世</td></tr><tr><td>词条</td><td>由高分过程生成，最多 3 个</td></tr><tr><td>档位 0 / 30 / 70</td><td>演出强度，由好感打开</td></tr><tr><td>契合</td><td>衣服与角色偏好的匹配，0–100</td></tr><tr><td>热度</td><td>一次演出的成绩，不改布料参数</td></tr><tr><td>丝钱</td><td>唯一货币</td></tr><tr><td>呈现模式</td><td>历史还原 / 标准 / 视觉增强。只改显示拷贝，不改仓库原件</td></tr><tr><td>残次</td><td>过程分过低的丝或布。能用，不能做传世外层</td></tr></tbody></table></div>
+<p>工位 ID：<code>station_silk</code> 蚕房、<code>station_loom</code> 织机、<code>station_dye</code> 染缸、<code>station_cut</code> 裁桌、<code>station_sew</code> 针线、<code>station_form</code> 人台、<code>station_stage</code> 舞台、<code>station_museum</code> 展柜、<code>station_market</code> 市集。</p>
+<h3>5. 现实与虚构</h3>
+<ul><li>纤维、组织和染料名参照公开的纺织史常识：素纱禅衣、罗、绫、缎、锦、缂丝、植物染。游戏里的分数和米数是节奏设定，不是考古计量。</li><li>时间是压缩的。文案不写现实里养一季蚕要多少天。</li><li>不写化工漂白，不写化纤光泽。</li><li>神话角色和跨文化角色可以加特效，底料仍用真实纤维。首发不投放，见 <code>11</code>。</li><li>演出展示衣服和人物气质，不做低俗镜头。</li></ul>
+<h3>6. 首发范围</h3>
+<p><strong>首发可玩：</strong></p>
+<ul><li>一条工位链：蚕房、平纹织机、一口染缸、裁桌、人台、古典戏台、一个展柜、委托牌</li><li>家蚕、苎麻</li><li>品种：素纱、绢、绸</li><li>染料：靛蓝、茜草、栀子</li><li>形制：襦裙</li><li>角色：西施（0 与 30）、王昭君（0）、赵飞燕（0）</li><li>舞台：古典戏台</li><li>工艺 1–3 级</li><li>历史还原 / 标准 / 视觉增强</li></ul>
+<p><strong>首发不做：</strong></p>
+<ul><li>每一根经线的布料粒子</li><li>整座染坊的三维流体</li><li>云锦、缂丝、改机</li><li>19 人同时拥有 70 档语音</li><li>自由打版</li><li>联机参观</li><li>付费跳过工序</li></ul>
+<p><strong>预留配置、首发关闭：</strong> 神话与跨文化篇章、水墨台、现代剧场、活动、分享、内购。</p></section><section id="01_游戏总体策划案" class="chapter" data-title="《华裳·从蚕到神》游戏总体策划案" tabindex="-1"><div class="chapter-kicker">文档 01</div><h2>《华裳·从蚕到神》游戏总体策划案</h2><p>版本：0.2 · 2026-10-02<br>主责：产品定位、体验支柱、范围与成功标准。系统细则见 <code>02</code> 起；所有数字见 <code>04</code>。</p>
+<h3>1. 一句话</h3>
+<p>从蚕茧做成一匹布，裁成衣服，穿到人身上走一段演出，再放进展柜。两件衣服如果原料或染法不同，舞台上必须看得出来。</p>
+<h3>2. 定位</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">项</th><th scope="col">决定</th></tr></thead><tbody><tr><td>类型</td><td>单人 3D 工艺模拟。生产链 + 短演出 + 收藏</td></tr><tr><td>参照体验</td><td>手作的步骤清楚；布料在身上的差别看得见；展览是归宿，不是商店评分板</td></tr><tr><td>气质</td><td>安静、材料真实、舞台有节奏。风格名「一幅素纱」</td></tr><tr><td>场地</td><td>首发是一条工位链，不是开放世界。完整愿景是七个地点快旅，见 <code>02</code></td></tr><tr><td>单次</td><td>用现成丝做一条襦裙并看完 0 档演出，约 20–40 分钟</td></tr><tr><td>中期</td><td>一季 6 日。春茧、夏染、秋织可以跨天</td></tr><tr><td>长线</td><td>首发工艺 1–3 级。云锦和其余角色在首发之后</td></tr><tr><td>平台</td><td>电脑端首发，键鼠</td></tr><tr><td>团队</td><td>内容数据驱动。布料参数只来自配置表</td></tr></tbody></table></div>
+<h3>3. 目标用户</h3>
+<ul><li>想看见「自己做的布」和别人的布不一样的人。</li><li>在意汉服结构和纺织名词，但不要求学术论文的人。</li><li>愿意为一次 30 秒的演出停下来看衣服的人。</li></ul>
+<p>不作为设计前提：开放世界探索、数值养成刷好感、换装拍照作为唯一玩法、强社交。</p>
+<h3>4. 体验支柱</h3>
+<p>每条都要能验收，见 <code>26</code>。</p>
+<ol><li><strong>布是结果，不是皮肤。</strong> 品种、染色、缝制失败会改变垂坠、透光或拉扯。换一件衣服不是只换颜色贴图。</li><li><strong>工序能停。</strong> 染坏的布还是布，可以改作衬里。拆衣退回布匹，见 <code>02</code>。</li><li><strong>决定少而硬。</strong> 每天要定的事：这束丝织什么、染多深、布放在哪一层、给谁穿、用哪种呈现。重复的晾晒由时间结算。</li><li><strong>舞台为衣服服务。</strong> 0 档没有粒子也能看清轮廓。70 档才是完整分镜。</li><li><strong>展览说得清来历。</strong> 说明牌能指出原料、染料和是否符合朝代，不能把普通布写成出土文物。</li><li><strong>可中断。</strong> 离开工位即写盘。呈现模式不改仓库里的原件。</li></ol>
+<h3>5. 核心循环一览</h3>
+<div class="code-wrap"><div class="code-label">TEXT</div><pre><code>每日：看季节与库存 → 养蚕或取丝 → 织 → 染 → 裁缝 → 人台
+     → 演出或入柜 → 工时用尽则下一天
+一季：原料窗口变化。春茧细，夏蓝浓，秋染料全，冬不结新茧
+长线：工艺等级打开组织和角色 → 更好的布进同一条链 → 展览主题</code></pre></div>
+<p>细则见 <code>02</code>。</p>
+<h3>6. 商业模式</h3>
+<p>首发是完整单机，买断制。丝钱只在玩法内循环。不能用钱买成品锦、成衣或好感。广告、内购、DLC 见 <code>25</code>，默认关闭。</p>
+<h3>7. 长线内容</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">阶段</th><th scope="col">玩家得到什么</th><th scope="col">依赖</th></tr></thead><tbody><tr><td>首发</td><td>工位链、三种丝织、三种染料、襦裙、三位角色的低档演出、一个展柜</td><td><code>02</code>–<code>10</code>、<code>12</code>、<code>16</code></td></tr><tr><td>工艺章</td><td>直裾、大袖衫、褙子、更多染料和织机、杨贵妃 0/30</td><td><code>07</code>、<code>10</code>、<code>16</code></td></tr><tr><td>高阶织物</td><td>云锦、缂丝、改机、明代形制、70 档按角色逐步做</td><td><code>04</code> §8、<code>08</code></td></tr><tr><td>篇章</td><td>神话与跨文化角色，走同一条制作链</td><td><code>11</code></td></tr><tr><td>可选</td><td>纹样分享、主题活动、外观</td><td><code>23</code>–<code>25</code></td></tr></tbody></table></div>
+<h3>8. 成功标准</h3>
+<p><strong>首日：</strong></p>
+<ul><li>从开局已有的一匹绢开始，做成靛蓝襦裙，西施完成 0 档演出，衣服出现在展柜。</li><li>同一天里，蚕箔或织机上还有一件未完成的东西。</li></ul>
+<p><strong>首季：</strong></p>
+<ul><li>玩家见过季节对茧或染料的影响。</li><li>玩家有过一次染色失误或缝制失误，并且在人台或舞台上看得见。</li></ul>
+<p><strong>理解度：</strong> 玩家能说出</p>
+<ul><li>这件衣服的外层是什么品种</li><li>为什么它透或者不透</li><li>这次演出是 0 档还是 30 档</li><li>展柜里的说明牌对应哪一道工序</li></ul>
+<p><strong>无障碍：</strong> 关掉音乐后，织机和缝制仍有操作声。字幕默认开启。</p></section><section id="02_核心玩法循环与系统框架" class="chapter" data-title="核心玩法循环与系统框架" tabindex="-1"><div class="chapter-kicker">文档 02</div><h2>核心玩法循环与系统框架</h2><p>版本：0.2 · 2026-10-02<br>主责：地点、工时、季节、工序顺序、系统边界。耗时数字见 <code>04</code> §2。</p>
+<h3>1. 地点</h3>
+<p>首发只有一条链，快旅界面可以先做成走廊上的门。完整版本的七个地点是：桑园蚕房、织机坊、染坊、裁缝阁、市集、舞台、博物馆。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">地点</th><th scope="col">能做</th><th scope="col">不能做</th></tr></thead><tbody><tr><td>蚕房</td><td>养蚕、缫丝、绩麻</td><td>染色、裁衣</td></tr><tr><td>织机坊</td><td>整经、织布</td><td>养蚕</td></tr><tr><td>染坊</td><td>浸染、晾干、砑光</td><td>改纤维</td></tr><tr><td>裁缝阁</td><td>裁、缝、人台</td><td>改染料配方</td></tr><tr><td>市集</td><td>买卖、接委托、结束今天</td><td>制作</td></tr><tr><td>舞台</td><td>选人、选衣、演出、拍照</td><td>改衣服结构</td></tr><tr><td>博物馆</td><td>布展、回看</td><td>制作</td></tr></tbody></table></div>
+<p>成衣可以从人台直接送到舞台或展柜。</p>
+<h3>2. 一天</h3>
+<p>一个工坊日 8 工时。工序消耗见 <code>04</code> §2。用完可以结束今天。演出和布展不耗工时。</p>
+<p>季节每 6 天一换，顺序春夏秋冬。季节只影响尚未入库的原料和新鲜染料，不改写已经下机的布。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">季</th><th scope="col">家蚕</th><th scope="col">染料</th></tr></thead><tbody><tr><td>春</td><td>最好</td><td>槐米、幼靛</td></tr><tr><td>夏</td><td>易热损</td><td>靛蓝、红花最浓</td></tr><tr><td>秋</td><td>中等</td><td>茜草、栀子、皂斗</td></tr><tr><td>冬</td><td>不结新茧</td><td>只用干料</td></tr></tbody></table></div>
+<p>首发只启用春，以及靛蓝、茜草、栀子的干料。夏秋冬的行留在表里，等级未到不出现。</p>
+<h3>3. 制作顺序</h3>
+<ol><li>备料</li><li>成纱</li><li>织造</li><li>染色或后整理（可跳过）</li><li>裁剪</li><li>缝制</li><li>人台</li><li>演出或入藏</li></ol>
+<p>取消工序：消耗一半工时，产物降一档或变成残次，上一步的物品保留。</p>
+<p>拆衣：布匹回仓库，染色保留，边损 +1。边损达到 2 的布不能做传世外层。规则的扣分见 <code>04</code> §5。</p>
+<h3>4. 系统边界</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">系统</th><th scope="col">写入</th><th scope="col">只读</th></tr></thead><tbody><tr><td>养蚕缫丝</td><td>纱线</td><td>—</td></tr><tr><td>织造</td><td>布匹的品种、织造分、花本</td><td>纱线</td></tr><tr><td>染色</td><td>染层、后整理</td><td>布匹</td></tr><tr><td>解算</td><td><code>cloth</code> 最终参数</td><td>上列字段和 <code>04</code></td></tr><tr><td>裁缝</td><td>成衣、过程分</td><td><code>cloth</code></td></tr><tr><td>演出</td><td>演出记录</td><td>成衣拷贝、角色</td></tr><tr><td>展览</td><td>展位、当日结算</td><td>成衣、演出</td></tr></tbody></table></div>
+<p>只有解算模块能写 <code>cloth</code>。演出里的历史还原和视觉增强作用在拷贝上。</p>
+<h3>5. 失败仍留下东西</h3>
+<ul><li>断头多的丝可以织绢，不能织传世素纱。</li><li>色花是掩膜，不是删布。</li><li>缝坏的衣服能穿，袖子使用更低的拉伸刚度，见 <code>04</code> §5。</li><li>角色不拒绝衣服。契合低只减少热度和好感增长。</li></ul>
+<h3>6. 首发开局</h3>
+<p>写死在起始存档，数字见 <code>04</code> §1。玩家不从空仓库开始，避免第一天还没衣服可看。</p></section><section id="03_布料仿真技术实现方案" class="chapter" data-title="布料仿真技术实现方案" tabindex="-1"><div class="chapter-kicker">文档 03</div><h2>布料仿真技术实现方案</h2><p>版本：0.3 · 2026-10-03<br>主责：哪些效果实时解算，哪些烘焙。参数区间见 <code>04</code> §8。品质如何取区间见 <code>13</code> 与 <code>04</code> §4。</p>
+<h3>1. 两层仿真</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">层</th><th scope="col">玩家在做什么</th><th scope="col">实现</th></tr></thead><tbody><tr><td>工艺</td><td>养蚕、抽丝、织、染、裁、缝</td><td>规则、动画、计分。结果写入物品</td></tr><tr><td>视觉</td><td>人台、舞台、近处展柜</td><td>MagicaCloth 2 的 MeshCloth + URP 材质实例</td></tr></tbody></table></div>
+<p>织机上的经线是动画和节拍，不是成千上万的布料粒子。染缸只在特写镜头里做液面。布离开染缸后，颜色烘焙进纹理。</p>
+<h3>2. 参数从哪来</h3>
+<p>顺序固定：</p>
+<ol><li>按品种取 <code>04</code> §8 的区间。</li><li>按品质档取区间内的位置 t。</li><li>乘朝代偏移。</li><li>夹紧到该品种区间，不允许漂出表外。</li><li>加染色和后整理修正。</li><li>金线掩膜只改局部光泽和局部弯曲。</li><li>边损和缝制失败覆盖拉伸。</li></ol>
+<p>舞台加载时如果呈现模式不是标准，在拷贝上再夹一次，不写回仓库。</p>
+<p>写入 MagicaCloth 2 时，每个服装部件一个组件。改 <code>SerializeData</code> 后调用 <code>SetParameterChange()</code>。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col"><code>04</code> 的列</th><th scope="col">写入字段</th><th scope="col">首发固定、不按品种分的项</th></tr></thead><tbody><tr><td>密度</td><td><code>gravity</code>（0–10）</td><td><code>gravityFalloff</code> = 0</td></tr><tr><td>弯曲</td><td><code>angleRestorationConstraint.stiffness</code>（0–1）</td><td><code>triangleBendingConstraint.stiffness</code> = 1</td></tr><tr><td>风力</td><td><code>wind.influence</code>（0–2）</td><td>风源用 MagicaWindZone</td></tr><tr><td>阻尼</td><td><code>damping</code></td><td></td></tr><tr><td>拉伸</td><td><code>distanceConstraint.stiffness</code>（0–1）</td><td></td></tr><tr><td>光泽、透明度</td><td>URP 材质，不进布料解算</td><td>粒子半径 <code>radius</code> = 0.02</td></tr></tbody></table></div>
+<p>摩擦和按品种的迭代次数不写入。身体碰撞用 <code>MagicaCapsuleCollider</code>。自碰撞只在质量档「极致」打开。</p>
+<h3>3. 质量档</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">档</th><th scope="col">实时布料</th><th scope="col">场合</th></tr></thead><tbody><tr><td>极致</td><td>外、中、里、披帛，自碰撞开</td><td>拍照</td></tr><tr><td>高</td><td>外层和披帛</td><td>首发舞台目标</td></tr><tr><td>中</td><td>只留最外层</td><td>展厅里同时多件</td></tr><tr><td>低</td><td>关掉 MagicaCloth，只留蒙皮动画</td><td>最低画质。颜色和透明度仍正确</td></tr></tbody></table></div>
+<p>词条「层叠」在中档仍保留外层和披帛的实时解算。</p>
+<p>走近展柜 3 米内，当前这一件升到高，其余保持中。舞台上同时只有一位角色使用高或极致。</p>
+<h3>4. 材质</h3>
+<p>每个品种一个 URP Shader Graph 主材质。实例参数：</p>
+<ul><li>底色与染层</li><li>色花掩膜</li><li>粗糙度与各向异性，区分纱、缎、麻</li><li>透明度</li><li>金线掩膜</li><li>结构法线（罗的孔、麻的粗糙）</li></ul>
+<p>湿感、水波、月华是演出临时参数。演出结束复位，不写回布匹。</p>
+<h3>5. 首发必须先证明的四件事</h3>
+<ol><li>素纱盖在靛蓝绸上，能看出内层颜色。</li><li>同版型的素纱袖和绸袖，在同一阵侧风里延迟不同。</li><li>从高切到低，颜色不变。</li><li>30 秒 0 档演出不穿身、不炸布。</li></ol>
+<p>这四条没过，不加新品种。</p></section><section id="04_数值平衡初版" class="chapter" data-title="数值平衡初版" tabindex="-1"><div class="chapter-kicker">文档 04</div><h2>数值平衡初版</h2><p>版本：0.3 · 2026-10-03<br>主责：全部数字。其他文档与本文件不一致时，以本文件为准。<br>状态：试玩初值，未经实机。调参只改本文件。公式结构见 <code>13</code>、<code>07</code>、<code>03</code>。</p>
+<p>以下数字是游戏节奏，不代表现实农时、幅宽或文物计量。</p>
+<h3>1. 开局</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">资源</th><th scope="col">开局</th></tr></thead><tbody><tr><td>丝钱</td><td>40</td></tr><tr><td>工艺经验</td><td>0，等级 1</td></tr><tr><td>西施好感</td><td>0</td></tr></tbody></table></div>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">物品</th><th scope="col">状态</th></tr></thead><tbody><tr><td>布 A</td><td>绢，中丝，织造分 72，未染，8 米，幅宽 50</td></tr><tr><td>丝 B</td><td>家蚕，细，过程分 70，4 米</td></tr><tr><td>茧</td><td>无。蚕箔为空，季节为春</td></tr><tr><td>染料</td><td>干靛蓝 2 份，干茜草 1 份</td></tr></tbody></table></div>
+<p>首日天气不参与判定。教学委托见 <code>10</code>。</p>
+<h3>2. 工时</h3>
+<p>一天 8 工时。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">工序</th><th scope="col">工时</th></tr></thead><tbody><tr><td>喂蚕或控温</td><td>1</td></tr><tr><td>缫丝一束</td><td>2</td></tr><tr><td>平纹一匹</td><td>3</td></tr><tr><td>斜纹或素缎一匹</td><td>4</td></tr><tr><td>提花、锦、缂丝一匹</td><td>6</td></tr><tr><td>浸染一匹</td><td>2</td></tr><tr><td>扎染或夹缬</td><td>3</td></tr><tr><td>裁一个部件</td><td>2</td></tr><tr><td>缝一个部件</td><td>2</td></tr></tbody></table></div>
+<p>取消工序消耗一半工时，向上取整，至少 1。演出、布展、拍照为 0。</p>
+<p>一匹布长度 8 米。幅宽默认 50，允许 45–55。襦裙用量：上襦 2.5，裙 3，披帛 1.5。单位是游戏米。</p>
+<h3>3. 季节基数</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">季</th><th scope="col">春蚕种品质基数</th><th scope="col">热损</th><th scope="col">当季新鲜染料</th></tr></thead><tbody><tr><td>春</td><td>80</td><td>0</td><td>槐米、幼靛</td></tr><tr><td>夏</td><td>65</td><td>控温失败每天 −6</td><td>靛蓝、红花</td></tr><tr><td>秋</td><td>70</td><td>0</td><td>茜草、栀子、皂斗</td></tr><tr><td>冬</td><td>不结茧</td><td>—</td><td>无新鲜叶</td></tr></tbody></table></div>
+<p>首发只读春，基数 80。喂叶恰当 +8 均匀度；喂过量 −10。上蔟过密 −8 茧形。</p>
+<h3>4. 品质</h3>
+<p>过程分 0–100。成衣：</p>
+<div class="code-wrap"><div class="code-label">TEXT</div><pre><code>Q = 原料×0.15 + 成纱×0.10 + 织造×0.25 + 染色×0.15 + 后整理×0.05 + 裁剪×0.15 + 缝制×0.15</code></pre></div>
+<p>未染色，染色分记 70。未后整理，后整理分记 60。</p>
+<p>多层权重：外 0.5，中 0.3，里 0.2。披帛算外层附件，不替代主衣外层。高透明外层下，里层可见，此时用好布做里层不扣浪费分。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">Q</th><th scope="col">档</th><th scope="col">区间位置 t</th></tr></thead><tbody><tr><td>0–59</td><td>普通</td><td>Q / 59 × 0.35</td></tr><tr><td>60–84</td><td>精良</td><td>0.45 + (Q − 60) / 24 × 0.25</td></tr><tr><td>85–100</td><td>传世</td><td>0.75 + (Q − 85) / 15 × 0.25</td></tr></tbody></table></div>
+<p>参数 = 低端 + (高端 − 低端) × t。再乘朝代偏移，再加染色修正，最后夹回该行区间。</p>
+<p>朝代偏移（乘在已取值上，夹紧前）：</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">朝代</th><th scope="col">密度</th><th scope="col">弯曲</th><th scope="col">风力响应</th><th scope="col">光泽</th></tr></thead><tbody><tr><td>汉</td><td>×0.80</td><td>×0.60</td><td>×1.30</td><td>×0.90</td></tr><tr><td>唐</td><td>×1.00，轻的可 ×0.85、重的可 ×1.15</td><td>同左 ±30% 取品种默认</td><td>×1.00</td><td>×1.15</td></tr><tr><td>宋</td><td>×0.95</td><td>×0.90</td><td>×1.10</td><td>×0.95</td></tr><tr><td>明</td><td>×1.15</td><td>×1.25</td><td>×0.85</td><td>×1.10</td></tr></tbody></table></div>
+<p>首发三种品种只用汉偏移。唐、宋、明的行首发不启用。</p>
+<p>呈现模式再夹一次显示拷贝：</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">模式</th><th scope="col">t 的限制</th><th scope="col">舞台同步强度上限</th></tr></thead><tbody><tr><td>历史还原</td><td>t ≤ 0.55，光泽再 ×0.90</td><td>40%</td></tr><tr><td>标准</td><td>不额外限制</td><td>70%</td></tr><tr><td>视觉增强</td><td>t ≥ 0.70，薄纱风力再 ×1.10</td><td>100%</td></tr></tbody></table></div>
+<p>视觉增强也不能超出该行高端。</p>
+<h3>5. 扣分与修正</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">事件</th><th scope="col">数字</th></tr></thead><tbody><tr><td>缫丝断头一次</td><td>手稳 −8</td></tr><tr><td>织造一段中「乱」超过 20%</td><td>该段 ≤ 60</td></tr><tr><td>花本选错</td><td>花位分 0</td></tr><tr><td>纹样方向转了 90 度</td><td>裁剪 −10</td></tr><tr><td>拼缝落在衣身正面</td><td>裁剪 −15</td></tr><tr><td>传世布做里层且外层普通、外层不透</td><td>裁剪 −10</td></tr><tr><td>缝序错一次</td><td>缝制 −12</td></tr><tr><td>未打开人台就入库</td><td>缝制 −5</td></tr><tr><td>缝制分 &lt; 50</td><td>该部件拉伸刚度取该行低端</td></tr><tr><td>边损每 1</td><td>拉伸取低端，光泽 −0.2（10 分制）</td></tr><tr><td>边损 ≥ 2</td><td>不能做传世外层</td></tr><tr><td>拆衣</td><td>边损 +1，染色保留</td></tr></tbody></table></div>
+<p>织造分 = 节奏×0.6 + 密度稳定×0.25 + 花位×0.15。无花位时花位按 100。</p>
+<p>染色：</p>
+<div class="code-wrap"><div class="code-label">TEXT</div><pre><code>浓度系数：淡 0.35，中 0.60，浓 0.85
+强度 = min(0.85, 浓度系数 × 时间吻合 × 温度吻合)
+染色分 = 温度吻合×40 + 时间吻合×30 + 搅拌稳定×30
+新颜色 = 旧颜色 × (1 − 强度×0.85) + 染料色 × (强度×0.85)</code></pre></div>
+<p>最多 4 层。第 5 层挤掉最早一层，染色分 −10。</p>
+<p>染色和后整理直接加在 §8 的 MagicaCloth 字段上，加完再夹回该行。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">处理</th><th scope="col">阻尼 <code>damping</code></th><th scope="col">弯曲 <code>angleRestoration.stiffness</code></th><th scope="col">光泽（10 分制）</th></tr></thead><tbody><tr><td>每层植物染</td><td>+0.005</td><td>+0.02</td><td>−0.4</td></tr><tr><td>浓档额外</td><td>+0.008</td><td>+0.02</td><td>−0.3</td></tr><tr><td>第 2 层起</td><td>+0.003</td><td>0</td><td>−0.2</td></tr><tr><td>绿矾</td><td>+0.005</td><td>+0.02</td><td>−0.2</td></tr><tr><td>砑光</td><td>−0.005</td><td>−0.02</td><td>+1.2</td></tr><tr><td>金线掩膜内</td><td>0</td><td>弯曲 ×1.08</td><td>+1.0</td></tr></tbody></table></div>
+<p>透明度系数 = 1 − 0.08 × 层数 × 平均强度。染色不提高透明度。</p>
+<p>节奏窗口：±120 毫秒为稳，±240 毫秒为偏，超出为乱。</p>
+<h3>6. 好感、契合、热度</h3>
+<p>好感 0–100，不下降。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">事件</th><th scope="col">好感</th></tr></thead><tbody><tr><td>契合 ≥ 60 的演出</td><td>+8</td></tr><tr><td>契合 30–59</td><td>+4</td></tr><tr><td>契合 &lt; 30</td><td>+1</td></tr><tr><td>主题委托，每角色一次</td><td>+15</td></tr><tr><td>同一件传世衣，每天第一次重演</td><td>+2</td></tr></tbody></table></div>
+<p>门槛：0 打开基础演出，30 打开互动，70 打开完整语音和粒子。</p>
+<p>契合：品种命中 +40，朝代或文化圈命中 +30，词条命中 +20，透明度或层数符合备注 +10。四项都没有则为 20。</p>
+<div class="code-wrap"><div class="code-label">TEXT</div><pre><code>热度 = Q×0.5 + 契合×0.3 + 阶段分×0.2</code></pre></div>
+<p>阶段分：0 档 40，30 档 70，70 档 100。</p>
+<p>词条最多 3 个。含义见 <code>13</code> §2。分数线只在这里：</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">词条</th><th scope="col">条件</th><th scope="col">效果</th></tr></thead><tbody><tr><td>蝉翼</td><td>素纱或花纱，原料分和织造分都 ≥ 80</td><td>边缘光再 ×1.15，不超过灯的上限</td></tr><tr><td>流光</td><td>织造分 ≥ 85，且组织是缎或锦</td><td>高光取该行高端。首发三种丝织不会出现</td></tr><tr><td>活色</td><td>染色不均落在该层配方允许范围内，且不是失误色花</td><td>不另改分数</td></tr><tr><td>层叠</td><td>缝制分 ≥ 85，且成衣至少两层</td><td>中质量仍保留外层和披帛的实时解算</td></tr><tr><td>合制</td><td>朝代与形制匹配，裁剪分 ≥ 80</td><td>展览历史还原 +10</td></tr><tr><td>越代</td><td>品种不在该朝代的典型表内</td><td>展览历史还原 −15。首发汉风加素纱、绢、绸不产生</td></tr></tbody></table></div>
+<h3>7. 丝钱</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">来源或去向</th><th scope="col">数字</th></tr></thead><tbody><tr><td>开局</td><td>40</td></tr><tr><td>展览每天结算</td><td>展览分每 10 分折 2 丝钱，上限 30</td></tr><tr><td>出售普通布</td><td>每米 1。精良和传世不可售</td></tr><tr><td>干靛蓝或干茜草</td><td>4</td></tr><tr><td>缝线</td><td>2</td></tr><tr><td>金线一小轴</td><td>12。首发商店不出现</td></tr><tr><td>蚕种</td><td>3</td></tr></tbody></table></div>
+<p>经验：工序工时 × 4 × 品质系数。普通 1，精良 1.2，传世 1.5。残次给一半。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">等级</th><th scope="col">累计经验</th><th scope="col">首发是否开放</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>是</td></tr><tr><td>2</td><td>80</td><td>是</td></tr><tr><td>3</td><td>200</td><td>是</td></tr><tr><td>4</td><td>400</td><td>否</td></tr><tr><td>5</td><td>700</td><td>否</td></tr><tr><td>6</td><td>1100</td><td>否</td></tr></tbody></table></div>
+<h3>8. 品种参数</h3>
+<p>这些就是写入 MagicaCloth 2 的数，字段对照见 <code>03</code> §2。密度列是 <code>gravity</code>（0–10）。弯曲列是角度还原刚度（0–1）。风力列是 <code>wind.influence</code>（0–2）。光泽和透明度仍是 1–10 的观感标尺，进材质，不进布料解算。首发只用前三行。其余行留在表中，等级未到不可选。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">品种</th><th scope="col">密度</th><th scope="col">弯曲</th><th scope="col">风力</th><th scope="col">光泽</th><th scope="col">透明度</th><th scope="col">首发</th></tr></thead><tbody><tr><td>素纱</td><td>1.11–1.66</td><td>0.14–0.56</td><td>1.68–2.00</td><td>4–5.5</td><td>9–10</td><td>是</td></tr><tr><td>绢</td><td>2.08–3.05</td><td>0.30–0.90</td><td>1.12–1.44</td><td>5–7</td><td>3–5</td><td>是</td></tr><tr><td>绸</td><td>2.35–3.60</td><td>0.28–1.00</td><td>1.04–1.36</td><td>6–8</td><td>2–4.5</td><td>是</td></tr><tr><td>花纱</td><td>1.25–1.94</td><td>0.17–0.53</td><td>1.52–1.92</td><td>4.5–6</td><td>8–9.5</td><td>否</td></tr><tr><td>素罗</td><td>1.38–2.08</td><td>0.18–0.55</td><td>1.44–1.84</td><td>4.5–6</td><td>7–9</td><td>否</td></tr><tr><td>花罗</td><td>1.52–2.22</td><td>0.22–0.52</td><td>1.36–1.76</td><td>5–6.5</td><td>6.5–8.5</td><td>否</td></tr><tr><td>绫</td><td>2.49–3.74</td><td>0.30–1.00</td><td>0.96–1.28</td><td>6.5–8.5</td><td>2–4</td><td>否</td></tr><tr><td>素缎</td><td>2.63–3.88</td><td>0.32–1.00</td><td>0.88–1.20</td><td>7–8.5</td><td>1–3.5</td><td>否</td></tr><tr><td>花缎</td><td>2.77–4.15</td><td>0.32–1.00</td><td>0.80–1.16</td><td>7.5–9</td><td>1–3</td><td>否</td></tr><tr><td>普通锦</td><td>4.43–6.65</td><td>0.39–1.00</td><td>0.64–0.96</td><td>7–9</td><td>0–2</td><td>否</td></tr><tr><td>蜀锦</td><td>4.71–6.92</td><td>0.40–1.00</td><td>0.60–0.92</td><td>7.5–9</td><td>0–1.5</td><td>否</td></tr><tr><td>宋锦</td><td>4.57–6.65</td><td>0.40–1.00</td><td>0.64–0.96</td><td>7–8.5</td><td>0–2</td><td>否</td></tr><tr><td>云锦</td><td>6.23–9.00</td><td>0.47–1.00</td><td>0.48–0.72</td><td>8.5–9.5</td><td>0–1</td><td>否</td></tr><tr><td>妆花缎</td><td>5.82–8.31</td><td>0.46–1.00</td><td>0.52–0.76</td><td>8–9.5</td><td>0–1.5</td><td>否</td></tr><tr><td>缂丝</td><td>4.43–6.65</td><td>0.50–1.00</td><td>0.64–0.96</td><td>5.5–7</td><td>1–2</td><td>否</td></tr><tr><td>改机</td><td>3.46–5.26</td><td>0.39–0.86</td><td>0.88–1.20</td><td>7–8.5</td><td>1–3</td><td>否</td></tr><tr><td>麻</td><td>4.15–5.82</td><td>0.41–0.95</td><td>0.48–0.72</td><td>2–3.5</td><td>1–2.5</td><td>否</td></tr><tr><td>苎麻</td><td>3.88–5.54</td><td>0.36–0.94</td><td>0.52–0.76</td><td>2–4</td><td>1–3</td><td>是，仅衬里</td></tr><tr><td>葛</td><td>3.60–5.26</td><td>0.33–0.91</td><td>0.56–0.80</td><td>2.5–4</td><td>1.5–3.5</td><td>否</td></tr></tbody></table></div>
+<p>距离刚度和阻尼按品种分组，不在每一行再写一遍。距离刚度写入 <code>distanceConstraint.stiffness</code>。阻尼写入 <code>damping</code>。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">组</th><th scope="col">距离刚度</th><th scope="col">阻尼</th></tr></thead><tbody><tr><td>纱罗</td><td>0.82–0.92</td><td>0.02–0.05</td></tr><tr><td>绢绸绫缎、改机</td><td>0.90–0.98</td><td>0.04–0.08</td></tr><tr><td>锦、云锦、妆花、缂丝</td><td>0.96–1.00</td><td>0.08–0.14</td></tr><tr><td>麻葛</td><td>0.92–0.99</td><td>0.06–0.12</td></tr></tbody></table></div>
+<p>细丝才能做传世素纱，且接头 ≤ 1。粗丝织纱，织造分上限 70。</p>
+<h3>9. 风和光</h3>
+<p>基础风 0.3–0.8 米/秒。0 档只用基础风。30 档不超过 4。70 档高潮 6–9，定格前降到 0.3 以下。</p>
+<p>侧风、旋转风、冲击风最多同时 4 个。边缘光随风力每升一档 +10% 到 +25%，取 15% 作为初值。</p>
+<p>主光色温初值：红 3800K，蓝 6200K，黄 3200K，素 5200K。玩家可在开演前锁定，不接受推荐。</p>
+<h3>10. 展览</h3>
+<div class="code-wrap"><div class="code-label">TEXT</div><pre><code>展览分 = 平均品质×0.4 + 主题一致×0.3 + 说明完整×0.1 + 影像×0.2</code></pre></div>
+<p>少于 2 件不能开幕。空位不扣主题分。每天只结算一次。</p>
+<h3>11. 取整</h3>
+<p>凡是显示给玩家的整数，四舍五入，0.5 进一。参数写进布料配置时保留三位小数，不在界面第一层展示。</p></section><section id="05_配置表结构" class="chapter" data-title="配置表结构" tabindex="-1"><div class="chapter-kicker">文档 05</div><h2>配置表结构</h2><p>版本：0.3 · 2026-10-03<br>主责：字段和 ID。运行时对象见 <code>21</code>。数字不写在本文件，引用 <code>04</code>。</p>
+<h3>1. 约定</h3>
+<ul><li>ID 用英文键，界面用中文。</li><li>布尔默认 false，除非字段写明。</li><li>首发关闭的内容 <code>enabled: false</code>，不从工程里删表。</li></ul>
+<h3>2. 品种 variety</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">字段</th><th scope="col">说明</th></tr></thead><tbody><tr><td>id</td><td>如 <code>suSha</code></td></tr><tr><td>name</td><td>中文</td></tr><tr><td>group</td><td>gauze / plain / brocade / bast</td></tr><tr><td>launch</td><td>首发是否可选</td></tr><tr><td>densityMin / densityMax</td><td><code>gravity</code>。见 <code>04</code> §8</td></tr><tr><td>bendMin / bendMax</td><td>角度还原刚度。同上</td></tr><tr><td>windMin / windMax</td><td><code>wind.influence</code>。同上</td></tr><tr><td>glossMin / glossMax</td><td>同上</td></tr><tr><td>opacityMin / opacityMax</td><td>同上</td></tr><tr><td>stretchGroup</td><td>指向 §8 的分组，不在每行重复一套拉伸</td></tr></tbody></table></div>
+<p>首发 id：<code>suSha</code>、<code>juan</code>、<code>chou</code>、<code>zhuMa</code>。</p>
+<h3>3. 染料 dye</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">字段</th><th scope="col">说明</th></tr></thead><tbody><tr><td>id</td><td><code>indigo</code> <code>madder</code> <code>gardenia</code> <code>safflower</code> <code>pagoda</code> <code>sappan</code> <code>acorn</code> <code>vitriol</code></td></tr><tr><td>role</td><td>color 或 mordant</td></tr><tr><td>launch</td><td>靛蓝、茜草、栀子为 true</td></tr><tr><td>bestSeason</td><td>spring / summer / autumn / any</td></tr></tbody></table></div>
+<h3>4. 形制 pattern</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">字段</th><th scope="col">说明</th></tr></thead><tbody><tr><td>id</td><td>首发只有 <code>ruQun</code></td></tr><tr><td>parts</td><td>槽位列表</td></tr><tr><td>dynasty</td><td>han / tang / song / ming</td></tr><tr><td>launch</td><td></td></tr></tbody></table></div>
+<p>槽位：<code>inner</code> <code>upper</code> <code>skirt</code> <code>drape</code> <code>robe</code> <code>wrap</code>。</p>
+<h3>5. 角色 character</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">字段</th><th scope="col">说明</th></tr></thead><tbody><tr><td>id</td><td><code>xiShi</code> <code>wangZhaoJun</code> <code>zhaoFeiYan</code> 为首发</td></tr><tr><td>template</td><td>airy / cold / lively / rich / strong</td></tr><tr><td>preferVariety</td><td>id 列表</td></tr><tr><td>preferDynasty</td><td></td></tr><tr><td>launchTierMax</td><td>首发西施 30，另两位 0</td></tr><tr><td>enabled</td><td>非首发角色 false</td></tr></tbody></table></div>
+<h3>6. 舞台 stage</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">id</th><th scope="col">launch</th></tr></thead><tbody><tr><td><code>stage_classic</code></td><td>true</td></tr><tr><td><code>stage_ink</code></td><td>false</td></tr><tr><td><code>stage_modern</code></td><td>false</td></tr></tbody></table></div>
+<h3>7. 委托 quest</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">字段</th><th scope="col">说明</th></tr></thead><tbody><tr><td>id</td><td></td></tr><tr><td>need</td><td>bolt 或 garment 的条件：品种、染料、最低档</td></tr><tr><td>days</td><td>期限，见规则层，不在本表写第二套工时</td></tr><tr><td>rewardAffection</td><td>可空</td></tr><tr><td>tutorial</td><td>前三个为 true，刷新逻辑不随机替换它们</td></tr></tbody></table></div>
+<h3>8. 活动 activity</h3>
+<p><code>enabled</code> 默认 false。允许修正的字段只有：某染料当季强度系数、展览丝钱上限。不允许改品质公式。</p>
+<h3>9. 校验</h3>
+<p>加载时检查：</p>
+<ul><li>每个首发品种在 <code>04</code> §8 有行</li><li>角色偏好的品种 id 存在</li><li>首发形制的部件都有槽位</li><li><code>launch: true</code> 的角色，其 <code>launchTierMax</code> 不超过 30，除西施外不超过 0</li><li>关闭的篇章角色 <code>enabled: false</code></li></ul></section><section id="06_养蚕与原料" class="chapter" data-title="养蚕与原料" tabindex="-1"><div class="chapter-kicker">文档 06</div><h2>养蚕与原料</h2><p>版本：0.2 · 2026-10-02<br>主责：茧和纱如何产生。分数和季节基数见 <code>04</code> §3。工时见 <code>04</code> §2。</p>
+<h3>1. 首发原料</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">原料</th><th scope="col">做法</th><th scope="col">用途</th></tr></thead><tbody><tr><td>家蚕丝</td><td>养蚕后缫丝</td><td>素纱、绢、绸</td></tr><tr><td>苎麻</td><td>开局库存或以后绩麻</td><td>只作里层</td></tr></tbody></table></div>
+<p>野蚕、大麻、葛、棉在表中存在，首发不出现在工位列表。</p>
+<h3>2. 一批蚕</h3>
+<p>首发一张蚕箔。四步，每步至少过一天：收蚁、喂叶、控温、上蔟。</p>
+<p>输出茧篮：茧层分、均匀度、批量。批量只决定能缫几束，不提升单束品质。</p>
+<p>控温离开标记带的每一天，按 <code>04</code> 扣茧层。喂叶和上蔟的加减分也只引用 <code>04</code>。</p>
+<p>生病不删档，产出残次茧，只能做缝线或低档绢丝。</p>
+<h3>3. 缫丝</h3>
+<p>一篮可分多次。一次 2 工时，一束丝。</p>
+<p>玩家维持水温和抽丝速度。断头按 <code>04</code> 扣分，可以接上继续。</p>
+<p>细度三档：</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">细度</th><th scope="col">首发用途</th></tr></thead><tbody><tr><td>细</td><td>素纱。传世还要求接头不超过 <code>04</code> 的上限</td></tr><tr><td>中</td><td>绢、绸</td></tr><tr><td>粗</td><td>不能做传世素纱。织纱时织造分上限见 <code>04</code></td></tr></tbody></table></div>
+<h3>4. 仓库</h3>
+<p>两束只有种类、细度、品质档相同，且接头差不超过 2，才能合并。合并后品质取较低的一束。</p>
+<p>织机必须由玩家指定消耗哪一束。系统不把细丝自动填进麻布。</p></section><section id="07_织染裁缝工序" class="chapter" data-title="织染裁缝工序" tabindex="-1"><div class="chapter-kicker">文档 07</div><h2>织染裁缝工序</h2><p>版本：0.2 · 2026-10-02<br>主责：织、染、裁、缝何时算成功、何时留下瑕疵。所有阈值见 <code>04</code> §5、§8。</p>
+<h3>1. 织</h3>
+<p>首发只有平纹机，可选素纱、绢、绸。苎麻不在这台机器上织，里层使用开局或购买的苎麻布，首发不单做绩麻小游戏。</p>
+<p>流程：选品种、整经、四段循环、下机。</p>
+<p>节拍打在踏板和梭上。稳、偏、乱的毫秒窗口见 <code>04</code>。一段里乱的比例超过阈值，该段分数被封顶。</p>
+<p>下机得到 8 米布。花本首发只有「素」和「细方格」。选错花本时布仍在，花位分归零。</p>
+<p>残布：织造分低于 40。可染，可做里层，不能做传世外层。</p>
+<h3>2. 染</h3>
+<p>首发染料：靛蓝、茜草、栀子。一口缸。</p>
+<p>操作：浓度三档、水温、起布、搅拌。强度和叠色公式见 <code>04</code> §5。</p>
+<p>出缸后颜色烘焙。晾晒只播放由湿到干，不继续改配方。写入存档的是干态。</p>
+<p>扎染、夹缬、绿矾、砑光留在表里，首发工位不提供。</p>
+<p>色花写成掩膜。它降低染色分，不删除布匹。</p>
+<h3>3. 裁</h3>
+<p>首发形制只有襦裙：上襦、裙、可选披帛。</p>
+<p>布可以 0 度或 90 度铺上版片。方向不对、拼缝在正面、浪费好布，扣分见 <code>04</code>。外层是高透明纱时，里层用好布不扣浪费。</p>
+<p>衣长和袖宽三档：窄、标准、宽。首发标准档对应汉风，偏宽。选极端档仍可做，但拿不到「合制」。</p>
+<h3>4. 缝</h3>
+<p>沿缝推进。针距离开标记带则摩擦声变干，并扣缝制分。层序必须先里后外。</p>
+<p>缝制分低于 50 的部件仍可穿，拉伸刚度取该品种低端。</p>
+<p>未打开人台就入库，额外扣分，见 <code>04</code>。</p>
+<h3>5. 人台</h3>
+<p>使用与舞台相同的布料配置，风只用基础风，光用中性白。可以转、隐藏外层、退回缝或裁。不能在这里改染料。改色必须拆下部件回染坊。拆衣规则见 <code>02</code>。</p>
+<h3>6. 完成</h3>
+<p>每个可见部件都有布，缝制已确认，人台至少打开过一次（或接受扣分强行入库）。然后生成成衣。</p></section><section id="08_舞台演出" class="chapter" data-title="舞台演出" tabindex="-1"><div class="chapter-kicker">文档 08</div><h2>舞台演出</h2><p>版本：0.3 · 2026-10-03<br>主责：一次 Solo 如何由动画、风、光、衣服装配。风速和色温见 <code>04</code> §9。角色模板见 <code>16</code>。</p>
+<h3>1. 输入</h3>
+<p>角色、已解锁档位、成衣、舞台、呈现模式、镜头路径。</p>
+<p>输出一条演出记录。定格可以另存一张图。</p>
+<h3>2. 档位删减</h3>
+<p>分镜原文不另写三套。低档是删，不是改故事。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">档</th><th scope="col">动作</th><th scope="col">风</th><th scope="col">光</th><th scope="col">语音</th></tr></thead><tbody><tr><td>0</td><td>第一段和定格</td><td>只有基础风</td><td>一盏柔光</td><td>无</td></tr><tr><td>30</td><td>加上行走和转身</td><td>不超过 <code>04</code> 的 30 档上限</td><td>主光加一条边缘光</td><td>最多一句</td></tr><tr><td>70</td><td>完整</td><td>四段节奏</td><td>角色色 + 色系推荐</td><td>完整。首发不做</td></tr></tbody></table></div>
+<p>首发西施做到 30。王昭君、赵飞燕只有 0。</p>
+<h3>3. 轨道</h3>
+<p>一条 Unity Timeline 上四条轨道：动画、MagicaWindZone、灯、摄像机。</p>
+<p>有对应动作才挂事件：</p>
+<ul><li>转身：侧风，镜头开始绕，边缘光提高</li><li>甩袖最高点：短冲击风，推近</li><li>定格前：风降到 <code>04</code> 的余韵值，光回到轮廓</li></ul>
+<p>0 档没有转身事件就不挂侧风。</p>
+<p>标准时长按角色分镜，不拉长去凑满 30 秒。百分比仍是铺垫、发展、高潮、余韵。0 档可以只有铺垫和余韵。</p>
+<h3>4. 衣服</h3>
+<p>外层和披帛读成衣的 <code>cloth</code>。呈现模式改拷贝。</p>
+<p>词条「蝉翼」「层叠」的效果见 <code>04</code> §6。层叠保留哪些实时层，见 <code>03</code>。</p>
+<p>染色色系可以选择推荐主光。玩家能在开演前锁定色温。</p>
+<h3>5. 拍照</h3>
+<p>余韵最后一段可以切预设镜头。首发 0 档只有一条路径。自由相机留到 30 档，限制在舞台盒子内，不能穿进布料。</p>
+<h3>6. 验收</h3>
+<ul><li>0 档没有粒子也能认出袖和裙。</li><li>素纱襦裙和绸襦裙的延迟肉眼可分。</li><li>历史还原下没有爆闪。</li></ul></section><section id="09_博物馆策展" class="chapter" data-title="博物馆策展" tabindex="-1"><div class="chapter-kicker">文档 09</div><h2>博物馆策展</h2><p>版本：0.2 · 2026-10-02<br>主责：收录、展位、开幕条件。分数系数见 <code>04</code> §10。</p>
+<h3>1. 首发空间</h3>
+<p>一个玻璃柜和一块能挂定格图的墙。不建完整博物馆建筑。</p>
+<h3>2. 收录</h3>
+<p>成衣完成即进入收藏。布匹下机进入布匹库。传世不可删除。普通和精良可以收到库里不摆出，图鉴仍然点亮。</p>
+<p>拆掉的成衣下架，布回到布匹库。</p>
+<h3>3. 布展</h3>
+<p>首发展位 1 个柜子。完整版特展 8 个，其中规则不变：每个位子放成衣或布、说明牌、灯光预设。</p>
+<p>说明牌只能开关三项：原料、染料层、是否为首发朝代典型。玩家可写不超过 40 字的标题。不能改文物名称。</p>
+<p>柜子上的布用中档模拟。玩家走近升到高，见 <code>03</code>。</p>
+<h3>4. 开幕</h3>
+<p>至少 2 件才能开幕。首发如果只有 1 个柜子，教学允许「单柜预览」，不计展览分。凑满 2 件后才按 <code>04</code> 结算丝钱。</p>
+<p>主题首发只有「一色」和「从蚕到丝」。后者要求说明牌上同时能看到丝和成衣，不要求展出茧的模型。</p>
+<p>每天第一次打开博物馆结算一次。换展不额外增加当天次数。</p>
+<h3>5. 图鉴</h3>
+<p>第一次获得才显示正文。未获得只显示名字。类别：纤维、品种、染料、形制、角色。</p>
+<p>正文写这项参数在模仿什么手感，不编出土编号。</p></section><section id="10_升级与成长" class="chapter" data-title="升级与成长" tabindex="-1"><div class="chapter-kicker">文档 10</div><h2>升级与成长</h2><p>版本：0.2 · 2026-10-02<br>主责：等级打开什么。经验公式和门槛见 <code>04</code> §7。</p>
+<h3>1. 等级</h3>
+<p>经验只来自完成工序。打开界面不加经验。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">等级</th><th scope="col">打开</th><th scope="col">首发</th></tr></thead><tbody><tr><td>1</td><td>家蚕、平纹、素纱与绢、靛蓝与茜草、襦裙、西施</td><td>是</td></tr><tr><td>2</td><td>绸、栀子、细方格花本</td><td>是</td></tr><tr><td>3</td><td>赵飞燕与王昭君的 0 档、委托刷新</td><td>是</td></tr><tr><td>4</td><td>缎、宋风、李清照</td><td>否</td></tr><tr><td>5</td><td>提花、大袖衫、杨贵妃 0/30</td><td>否</td></tr><tr><td>6</td><td>云锦、改机、明风</td><td>否</td></tr></tbody></table></div>
+<p>汉风从 1 级可用。其他朝代风格随上表。</p>
+<h3>2. 教学委托</h3>
+<p>前三个固定，不占用随机刷新：</p>
+<ol><li>用开局的丝再缫或直接确认库存，织一匹绢。</li><li>把布 A 或新绢染靛蓝，做成襦裙。</li><li>西施穿上，完成 0 档，放入展柜。</li></ol>
+<p>第 1 个工坊日必须能完成第 2 和第 3 步里的演出。因此开局已经有一匹绢，见 <code>04</code> §1。</p>
+<h3>3. 日常委托</h3>
+<p>1 级每天 0 个。3 级起每天刷新 2 个，同时最多持有 3 个，期限 3 天。过期不掉级。</p>
+<p>委托检查成品字段，不检查中间失败次数。交出去的物品从图鉴保留，从仓库移到委托记录。</p>
+<h3>4. 不会成长的东西</h3>
+<p>好感不提供属性点。等级不提高布的风力。布只由工序和 <code>04</code> 的表决定。</p></section><section id="11_神话与跨文化篇章" class="chapter" data-title="神话与跨文化篇章" tabindex="-1"><div class="chapter-kicker">文档 11</div><h2>神话与跨文化篇章</h2><p>版本：0.2 · 2026-10-02<br>主责：首发关闭的角色和形制如何挂回主链。默认 <code>enabled: false</code>。</p>
+<h3>1. 原则</h3>
+<p>妲己、洛神、嫦娥、白素贞、克利奥帕特拉、海伦、阿佛洛狄忒、小野小町不在首发上场名单。</p>
+<p>她们以后使用同一条织染裁缝链。差别只在版片、灯光模板和特效。底料仍是 <code>04</code> §8 里的品种。</p>
+<h3>2. 暂代</h3>
+<p>如果数据被误打开，又没有对应版片，角色穿襦裙，图鉴注明「形制暂代」，契合不加文化圈那 30 分。</p>
+<h3>3. 特效</h3>
+<p>水波、月华、白蛇披帛末端、花瓣，都是演出临时参数。不写回布匹，不增加品质。</p>
+<h3>4. 关闭时的界面</h3>
+<p>上场门不显示这些角色。图鉴里以剪影存在，正文未解锁。</p></section><section id="12_UIUX流程与线框" class="chapter" data-title="UI / UX 流程与线框" tabindex="-1"><div class="chapter-kicker">文档 12</div><h2>UI / UX 流程与线框</h2><p>版本：0.2 · 2026-10-02<br>主责：工位上玩家看见什么、先看见什么。键鼠为首发。手柄以后按同一焦点顺序映射。</p>
+<h3>1. 进入工位</h3>
+<p>走近，一个主提示。进入后镜头推近，不弹出脱离场景的全屏菜单。取消退回上一步。</p>
+<p>库存在工位侧面的架子上选。</p>
+<h3>2. 三层信息</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">层</th><th scope="col">内容</th></tr></thead><tbody><tr><td>操作中</td><td>下一步。不显示弯曲刚度这类词</td></tr><tr><td>完成时</td><td>档位、最多 3 个词条、一句来源</td></tr><tr><td>详情</td><td>过程分、是否被夹紧。默认折叠</td></tr></tbody></table></div>
+<p>来源句例子：「精良 · 秋茧平纹绢，靛蓝一套」。首发季节固定为春，句式仍保留，避免以后改文案结构。</p>
+<h3>3. 首发每个门</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">门</th><th scope="col">主操作</th><th scope="col">确认的结果</th></tr></thead><tbody><tr><td>蚕箔</td><td>喂叶、温度</td><td>一篮茧。首日可以不进</td></tr><tr><td>织机</td><td>节拍、选品种</td><td>一匹布</td></tr><tr><td>染缸</td><td>浓度、起布、搅拌</td><td>染后的布</td></tr><tr><td>裁桌</td><td>拖布到版片</td><td>部件</td></tr><tr><td>针线</td><td>沿缝</td><td>缝合</td></tr><tr><td>人台</td><td>旋转、藏外层</td><td>入库</td></tr><tr><td>舞台</td><td>选已解锁的人</td><td>开始</td></tr><tr><td>柜子</td><td>放入</td><td>预览或开幕</td></tr></tbody></table></div>
+<p>织机和缝制的判定发生在节拍上，不发生在结算按钮。结算只表示接受这个结果。</p>
+<h3>4. 演出中</h3>
+<p>隐藏工位提示。只留暂停。30 档额外留镜头切换。不在演出中改衣服或风力。</p>
+<h3>5. 列表</h3>
+<p>首发选项少，用架子上的实物表示，不先做长列表。未解锁角色不排在上场门前。</p>
+<h3>6. 可读性</h3>
+<p>节拍除了窗口还有声音。拼缝警告有图标，不只靠颜色。字幕默认开。文字大小可调，不改变 3D 命中区。</p>
+<p>调试面板可看当前品种行，发行版本关闭。视觉增强不是这个面板。</p></section><section id="13_品质热度与展览转化" class="chapter" data-title="品质热度与展览转化" tabindex="-1"><div class="chapter-kicker">文档 13</div><h2>品质热度与展览转化</h2><p>版本：0.2 · 2026-10-02<br>主责：公式的结构。系数、阈值、丝钱折算全部在 <code>04</code> §4、§6、§10。</p>
+<h3>1. 品质</h3>
+<p>Q 由七项过程分加权。缺项用 <code>04</code> 规定的默认分，不把缺项当成 0。</p>
+<p>档位只决定在参数区间里取低、中、高。不另造一套物理。</p>
+<h3>2. 词条</h3>
+<p>最多 3 个。分数线和效果见 <code>04</code> §6。这里只记含义：</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">词条</th><th scope="col">含义</th></tr></thead><tbody><tr><td>蝉翼</td><td>素纱或花纱，原料和织造都够高</td></tr><tr><td>流光</td><td>织造够高，且组织是缎或锦。首发不会出现</td></tr><tr><td>活色</td><td>染色不均落在配方允许的范围，不是失误色花</td></tr><tr><td>层叠</td><td>缝制够高且至少两层</td></tr><tr><td>合制</td><td>朝代与形制匹配，裁剪够高</td></tr><tr><td>越代</td><td>用了该朝代不典型的品种。首发汉风加三种丝织，不产生越代</td></tr></tbody></table></div>
+<p>实现时词条判定函数读取 <code>04</code> §6 的常量表。</p>
+<h3>3. 热度</h3>
+<p>热度描述这一次演出，不回写布匹。阶段分把低档演出的上限压住，避免只刷品质就拿满热度。</p>
+<h3>4. 展览</h3>
+<p>展览分不提高 Q。它只产生每天一次的丝钱，以及 80 分以上的一份普通染料或缝线。95 分以上点亮一条图鉴短讯。</p>
+<p>首发单柜预览不计分，见 <code>09</code>。</p></section><section id="14_视觉风格指南" class="chapter" data-title="视觉风格指南" tabindex="-1"><div class="chapter-kicker">文档 14</div><h2>视觉风格指南</h2><p>版本：0.2 · 2026-10-02<br>主责：画面气质和什么不能出现。灯光数值见 <code>04</code> §9，联动规则见 <code>15</code>。</p>
+<h3>1. 风格名</h3>
+<p>「一幅素纱」。安静，材料先被看见，建筑退后。</p>
+<h3>2. 工位</h3>
+<ul><li>蚕房：叶、茧、丝绪。不要金色粒子。</li><li>织机：经线整齐。不要满屋机器同时大幅动画。</li><li>染缸：液面和晾杆上的布是特写。蒸汽淡。</li><li>裁桌：布摊开，剪刀和针能看清。</li><li>舞台：背景亮度低于衣服受光面。木色戏台，首发不做黑盒子剧场。</li><li>展柜：玻璃、中性墙。灯可以暖，墙不抢衣服。</li></ul>
+<h3>3. 禁止</h3>
+<ul><li>塑料高光、化纤彩虹。</li><li>用 UI 色块代替布的透与不透。</li><li>神话光效出现在首发汉风演出里。</li><li>把麻做成缎的镜面。</li></ul>
+<h3>4. 人物</h3>
+<p>面部要经得起定格。衣服轮廓优先于背景雕刻。首发只要求西施达到近景，另两位可以同一精度，但不为未启用角色做高模。</p></section><section id="15_灯光风场色彩联动" class="chapter" data-title="灯光风场色彩联动" tabindex="-1"><div class="chapter-kicker">文档 15</div><h2>灯光风场色彩联动</h2><p>版本：0.3 · 2026-10-03<br>主责：光、风、镜头谁跟谁。风速、色温、边缘光增幅见 <code>04</code> §9。</p>
+<h3>1. 风的四层</h3>
+<p>基础环境风常在。演出主风分前置、侧向、上升、旋转。冲击风只给甩袖和定格前。角色身边的小风可选，首发不做。</p>
+<p>0 档只用第一层。</p>
+<h3>2. 和衣服</h3>
+<p>纱对小风敏感，锦要更大的风才动。敏感度已经在品种的风力系数里，不在灯光文档再写一套倍率。</p>
+<p>薄纱被吹起时，提高透光处的边缘光。这是显示规则，幅度见 <code>04</code>。</p>
+<h3>3. 和色</h3>
+<p>主色选择推荐色温：红暖、蓝冷、黄更暖、素色中性。玩家可锁定。</p>
+<p>光泽高的缎和锦，高光更窄。透明度高的纱，边缘光更明显。这些是 URP 材质实例对同一盏灯的响应，不换灯具数量。风源用 MagicaWindZone。</p>
+<h3>4. 和镜头</h3>
+<p>推近时对比略增。仰拍加强轮廓。定格前风和光一起收回，避免纹样糊掉。</p>
+<p>首发 0 档镜头不快切。</p>
+<h3>5. 三座舞台</h3>
+<p>只有古典戏台启用。水墨台和现代剧场的 id 留着，<code>enabled: false</code>。换舞台不改品质和契合。</p></section><section id="16_美人与好感" class="chapter" data-title="美人与好感" tabindex="-1"><div class="chapter-kicker">文档 16</div><h2>美人与好感</h2><p>版本：0.2 · 2026-10-02<br>主责：角色是谁、偏好什么、首发放到哪一档。好感数字见 <code>04</code> §6。演出删减见 <code>08</code>。</p>
+<h3>1. 共通</h3>
+<p>角色不拒绝衣服。契合低仍可演出。</p>
+<p>语音只在 70 档完整播放。首发没有 70 档。</p>
+<h3>2. 首发</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">id</th><th scope="col">名称</th><th scope="col">模板</th><th scope="col">偏好</th><th scope="col">首发档位</th></tr></thead><tbody><tr><td>xiShi</td><td>西施</td><td>空灵</td><td>素纱、素罗</td><td>0 和 30</td></tr><tr><td>wangZhaoJun</td><td>王昭君</td><td>清冷</td><td>绢、绸</td><td>0</td></tr><tr><td>zhaoFeiYan</td><td>赵飞燕</td><td>灵动</td><td>花纱、素罗。首发没有花纱时，素纱也算品种命中</td><td>0</td></tr></tbody></table></div>
+<p>西施在教学完成后可演。王昭君和赵飞燕到 3 级才出现在上场门，见 <code>10</code>。</p>
+<p>素罗、花纱未解锁时，赵飞燕用素纱算品种命中，避免首发契合恒为底分。这条只在首发品种表上成立，花纱一旦可选，素纱不再替花纱计分。</p>
+<h3>3. 未启用</h3>
+<p>杨贵妃、貂蝉、李师师、李清照、陈圆圆、虞姬、红拂女、柳如是，以及 <code>11</code> 的篇章角色，<code>enabled: false</code>。</p>
+<p>偏好和模板已定，避免以后各写各的：</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">id</th><th scope="col">模板</th><th scope="col">偏好方向</th></tr></thead><tbody><tr><td>yangGuiFei</td><td>华贵</td><td>花缎、妆花、云锦，且要披帛</td></tr><tr><td>diaoChan</td><td>灵动</td><td>花罗、绸，扇子是道具</td></tr><tr><td>liShiShi</td><td>空灵</td><td>绢、绸、缂丝</td></tr><tr><td>liQingZhao</td><td>清冷</td><td>绢、缂丝。光泽过高不加分</td></tr><tr><td>yuJi</td><td>华贵</td><td>绸、普通锦</td></tr><tr><td>hongFu</td><td>强势</td><td>绸、绫</td></tr><tr><td>chenYuanYuan</td><td>华贵</td><td>花缎、改机</td></tr><tr><td>liuRuShi</td><td>华贵</td><td>改机、花缎</td></tr></tbody></table></div>
+<p>篇章角色的偏好见 <code>11</code>，不在这里重复一套特效规则。</p>
+<h3>4. 身体</h3>
+<p>共用骨架层级。身高可以不同。版片按比例缩放，不为 19 人各做一套拓扑。首发人台用西施比例。</p>
+<p>头发碰撞可关。外层纱不能为了头发而关掉。</p></section><section id="17_美术资源与命名规范" class="chapter" data-title="美术资源与命名规范" tabindex="-1"><div class="chapter-kicker">文档 17</div><h2>美术资源与命名规范</h2><p>版本：0.3 · 2026-10-03<br>主责：资产怎么命名、交付到什么程度才算进游戏。</p>
+<h3>1. 命名</h3>
+<p>用 <code>05</code> 的英文键。中文只出现在界面。</p>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">种类</th><th scope="col">例子</th></tr></thead><tbody><tr><td>角色</td><td><code>SK_xiShi</code></td></tr><tr><td>部件</td><td><code>SK_part_skirt</code></td></tr><tr><td>材质</td><td><code>M_cloth_suSha</code></td></tr><tr><td>花本</td><td><code>T_pattern_grid</code></td></tr><tr><td>演出</td><td><code>LS_xiShi_t0</code></td></tr></tbody></table></div>
+<h3>2. 角色</h3>
+<p>共用骨架层级。角色从 Blender 导出 FBX。首发交付西施的近景面部、衣身 <code>MagicaCapsuleCollider</code>、可关的头发链。王昭君和赵飞燕可以后到，但没有 Timeline 就不能在上场门显示。</p>
+<h3>3. 衣服</h3>
+<p>按部件，不按「一套死模型」。首发：上襦、裙、披帛。每件挂 MagicaCloth 的 MeshCloth。颜色和纹样全部走 URP 材质实例，模型不带死颜色。</p>
+<p>袖和衣身分开，便于以后换袖宽。首发三档宽窄优先用缩放，缩放破坏布线才另做拓扑。</p>
+<h3>4. 面料纹理</h3>
+<p>每个启用品种要有：中性底色、结构法线、粗糙度。纱必须有透明度掩膜。玩家的染色是另一张掩膜，不画进底色。</p>
+<h3>5. 场景</h3>
+<p>首发可以是走廊上的工位。染缸、梭、剪刀的精度高于墙。舞台背景让出衣服轮廓。</p>
+<h3>6. 验收</h3>
+<p>品种进游戏前：<code>04</code> 有行，染色掩膜能覆盖，和绢并排能看出文档里写的那一项差别。切到低质量时颜色仍对。</p></section><section id="18_音效与音乐设计" class="chapter" data-title="音效与音乐设计" tabindex="-1"><div class="chapter-kicker">文档 18</div><h2>音效与音乐设计</h2><p>版本：0.2 · 2026-10-02<br>主责：哪一层声音在什么时候响。不写具体波形文件名以外的第二套演出规则。</p>
+<h3>1. 层</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">层</th><th scope="col">内容</th></tr></thead><tbody><tr><td>环境</td><td>蚕房、缸、展厅底噪</td></tr><tr><td>操作</td><td>梭、剪刀、针、水</td></tr><tr><td>音乐</td><td>工位很轻，舞台按模板</td></tr><tr><td>语音</td><td>首发不做 70 档。30 档西施若来不及配音，用无词短音，字幕写动作</td></tr></tbody></table></div>
+<p>关掉音乐时，操作声仍在。</p>
+<h3>2. 操作声和判定</h3>
+<p>稳的一梭清脆。乱的一梭带摩擦。断头一声短响。搅拌乱时水声变碎。针距偏时布声变干。</p>
+<p>素纱的摩擦轻而短，绸更沉。首发至少这两套。</p>
+<h3>3. 舞台</h3>
+<p>0 档只有环境和很轻的底乐。30 档加入空灵模板的一半乐器。70 档的完整轮廓首发不做。</p>
+<p>定格前音乐先收，留下衣料余韵，和风收回是同一时刻。</p>
+<p>混音从高到低：语音、操作、衣料、音乐、环境。</p>
+<h3>4. 展厅和市集</h3>
+<p>展厅默认几乎无音乐。首发市集如果只有委托牌，提示是一次木牌声，不循环叫卖。</p></section><section id="19_技术架构" class="chapter" data-title="技术架构" tabindex="-1"><div class="chapter-kicker">文档 19</div><h2>技术架构</h2><p>版本：0.3 · 2026-10-03<br>主责：模块划分。仿真边界的细则在 <code>03</code>。数字在 <code>04</code>。</p>
+<h3>1. 引擎</h3>
+<p>Unity 6，渲染管线 URP。服装用 MagicaCloth 2 的 MeshCloth，要求 Unity 2022.3 或更新；首发用 Unity 6。角色和衣服从 Blender 以 FBX 导入。首发目标是 1080p、布料质量高、演出接近 60 帧。最低档关掉布料组件，只留蒙皮，允许 30 帧。不发布 WebGL：MagicaCloth 2 不支持。</p>
+<h3>2. 模块</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">模块</th><th scope="col">写</th><th scope="col">不写</th></tr></thead><tbody><tr><td>存档</td><td><code>21</code> 的结构</td><td>材质</td></tr><tr><td>工艺</td><td>分数、掩膜</td><td><code>cloth</code> 浮点</td></tr><tr><td>解算</td><td><code>cloth</code></td><td>玩法规则</td></tr><tr><td>演出</td><td>演出记录</td><td>仓库原件</td></tr><tr><td>展览</td><td>展位和当日标记</td><td>远距离高精度布料</td></tr><tr><td>界面</td><td>—</td><td>另一份品质分</td></tr></tbody></table></div>
+<h3>3. 步进</h3>
+<p>工艺在玩家确认时结算。养蚕的每天结算发生在工坊日结束。镜头不在蚕房，到期的一天仍然生效。这是首发里唯一的离屏结算。织和染不在离屏自动完成，因为它们有手操作。</p>
+<h3>4. 随机</h3>
+<p>委托刷新和以后的天气用 <code>hash(档 id, 日序)</code>。读档不重掷。首发春、无天气玩法，哈希先接在委托上。</p>
+<h3>5. 首发不做的技术</h3>
+<p>每根经线的粒子、整缸持久流体、19 人同时登台的布料、主机认证、WebGL。</p></section><section id="20_项目目录与资源管理" class="chapter" data-title="项目目录与资源管理" tabindex="-1"><div class="chapter-kicker">文档 20</div><h2>项目目录与资源管理</h2><p>版本：0.3 · 2026-10-03<br>主责：仓库里东西放哪。命名细则见 <code>17</code>。</p>
+<h3>1. 建议目录</h3>
+<div class="code-wrap"><div class="code-label">TEXT</div><pre><code>Assets/HuaShang/Scripts/     游戏模块
+Assets/HuaShang/Cloth/       品种材质与 MagicaCloth 预设
+Assets/HuaShang/Patterns/    形制与部件
+Assets/HuaShang/Characters/
+Assets/HuaShang/Stages/      Timeline
+Assets/HuaShang/Data/        ScriptableObject，对应 05
+docs/                        本手册
+doc/                         0.1 散稿，不引用为规则
+tools/                       校验与阅读器生成</code></pre></div>
+<h3>2. 归属</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">目录</th><th scope="col">谁改</th><th scope="col">不放什么</th></tr></thead><tbody><tr><td>docs</td><td>设计</td><td>贴图</td></tr><tr><td>Data</td><td>程序和策划</td><td>临时截图</td></tr><tr><td>Cloth</td><td>技术美术</td><td>第二套手写数字。数字从 <code>04</code> 导入</td></tr></tbody></table></div>
+<h3>3. 阅读器</h3>
+<p><code>华裳从蚕到神文档.html</code> 由 <code>tools/build_reader.py</code> 从 <code>docs/*.md</code> 生成。改手册后重跑脚本，不手改 HTML 正文。</p></section><section id="21_存档与数据结构" class="chapter" data-title="存档与数据结构" tabindex="-1"><div class="chapter-kicker">文档 21</div><h2>存档与数据结构</h2><p>版本：0.2 · 2026-10-02<br>主责：schema 1 的字段和写入点。ID 见 <code>05</code>。</p>
+<h3>1. 版本</h3>
+<p><code>schema</code> 为 1。0.1 散稿没有实现过存档，不迁移。</p>
+<h3>2. 根</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">字段</th><th scope="col">说明</th></tr></thead><tbody><tr><td>schema</td><td>1</td></tr><tr><td>dayIndex</td><td>从 0</td></tr><tr><td>season</td><td>首发恒为 spring</td></tr><tr><td>silkCoin</td><td></td></tr><tr><td>xp</td><td></td></tr><tr><td>level</td><td></td></tr><tr><td>yarns</td><td>数组</td></tr><tr><td>bolts</td><td>数组</td></tr><tr><td>garments</td><td>数组</td></tr><tr><td>characters</td><td>好感与已解锁档</td></tr><tr><td>performances</td><td></td></tr><tr><td>exhibit</td><td>展位与上次结算的日序</td></tr><tr><td>quests</td><td></td></tr><tr><td>presentMode</td><td>history / standard / enhanced</td></tr><tr><td>rngSalt</td><td>档 id</td></tr></tbody></table></div>
+<h3>3. 纱线</h3>
+<p>id，fiber，fineness，processScore，materialScore，joints，length。</p>
+<h3>4. 布匹</h3>
+<p>id，variety，dynastyStyle，yarnId，length，width，weaveScore，patternId，dyeLayers，finish，edgeDamage。</p>
+<p><code>cloth</code> 可以不存。读档时按 <code>03</code> 的顺序重算。若某件需要锁死外观，另存 <code>clothLocked</code>。</p>
+<p>dyeLayers 一层：dyeId，strength，uneven，maskId。</p>
+<h3>5. 成衣</h3>
+<p>id，name，pattern，dynastyStyle，parts，scores，tier，traits，previewSeen。</p>
+<p>parts：slot，boltId，lengthUsed，cutScore，sewScore。</p>
+<h3>6. 写入点</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">时刻</th><th scope="col">写入</th></tr></thead><tbody><tr><td>下机、出缸、入库</td><td>对应物品</td></tr><tr><td>离开工位</td><td>整档</td></tr><tr><td>工坊日结束</td><td>dayIndex、养蚕日结算</td></tr><tr><td>演出结束</td><td>performances</td></tr><tr><td>每日首次开馆</td><td>exhibit.lastPaidDay</td></tr></tbody></table></div>
+<h3>7. 呈现模式</h3>
+<p>存在根上，也允许单件覆盖。覆盖不修改 bolts 里的染层。</p></section><section id="22_多平台发布与适配" class="chapter" data-title="多平台发布与适配" tabindex="-1"><div class="chapter-kicker">文档 22</div><h2>多平台发布与适配</h2><p>版本：0.3 · 2026-10-03<br>主责：首发平台边界。</p>
+<h3>1. 首发</h3>
+<p>电脑端，键鼠，窗口或全屏 1080p。不承诺主机、移动端、微信小游戏、WebGL。MagicaCloth 2 不支持 WebGL。</p>
+<h3>2. 操作</h3>
+<p><code>12</code> 的焦点顺序是以后映射手柄的依据。首发不实现手柄。</p>
+<h3>3. 画质</h3>
+<p>默认布料质量高。设置里可降到低。低档必须能做完工艺和 0 档演出，见 <code>03</code>。</p>
+<h3>4. 语言</h3>
+<p>界面中文。角色 id 和资源名英文。</p>
+<h3>5. 不在首发验收里的包体</h3>
+<p>主机认证、掌机分辨率、触控手势。</p></section><section id="23_活动与运营接口" class="chapter" data-title="活动与运营接口" tabindex="-1"><div class="chapter-kicker">文档 23</div><h2>活动与运营接口</h2><p>版本：0.2 · 2026-10-02<br>主责：活动能改什么。默认关闭。</p>
+<h3>1. 默认</h3>
+<p><code>activity.enabled</code> 为 false。关闭时季节、染料、丝钱上限全部走 <code>04</code>。</p>
+<h3>2. 允许</h3>
+<p>打开后只能改 <code>05</code> §8 列出的白名单：当季染料强度系数、展览丝钱上限。</p>
+<h3>3. 不允许</h3>
+<p>改品质公式、改品种区间、用活动送成衣或好感、付费刷新委托。</p></section><section id="24_社区与分享功能" class="chapter" data-title="社区与分享功能" tabindex="-1"><div class="chapter-kicker">文档 24</div><h2>社区与分享功能</h2><p>版本：0.2 · 2026-10-02<br>主责：首发不做的分享边界。</p>
+<h3>1. 首发</h3>
+<p>没有账号，没有上传。定格图存在本机演出记录里。</p>
+<h3>2. 以后</h3>
+<p>若做作品卡，只带成衣的公开字段：品种、染层、形制、档位、一张图。不带过程分明细，不带存档盐。</p>
+<p>分享不增加丝钱，也不增加好感。</p></section><section id="25_商业化与内购DLC" class="chapter" data-title="商业化与内购 DLC" tabindex="-1"><div class="chapter-kicker">文档 25</div><h2>商业化与内购 DLC</h2><p>版本：0.2 · 2026-10-02<br>主责：钱和玩法的边界。默认无内购。</p>
+<h3>1. 首发</h3>
+<p>买断。丝钱、好感、工艺等级都在游戏内获得。</p>
+<h3>2. 不能卖</h3>
+<p>成品锦、成衣、好感、跳过织染裁、把普通布变成传世。</p>
+<h3>3. 若以后做外观</h3>
+<p>只允许不改变参数的展柜装饰和戏台装饰。服装外观必须仍由玩家做出来。默认关闭。</p></section><section id="26_测试用例与验收标准" class="chapter" data-title="测试用例与验收标准" tabindex="-1"><div class="chapter-kicker">文档 26</div><h2>测试用例与验收标准</h2><p>版本：0.2 · 2026-10-02<br>主责：什么叫可以给别人玩。数字预期全部对照 <code>04</code>，本文件不重写公式。</p>
+<h3>1. 发布门</h3>
+<p>首发候选必须同时满足：</p>
+<ol><li>新档能在第 1 天用开局的绢做成靛蓝襦裙，西施完成 0 档，衣服进柜。</li><li>素纱和绸在同一侧风下延迟可分。</li><li>素纱能透出内层靛蓝。</li><li>缝制分被压到阈值以下时，拉伸使用低端，衣服仍穿得上。</li><li>读档不改变已生成的布匹 id 和染层。</li><li>呈现模式切换不改仓库里的染层。</li><li>关闭的角色不出现在上场门。</li><li>低布料质量下颜色正确，0 档能看完。</li><li>静音音乐后，织机仍有操作声。</li></ol>
+<h3>2. 纯函数</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">编号</th><th scope="col">断言</th></tr></thead><tbody><tr><td>N1</td><td>未染色时染色分按 <code>04</code> 的默认，不是 0</td></tr><tr><td>N2</td><td>Q 在 60 和 84 的边界，档位分别是精良的两端</td></tr><tr><td>N3</td><td>t 乘汉偏移后，密度不低于该行低端、不高于高端</td></tr><tr><td>N4</td><td>浓染强度不超过 0.85</td></tr><tr><td>N5</td><td>第 5 层染挤掉第一层并扣分</td></tr><tr><td>N6</td><td>边损 2 的布不能标记为传世外层</td></tr><tr><td>N7</td><td>热度使用 0 档阶段分时，低于同衣 30 档</td></tr><tr><td>N8</td><td>契合四项都空时等于 <code>04</code> 的底分</td></tr><tr><td>N9</td><td>首发赵飞燕对素纱计品种命中；花纱启用后不再计</td></tr><tr><td>N10</td><td>展览每天第二次结算金额为 0</td></tr><tr><td>N11</td><td>精良布出售被拒绝</td></tr><tr><td>N12</td><td>取消工序工时向上取整且至少 1</td></tr></tbody></table></div>
+<h3>3. 流程</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">编号</th><th scope="col">步骤</th></tr></thead><tbody><tr><td>F1</td><td>教学三步按 <code>10</code> 的顺序可完成</td></tr><tr><td>F2</td><td>染坏仍能做里层</td></tr><tr><td>F3</td><td>拆衣后染色还在，边损增加</td></tr><tr><td>F4</td><td>西施 30 档在好感到门槛前不可选</td></tr><tr><td>F5</td><td>单柜预览不发丝钱；两件开幕后才发</td></tr></tbody></table></div>
+<h3>4. 存档</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">编号</th><th scope="col">断言</th></tr></thead><tbody><tr><td>S1</td><td>schema 1 能读写</td></tr><tr><td>S2</td><td>缺 <code>cloth</code> 时读档能重算</td></tr><tr><td>S3</td><td><code>clothLocked</code> 若存在则不被重算覆盖</td></tr></tbody></table></div></section><section id="27_开发计划" class="chapter" data-title="开发计划" tabindex="-1"><div class="chapter-kicker">文档 27</div><h2>开发计划</h2><p>版本：0.3 · 2026-10-03<br>主责：顺序和退出条件。不另写公式。范围以 <code>00</code> §6 为准。</p>
+<h3>1. 起点</h3>
+<p>2026-10-02。工程尚未建立可玩场景。<code>doc/</code> 是散稿。本手册是规则基线。</p>
+<h3>2. 原则</h3>
+<ol><li>先做数据和纯函数，再做人台和舞台。</li><li><code>04</code> 的表进 ScriptableObject。代码里不出现第二套重力或弯曲数字。</li><li><code>26</code> 的 N1–N12 先在无头测试里过。</li><li><code>03</code> 的四条视觉证明没过之前，不加第四个品种。</li><li>首发关闭的角色和舞台保持关闭。</li></ol>
+<h3>3. 里程碑</h3>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">编号</th><th scope="col">名称</th><th scope="col">主文档</th><th scope="col">退出条件</th></tr></thead><tbody><tr><td>P0</td><td>表和存档</td><td><code>04</code> <code>05</code> <code>21</code></td><td>表能加载；schema 1 能读写；N1–N6 通过</td></tr><tr><td>P1</td><td>布料探针</td><td><code>03</code></td><td><code>03</code> §5 四条在灰盒舞台通过</td></tr><tr><td>P2</td><td>工位链</td><td><code>02</code> <code>07</code> <code>12</code></td><td>从织到人台，不看舞台也能看清素纱和绸</td></tr><tr><td>V</td><td>首日</td><td><code>01</code> <code>10</code> <code>26</code></td><td>发布门第 1 条</td></tr><tr><td>P3</td><td>蚕与委托</td><td><code>06</code> <code>10</code></td><td>春蚕能缫出细丝；3 级前教学不被随机委托打断</td></tr><tr><td>P4</td><td>演出与柜子</td><td><code>08</code> <code>09</code></td><td>F4、F5 通过；0 档和西施 30 档可播</td></tr><tr><td>W</td><td>首季前的一天</td><td><code>26</code></td><td>发布门九条里，除「首季见过季节」外，首发范围的条目通过。季节条目记到下一阶段</td></tr></tbody></table></div>
+<p>体量不写成人月。顺序不能倒过来：没有 P1，就不做 P4 的粒子。</p>
+<h3>4. 首发之后</h3>
+<p>工艺章才打开 <code>04</code> 里标记为非首发的品种行，并实现直裾、大袖、更多角色的 0 档。70 档按角色一个一个做，不并行铺 19 套语音。</p></section><section id="28_变更记录" class="chapter" data-title="变更记录" tabindex="-1"><div class="chapter-kicker">文档 28</div><h2>变更记录</h2><h3>0.3 · 2026-10-03</h3>
+<p>技术基线从 Unreal Engine 5 + Chaos Cloth 改为 Unity 6 + MagicaCloth 2，渲染用 URP。玩法分数、丝钱、好感、工序不改。<code>doc/</code> 里的 Chaos 长表仍然只是散稿。</p>
+<p>布料表按 MagicaCloth 2 的取值重写，见 <code>04</code> §8，写入字段见 <code>03</code> §2。每一行的高低比照旧表保留，朝代乘子仍先乘再夹回该行。</p>
+<ul><li>密度改为 <code>gravity</code>，旧值 × 13.85，使云锦高端落到 9。</li><li>风力改为 <code>wind.influence</code>，旧值 × 0.8，使素纱高端落到 2。</li><li>弯曲改为角度还原刚度。高低比不变，中心放到纱偏软、锦偏硬的 0–1 带里；高端超过 1 时夹到 1，低端改为 <code>1 / 原比值</code>。</li><li>距离刚度和阻尼按组改到 0–1 量级。摩擦和按品种的迭代次数不再写入解算器。</li><li>植物染、砑光对阻尼和弯曲的增量改到新量级。光泽加减仍是 10 分制。</li></ul>
+<p>演出时间轴改为 Unity Timeline。风源改为 MagicaWindZone。</p>
+<h3>0.2 · 2026-10-02</h3>
+<p><code>doc/</code> 里的 0.1 散稿保留原样，包括面料长表、分镜散文和一版体系说明。那些文件不再作为配置源。本手册按《丝瓜络工坊》0.3 的写法重排：一处主责、数字只在 <code>04</code>、首发范围写死、阅读器从 Markdown 生成。</p>
+<h4>1. 收束</h4>
+<div class="table-wrap" tabindex="0" aria-label="可横向滚动的表格"><table><thead><tr><th scope="col">0.1 的情况</th><th scope="col">0.2 的处理</th></tr></thead><tbody><tr><td>面料数字同时写在多份长表里</td><td>区间以 <code>04</code> §8 为准</td></tr><tr><td>19 位角色的 70 档分镜写成已可制作</td><td>首发只做三位的低档。分镜散文不删除，但不驱动排期</td></tr><tr><td>织机、染缸、舞台都像要实时仿真</td><td><code>03</code> 规定只有人台、舞台和近处展柜用 Chaos Cloth</td></tr><tr><td>品质公式出现在多处</td><td>结构在 <code>13</code>，系数在 <code>04</code></td></tr><tr><td>神话角色和汉服角色混在首发名单</td><td><code>11</code> 默认关闭</td></tr></tbody></table></div>
+<h4>2. 保留的设计</h4>
+<ul><li>从原料到成衣再到演出、展览的顺序。</li><li>0 / 30 / 70 三档。</li><li>历史还原和视觉增强不改仓库原件。</li><li>植物染不上纯色，素纱要能透出内层。</li><li>云锦、缂丝、改机是后期品种，不是首发内容。</li></ul>
+<h4>3. 尚未验证</h4>
+<p><code>04</code> 的初值没有实机帧率，也没有外部试玩。P1 探针之后只改 <code>04</code> 和本文件，不在散稿里另改一套数字。</p></section></div>
+      <div id="no-results"><strong>没有匹配的章节</strong>换一个词，或清空搜索。</div>
+      <footer>由 docs 目录生成。改 Markdown 后运行 tools/build_reader.py。</footer>
+    </div>
+  </main>
+  <script>
+    (() => {
+      "use strict";
+      const body = document.body;
+      const chapters = [...document.querySelectorAll(".chapter")];
+      const links = [...document.querySelectorAll(".nav-link")];
+      const search = document.getElementById("search");
+      const searchStatus = document.getElementById("search-status");
+      const noResults = document.getElementById("no-results");
+      const previousButton = document.getElementById("previous");
+      const nextButton = document.getElementById("next");
+      const showAllButton = document.getElementById("show-all");
+      const mobileNavButton = document.getElementById("mobile-nav-button");
+      const navScrim = document.getElementById("nav-scrim");
+      let showAll = false;
+      let visibleChapter = chapters[0];
+
+      const decodeHash = () => {
+        try { return decodeURIComponent(location.hash.slice(1)); }
+        catch (_) { return ""; }
+      };
+
+      const chapterForId = (id) => chapters.find((chapter) => chapter.id === id);
+      const linkForChapter = (chapter) =>
+        links.find((link) => decodeURIComponent(link.hash.slice(1)) === chapter.id);
+
+      function closeMobileNav() {
+        body.classList.remove("nav-open");
+        mobileNavButton.setAttribute("aria-expanded", "false");
+      }
+
+      function updateNavigation(chapter) {
+        visibleChapter = chapter || chapters[0];
+        links.forEach((link) => {
+          const active = link === linkForChapter(visibleChapter);
+          link.classList.toggle("active", active);
+          if (active) link.setAttribute("aria-current", "page");
+          else link.removeAttribute("aria-current");
+        });
+        const index = chapters.indexOf(visibleChapter);
+        previousButton.disabled = showAll || index <= 0;
+        nextButton.disabled = showAll || index < 0 || index >= chapters.length - 1;
+      }
+
+      function selectChapter({ focus = false, scroll = false } = {}) {
+        showAll = false;
+        body.classList.remove("show-all");
+        showAllButton.textContent = "展开全文";
+        showAllButton.setAttribute("aria-pressed", "false");
+        const selected = chapterForId(decodeHash()) || chapters[0];
+        chapters.forEach((chapter) => chapter.classList.toggle("active", chapter === selected));
+        updateNavigation(selected);
+        if (scroll) window.scrollTo({ top: 0, behavior: "auto" });
+        if (focus) selected.focus({ preventScroll: true });
+      }
+
+      function navigateBy(offset) {
+        const current = chapters.indexOf(visibleChapter);
+        const target = chapters[current + offset];
+        if (!target) return;
+        search.value = "";
+        filterChapters();
+        location.hash = target.id;
+      }
+
+      function filterChapters() {
+        const query = search.value.trim().toLocaleLowerCase("zh-CN");
+        if (!query) {
+          links.forEach((link) => { link.hidden = false; });
+          searchStatus.textContent = "";
+          noResults.style.display = "none";
+          if (showAll) {
+            chapters.forEach((chapter) => chapter.classList.remove("active"));
+            updateNavigation(visibleChapter);
+          } else {
+            selectChapter();
+          }
+          return;
+        }
+
+        showAll = false;
+        body.classList.remove("show-all");
+        showAllButton.textContent = "展开全文";
+        showAllButton.setAttribute("aria-pressed", "false");
+        const matches = [];
+        chapters.forEach((chapter, index) => {
+          const haystack = `${chapter.dataset.title} ${chapter.textContent}`
+            .toLocaleLowerCase("zh-CN");
+          const matched = haystack.includes(query);
+          links[index].hidden = !matched;
+          chapter.classList.toggle("active", false);
+          if (matched) matches.push(chapter);
+        });
+        searchStatus.textContent = matches.length
+          ? `找到 ${matches.length} 个相关章节`
+          : "没有匹配章节";
+        noResults.style.display = matches.length ? "none" : "block";
+        if (matches[0]) {
+          matches[0].classList.add("active");
+          updateNavigation(matches[0]);
+        } else {
+          links.forEach((link) => {
+            link.classList.remove("active");
+            link.removeAttribute("aria-current");
+          });
+          previousButton.disabled = true;
+          nextButton.disabled = true;
+        }
+      }
+
+      window.addEventListener("hashchange", () => {
+        search.value = "";
+        links.forEach((link) => { link.hidden = false; });
+        searchStatus.textContent = "";
+        noResults.style.display = "none";
+        selectChapter({ focus: true, scroll: true });
+        closeMobileNav();
+      });
+
+      document.addEventListener("click", (event) => {
+        const anchor = event.target.closest('a[href^="#"]');
+        if (!anchor) return;
+        const id = decodeURIComponent(anchor.hash.slice(1));
+        if (!chapterForId(id)) return;
+        event.preventDefault();
+        search.value = "";
+        if (decodeHash() === id) {
+          filterChapters();
+          selectChapter({ focus: true, scroll: true });
+        } else {
+          location.hash = id;
+        }
+      });
+
+      search.addEventListener("input", filterChapters);
+      previousButton.addEventListener("click", () => navigateBy(-1));
+      nextButton.addEventListener("click", () => navigateBy(1));
+      document.getElementById("print").addEventListener("click", () => window.print());
+      showAllButton.addEventListener("click", () => {
+        search.value = "";
+        links.forEach((link) => { link.hidden = false; });
+        searchStatus.textContent = "";
+        noResults.style.display = "none";
+        showAll = !showAll;
+        body.classList.toggle("show-all", showAll);
+        showAllButton.textContent = showAll ? "按章节阅读" : "展开全文";
+        showAllButton.setAttribute("aria-pressed", String(showAll));
+        if (showAll) {
+          chapters.forEach((chapter) => chapter.classList.remove("active"));
+          updateNavigation(visibleChapter);
+          window.scrollTo({ top: 0, behavior: "auto" });
+        } else {
+          selectChapter({ scroll: true });
+        }
+      });
+
+      mobileNavButton.addEventListener("click", () => {
+        const open = body.classList.toggle("nav-open");
+        mobileNavButton.setAttribute("aria-expanded", String(open));
+        if (open) search.focus();
+      });
+      navScrim.addEventListener("click", closeMobileNav);
+
+      document.addEventListener("keydown", (event) => {
+        const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+        if (event.key === "/" && !typing) {
+          event.preventDefault();
+          search.focus();
+        } else if (event.key === "Escape") {
+          if (search.value) {
+            search.value = "";
+            filterChapters();
+            search.focus();
+          }
+          closeMobileNav();
+        } else if (event.altKey && event.key === "ArrowLeft") {
+          event.preventDefault();
+          navigateBy(-1);
+        } else if (event.altKey && event.key === "ArrowRight") {
+          event.preventDefault();
+          navigateBy(1);
+        }
+      });
+
+      selectChapter();
+    })();
+  </script>
+</body>
+</html>

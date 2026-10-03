@@ -1,0 +1,24 @@
+* text=auto
+
+*.cs text diff=csharp eol=lf
+*.shader text eol=lf
+*.cginc text eol=lf
+*.hlsl text eol=lf
+*.asmdef text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+*.asset text eol=lf
+*.mat text eol=lf
+*.anim text eol=lf
+*.unity text eol=lf
+*.prefab text eol=lf
+*.controller text eol=lf
+*.meta text eol=lf
+*.mixer text eol=lf
+*.mask text eol=lf
+*.overrideController text eol=lf
+*.playable text eol=lf
+*.preset text eol=lf
+*.spriteatlas text eol=lf
+*.inputactions text eol=lf
