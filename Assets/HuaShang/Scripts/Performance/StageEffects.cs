@@ -41,6 +41,7 @@ namespace HuaShang.Performance
             else if (effect == "moon") BuildMoon();
             else if (effect == "snake") BuildSnake();
             else if (effect == "petal") BuildPetals();
+            else if (effect == "foam") BuildFoam();
         }
 
         public void End()
@@ -117,6 +118,23 @@ namespace HuaShang.Performance
                 motes.Add(g.transform); moteMats.Add(m);
                 // 极坐标：半径、起始角、起始高度
                 moteVel.Add(new Vector3(0.7f + (float)rnd.NextDouble() * 0.6f, (float)rnd.NextDouble() * Mathf.PI * 2f, (float)rnd.NextDouble() * 3.2f));
+            }
+        }
+
+        void BuildFoam()
+        {
+            var mat = LitMaterials.New(LitMaterials.Kind.Opaque, new Color(0.95f, 0.97f, 0.97f));
+            moteMats.Add(mat);
+            var rnd = new System.Random(5);
+            for (int i = 0; i < MoteCount; i++)
+            {
+                var g = Props.Prim(PrimitiveType.Sphere, root.transform, "Foam", Vector3.zero, Vector3.one * 0.03f, Color.white, false);
+                var r = g.GetComponent<Renderer>();
+                r.sharedMaterial = mat;
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                motes.Add(g.transform);
+                // 半径、角度、相位
+                moteVel.Add(new Vector3(0.3f + (float)rnd.NextDouble() * 0.45f, (float)rnd.NextDouble() * Mathf.PI * 2f, (float)rnd.NextDouble()));
             }
         }
 
@@ -198,6 +216,17 @@ namespace HuaShang.Performance
                     motes[i].Rotate(0, dt * 90f, 0, Space.Self);
                     var col = moteMats[i].color; col.a = 0.9f * (life / ScaleLife);
                     moteMats[i].color = col;
+                }
+            }
+            else if (kind == "foam")
+            {
+                for (int i = 0; i < motes.Count; i++)
+                {
+                    var v = moteVel[i];
+                    float ph = Mathf.Repeat(v.z + t * (0.35f + (i % 4) * 0.05f), 1f); // 0 生出，1 消散
+                    float ang = v.y + ph * 0.6f;
+                    motes[i].localPosition = new Vector3(Mathf.Cos(ang) * v.x, ph * 0.7f, Mathf.Sin(ang) * v.x * 0.8f);
+                    motes[i].localScale = Vector3.one * Mathf.Lerp(0.035f, 0.004f, ph);
                 }
             }
             else if (kind == "petal")

@@ -56,7 +56,9 @@ namespace HuaShang.Solve
                     case "drape": mesh = GarmentShapes.Drape("SK_part_drape"); layer = ClothLayer.Drape; break;
                     case "wrap": mesh = GarmentShapes.Beizi("SK_part_beizi"); layer = ClothLayer.Outer; break; // 画在裙外，层位算中层由 ItemQuality 决定
                     case "robe":
-                        mesh = sp.pattern == "daXiuShan" ? GarmentShapes.BigSleeve("SK_part_daxiu") : GarmentShapes.Robe("SK_part_robe");
+                        mesh = sp.pattern == "daXiuShan" ? GarmentShapes.BigSleeve("SK_part_daxiu")
+                             : sp.pattern == "chiton" ? GarmentShapes.Chiton("SK_part_chiton")
+                             : GarmentShapes.Robe("SK_part_robe");
                         layer = ClothLayer.Outer; break;
                     default:
                         mesh = sp.pattern == "aoQun" ? GarmentShapes.Ao("SK_part_ao") : GarmentShapes.Upper("SK_part_upper");

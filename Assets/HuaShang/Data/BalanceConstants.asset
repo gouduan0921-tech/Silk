@@ -162,6 +162,14 @@ MonoBehaviour:
         bend: 1.25
         wind: 0.85
         gloss: 1.1
+      - dynasty: greek
+        label: "\u5E0C\u814A"
+        launch: 1
+        parsed: 1
+        density: 0.85
+        bend: 0.7
+        wind: 1.25
+        gloss: 0.95
       presentation:
       - mode: history
         label: "\u5386\u53F2\u8FD8\u539F"
@@ -466,6 +474,12 @@ MonoBehaviour:
       - level: 16
         xp: 10600
         launch: 0
+      - level: 17
+        xp: 12100
+        launch: 0
+      - level: 18
+        xp: 13700
+        launch: 0
     windLight:
       baseWindMin: 0.3
       baseWindMax: 0.8
@@ -618,6 +632,30 @@ MonoBehaviour:
         climax: 0
         coda: 6
       - characterId: daJi
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: haiLun
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: haiLun
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: aFuLuoDiTe
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: aFuLuoDiTe
         tier: 30
         setup: 6
         develop: 10

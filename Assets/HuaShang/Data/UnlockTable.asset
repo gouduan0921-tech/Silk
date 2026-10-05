@@ -221,3 +221,26 @@ MonoBehaviour:
       tiers: 
     other: []
     raw: "\u59B2\u5DF1"
+  - level: 17
+    xpRequired: 12100
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns:
+    - chiton
+    characters:
+    - characterId: haiLun
+      tiers: 
+    other: []
+    raw: "\u5E0C\u987F\u3001\u6D77\u4F26"
+  - level: 18
+    xpRequired: 13700
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: aFuLuoDiTe
+      tiers: 
+    other: []
+    raw: "\u963F\u4F5B\u6D1B\u72C4\u5FD2"

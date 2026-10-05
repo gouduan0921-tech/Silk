@@ -197,3 +197,27 @@ MonoBehaviour:
     stageEffect: petal
     note: 
     substitutes: []
+  - id: haiLun
+    name: "\u6D77\u4F26"
+    template: rich
+    preferVariety:
+    - juan
+    - suDuan
+    preferDynasty: greek
+    launchTierMax: 30
+    enabled: 1
+    stageEffect: 
+    note: 
+    substitutes: []
+  - id: aFuLuoDiTe
+    name: "\u963F\u4F5B\u6D1B\u72C4\u5FD2"
+    template: lively
+    preferVariety:
+    - suSha
+    - juan
+    preferDynasty: greek
+    launchTierMax: 30
+    enabled: 1
+    stageEffect: foam
+    note: "\u8981\u62AB\u5E1B"
+    substitutes: []

@@ -15,7 +15,7 @@ namespace HuaShang.Rules.Config
         public static readonly string[] Slots = { "inner", "upper", "skirt", "drape", "robe", "wrap" };
 
         /// <summary>docs/16 §2 启用表里的角色（首发三位与工艺章两位）。</summary>
-        public static readonly string[] EnabledCharacters = { "xiShi", "wangZhaoJun", "zhaoFeiYan", "liQingZhao", "yangGuiFei", "luoShen", "changE", "baiSuZhen", "daJi" };
+        public static readonly string[] EnabledCharacters = { "xiShi", "wangZhaoJun", "zhaoFeiYan", "liQingZhao", "yangGuiFei", "luoShen", "changE", "baiSuZhen", "daJi", "haiLun", "aFuLuoDiTe" };
 
         public static List<string> Validate(ConfigSnapshot c)
         {

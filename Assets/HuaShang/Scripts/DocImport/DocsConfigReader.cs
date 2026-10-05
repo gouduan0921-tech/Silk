@@ -73,7 +73,7 @@ namespace HuaShang.DocImport
         };
         static readonly Dictionary<string, string> Dynasties = new Dictionary<string, string>
         {
-            { "汉", "han" }, { "唐", "tang" }, { "宋", "song" }, { "明", "ming" },
+            { "汉", "han" }, { "唐", "tang" }, { "宋", "song" }, { "明", "ming" }, { "希腊", "greek" },
         };
         static readonly Dictionary<string, string> Seasons = new Dictionary<string, string>
         {
@@ -111,11 +111,11 @@ namespace HuaShang.DocImport
         static readonly Dictionary<string, string> SlotNames = new Dictionary<string, string>
         {
             { "上襦", "upper" }, { "裙", "skirt" }, { "披帛", "drape" }, { "衬里", "inner" },
-            { "袍", "robe" }, { "大袖", "robe" }, { "褙子", "wrap" }, { "袄", "upper" },
+            { "袍", "robe" }, { "大袖", "robe" }, { "褙子", "wrap" }, { "袄", "upper" }, { "长衣", "robe" },
         };
         static readonly Dictionary<string, string> PatternNames = new Dictionary<string, string>
         {
-            { "襦裙", "ruQun" }, { "直裾", "zhiJu" }, { "大袖衫", "daXiuShan" }, { "褙子", "beiZi" }, { "袄裙", "aoQun" },
+            { "襦裙", "ruQun" }, { "直裾", "zhiJu" }, { "大袖衫", "daXiuShan" }, { "褙子", "beiZi" }, { "袄裙", "aoQun" }, { "希顿", "chiton" },
         };
 
         /// <summary>从工程根目录（含 docs/ 的目录）读出全部配置。</summary>
@@ -279,7 +279,7 @@ namespace HuaShang.DocImport
             var m = s07.MatchAll("首发形制只有(\\S+?)：(\\S+?)。");
             AddPattern(m.Groups[1].Value, "汉", m.Groups[2].Value, s07, s04day, c);
             // 工艺章形制：名（朝代）：部件。（docs/07 §3）
-            foreach (Match cm in Regex.Matches(s07.text, "(\\p{IsCJKUnifiedIdeographs}+)（(\\p{IsCJKUnifiedIdeographs})）：([^。]+)。"))
+            foreach (Match cm in Regex.Matches(s07.text, "(\\p{IsCJKUnifiedIdeographs}+)（(\\p{IsCJKUnifiedIdeographs}+)）：([^。]+)。"))
                 AddPattern(cm.Groups[1].Value, cm.Groups[2].Value, cm.Groups[3].Value, s07, s04day, c);
         }
 
@@ -349,7 +349,7 @@ namespace HuaShang.DocImport
 
         static readonly Dictionary<string, string> StageEffects = new Dictionary<string, string>
         {
-            { "水波", "water" }, { "月华", "moon" }, { "白蛇", "snake" }, { "花瓣", "petal" },
+            { "水波", "water" }, { "月华", "moon" }, { "白蛇", "snake" }, { "花瓣", "petal" }, { "海沫", "foam" },
         };
 
         /// <summary>docs/11 §5 起每一篇一张角色表；表里的角色启用，未列入的篇章角色仍关闭（docs/11 §1）。</summary>
@@ -705,7 +705,7 @@ namespace HuaShang.DocImport
                     else o.parsed = false;
                 }
                 if (o.parsed) { o.density = vals[0]; o.bend = vals[1]; o.wind = vals[2]; o.gloss = vals[3]; }
-                o.launch = o.parsed && (r[0] == launchDynasty || Regex.IsMatch(s.text, r[0] + "的行在工艺章启用"));
+                o.launch = o.parsed && (r[0] == launchDynasty || Regex.IsMatch(s.text, r[0] + "的行在(工艺章|篇章)启用"));
                 q.dynasties.Add(o);
             }
 

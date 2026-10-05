@@ -46,6 +46,23 @@ namespace HuaShang.Greybox
             return b.Finish();
         }
 
+        /// <summary>希顿：宽幅长衣，两肩别住，袖由宽布垂到肘；腰带处收、上身略垂出一圈，下摆及地，竖褶深（docs/07 §3）。</summary>
+        public static Mesh Chiton(string name)
+        {
+            var b = new Builder(name);
+            var spine = new List<Vector3> { new Vector3(0, 1.47f, 0), new Vector3(0, 1.3f, 0), new Vector3(0, 1.12f, 0), new Vector3(0, 1.04f, 0), new Vector3(0, 0.6f, 0), new Vector3(0, 0.03f, 0) };
+            // 1.12 处上身垂出一圈，1.04 腰带收紧，往下放宽到地
+            b.Sweep(spine, new[] { 0.2f, 0.235f, 0.245f, 0.2f, 0.3f, 0.37f }, 48, new Vector2(1.25f, 0.95f), 1,
+                (angle, down) => 1f + 0.06f * down * Mathf.Sin(angle * 14f));
+            foreach (int side in new[] { -1, 1 })
+            {
+                var arm = GreyboxBody.ArmPoints(side);
+                var path = new List<Vector3> { arm[0] + new Vector3(side * 0.03f, 0.03f, 0), Vector3.Lerp(arm[0], arm[1], 0.5f), arm[1] + new Vector3(0, -0.02f, 0) };
+                b.Sweep(path, new[] { 0.09f, 0.14f, 0.17f }, 20, Vector2.one, 1, null);
+            }
+            return b.Finish();
+        }
+
         /// <summary>大袖衫：宽袖外衫，罩在裙外，衣长过膝，袖口垂得很低（docs/07 §3）。</summary>
         public static Mesh BigSleeve(string name)
         {

@@ -103,3 +103,21 @@ MonoBehaviour:
       length: 2.5
     dynasty: ming
     launch: 1
+  - id: chiton
+    name: "\u5E0C\u987F"
+    parts:
+    - robe
+    - drape
+    - inner
+    optionalParts:
+    - drape
+    - inner
+    partLengths:
+    - slot: robe
+      length: 5
+    - slot: drape
+      length: 1.5
+    - slot: inner
+      length: 2.5
+    dynasty: greek
+    launch: 1
