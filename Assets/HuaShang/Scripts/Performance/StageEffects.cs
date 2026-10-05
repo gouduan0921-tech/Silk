@@ -42,6 +42,8 @@ namespace HuaShang.Performance
             else if (effect == "snake") BuildSnake();
             else if (effect == "petal") BuildPetals();
             else if (effect == "foam") BuildFoam();
+            else if (effect == "gold") BuildGold();
+            else if (effect == "rain") BuildRain();
         }
 
         public void End()
@@ -138,6 +140,39 @@ namespace HuaShang.Performance
             }
         }
 
+        void BuildGold()
+        {
+            var mat = LitMaterials.New(LitMaterials.Kind.Unlit, new Color(1f, 0.82f, 0.42f));
+            moteMats.Add(mat);
+            var rnd = new System.Random(3);
+            for (int i = 0; i < MoteCount; i++)
+            {
+                var g = Props.Prim(PrimitiveType.Cube, root.transform, "Gold", Vector3.zero, Vector3.one * 0.012f, Color.white, false);
+                var r = g.GetComponent<Renderer>();
+                r.sharedMaterial = mat;
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                motes.Add(g.transform);
+                moteVel.Add(new Vector3(0.45f + (float)rnd.NextDouble() * 0.5f, (float)rnd.NextDouble() * Mathf.PI * 2f, (float)rnd.NextDouble() * 2.4f));
+            }
+        }
+
+        void BuildRain()
+        {
+            var mat = LitMaterials.New(LitMaterials.Kind.Transparent, new Color(0.8f, 0.84f, 0.88f, 0.35f));
+            moteMats.Add(mat);
+            var rnd = new System.Random(9);
+            for (int i = 0; i < MoteCount * 2; i++)
+            {
+                var g = Props.Prim(PrimitiveType.Cube, root.transform, "Rain",
+                    new Vector3((float)rnd.NextDouble() * 4.4f - 2.2f, (float)rnd.NextDouble() * 3.4f, (float)rnd.NextDouble() * 2.4f - 1.2f),
+                    new Vector3(0.004f, 0.22f, 0.004f), Color.white, false);
+                var r = g.GetComponent<Renderer>();
+                r.sharedMaterial = mat;
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                motes.Add(g.transform);
+            }
+        }
+
         /// <summary>披帛两端的世界坐标；没有披帛时取两手高度（docs/11 §3）。</summary>
         void SnakeEnds(out Vector3 a, out Vector3 b)
         {
@@ -216,6 +251,28 @@ namespace HuaShang.Performance
                     motes[i].Rotate(0, dt * 90f, 0, Space.Self);
                     var col = moteMats[i].color; col.a = 0.9f * (life / ScaleLife);
                     moteMats[i].color = col;
+                }
+            }
+            else if (kind == "gold")
+            {
+                for (int i = 0; i < motes.Count; i++)
+                {
+                    var v = moteVel[i];
+                    float ang = v.y + t * 0.35f;
+                    float h = Mathf.Repeat(v.z + t * (0.15f + (i % 3) * 0.03f), 2.4f);
+                    motes[i].localPosition = new Vector3(Mathf.Cos(ang) * v.x, h, Mathf.Sin(ang) * v.x * 0.8f);
+                    float tw = 0.5f + 0.5f * Mathf.Sin(t * 6f + i * 1.7f); // 一闪一闪
+                    motes[i].localScale = Vector3.one * Mathf.Lerp(0.004f, 0.016f, tw);
+                }
+            }
+            else if (kind == "rain")
+            {
+                for (int i = 0; i < motes.Count; i++)
+                {
+                    var p = motes[i].localPosition;
+                    p.y -= dt * (3.2f + (i % 4) * 0.4f);
+                    if (p.y < 0f) p.y += 3.4f;
+                    motes[i].localPosition = p;
                 }
             }
             else if (kind == "foam")

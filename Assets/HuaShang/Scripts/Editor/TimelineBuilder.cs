@@ -29,6 +29,8 @@ namespace HuaShang.EditorTools
             { "baiSuZhen", new[] { "（白素贞撑伞立于湖边）", "（披帛末端微微一闪）", "（定格）" } },
             { "daJi", new[] { "（妲己款步上前，回眸）", "（衣上金线压着光）", "（定格）" } },
             { "haiLun", new[] { "（海伦立于城头）", "（长衣的竖褶一动不动）", "（定格）" } },
+            { "keLiAoPaTeLa", new[] { "（克利奥帕特拉端坐，缓缓起身）", "（细褶贴身，一丝不乱）", "（定格）" } },
+            { "xiaoYeXiaoTing", new[] { "（小野小町跪坐檐下）", "（她看着雨中的花）", "（定格）" } },
             { "aFuLuoDiTe", new[] { "（阿佛洛狄忒自海边走来）", "（肩上长巾被海风掀起一角）", "（定格）" } },
         };
 
@@ -45,6 +47,8 @@ namespace HuaShang.EditorTools
             { "daJi", "（旋身，花瓣绕身而起）" },
             { "haiLun", "（转身远望，长衣下摆随风摆开）" },
             { "aFuLuoDiTe", "（回身，海沫从脚边升起）" },
+            { "keLiAoPaTeLa", "（转身，金沙绕身而起）" },
+            { "xiaoYeXiaoTing", "（起身回望，袖口与后摆在风里慢慢展开）" },
         };
 
         /// <summary>70 档高潮字幕（docs/08 §2）；没写的角色用通用一句。</summary>

@@ -25,7 +25,7 @@ namespace HuaShang.Stations
 
         /// <summary>形制里的部件名：大袖衫的 robe 叫「大袖」（docs/07 §3）。</summary>
         public static string Slot(string slot, string pattern) =>
-            slot == "robe" && pattern == "daXiuShan" ? "大袖" : slot == "robe" && pattern == "chiton" ? "长衣" : slot == "upper" && pattern == "aoQun" ? "袄" : Slot(slot);
+            slot == "robe" && pattern == "daXiuShan" ? "大袖" : slot == "robe" && (pattern == "chiton" || pattern == "kalasiris") ? "长衣" : slot == "robe" && pattern == "juniHitoe" ? "袿" : slot == "skirt" && pattern == "juniHitoe" ? "袴" : slot == "upper" && pattern == "aoQun" ? "袄" : Slot(slot);
 
         public static string Slot(string slot)
         {
@@ -81,7 +81,7 @@ namespace HuaShang.Stations
         }
 
         /// <summary>来源句（docs/12 §2）：「精良 · 春茧平纹绢，靛蓝一套」的句式。</summary>
-        public static string Dynasty(string d) => d == "song" ? "宋风" : d == "tang" ? "唐风" : d == "ming" ? "明风" : d == "greek" ? "希腊风" : "汉风";
+        public static string Dynasty(string d) => d == "song" ? "宋风" : d == "tang" ? "唐风" : d == "ming" ? "明风" : d == "greek" ? "希腊风" : d == "egypt" ? "埃及风" : d == "heian" ? "平安风" : "汉风";
 
         public static string Source(SaveRoot s, ConfigSnapshot c, Garment g)
         {

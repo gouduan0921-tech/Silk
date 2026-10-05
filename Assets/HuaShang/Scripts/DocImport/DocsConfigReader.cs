@@ -73,7 +73,7 @@ namespace HuaShang.DocImport
         };
         static readonly Dictionary<string, string> Dynasties = new Dictionary<string, string>
         {
-            { "汉", "han" }, { "唐", "tang" }, { "宋", "song" }, { "明", "ming" }, { "希腊", "greek" },
+            { "汉", "han" }, { "唐", "tang" }, { "宋", "song" }, { "明", "ming" }, { "希腊", "greek" }, { "埃及", "egypt" }, { "平安", "heian" },
         };
         static readonly Dictionary<string, string> Seasons = new Dictionary<string, string>
         {
@@ -111,11 +111,11 @@ namespace HuaShang.DocImport
         static readonly Dictionary<string, string> SlotNames = new Dictionary<string, string>
         {
             { "上襦", "upper" }, { "裙", "skirt" }, { "披帛", "drape" }, { "衬里", "inner" },
-            { "袍", "robe" }, { "大袖", "robe" }, { "褙子", "wrap" }, { "袄", "upper" }, { "长衣", "robe" },
+            { "袍", "robe" }, { "大袖", "robe" }, { "褙子", "wrap" }, { "袄", "upper" }, { "长衣", "robe" }, { "袿", "robe" }, { "袴", "skirt" },
         };
         static readonly Dictionary<string, string> PatternNames = new Dictionary<string, string>
         {
-            { "襦裙", "ruQun" }, { "直裾", "zhiJu" }, { "大袖衫", "daXiuShan" }, { "褙子", "beiZi" }, { "袄裙", "aoQun" }, { "希顿", "chiton" },
+            { "襦裙", "ruQun" }, { "直裾", "zhiJu" }, { "大袖衫", "daXiuShan" }, { "褙子", "beiZi" }, { "袄裙", "aoQun" }, { "希顿", "chiton" }, { "卡拉西里斯", "kalasiris" }, { "十二单", "juniHitoe" },
         };
 
         /// <summary>从工程根目录（含 docs/ 的目录）读出全部配置。</summary>
@@ -349,7 +349,7 @@ namespace HuaShang.DocImport
 
         static readonly Dictionary<string, string> StageEffects = new Dictionary<string, string>
         {
-            { "水波", "water" }, { "月华", "moon" }, { "白蛇", "snake" }, { "花瓣", "petal" }, { "海沫", "foam" },
+            { "水波", "water" }, { "月华", "moon" }, { "白蛇", "snake" }, { "花瓣", "petal" }, { "海沫", "foam" }, { "金沙", "gold" }, { "细雨", "rain" },
         };
 
         /// <summary>docs/11 §5 起每一篇一张角色表；表里的角色启用，未列入的篇章角色仍关闭（docs/11 §1）。</summary>

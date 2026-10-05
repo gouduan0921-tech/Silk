@@ -221,3 +221,27 @@ MonoBehaviour:
     stageEffect: foam
     note: "\u8981\u62AB\u5E1B"
     substitutes: []
+  - id: keLiAoPaTeLa
+    name: "\u514B\u5229\u5965\u5E15\u7279\u62C9"
+    template: strong
+    preferVariety:
+    - suSha
+    - yunJin
+    preferDynasty: egypt
+    launchTierMax: 30
+    enabled: 1
+    stageEffect: gold
+    note: 
+    substitutes: []
+  - id: xiaoYeXiaoTing
+    name: "\u5C0F\u91CE\u5C0F\u753A"
+    template: cold
+    preferVariety:
+    - juan
+    - suDuan
+    preferDynasty: heian
+    launchTierMax: 30
+    enabled: 1
+    stageEffect: rain
+    note: 
+    substitutes: []

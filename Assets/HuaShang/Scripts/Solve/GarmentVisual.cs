@@ -51,13 +51,15 @@ namespace HuaShang.Solve
                 Mesh mesh; ClothLayer layer;
                 switch (sp.slot)
                 {
-                    case "skirt": mesh = GarmentShapes.Skirt("SK_part_skirt"); layer = ClothLayer.Outer; break;
+                    case "skirt": mesh = sp.pattern == "juniHitoe" ? GarmentShapes.Hakama("SK_part_hakama") : GarmentShapes.Skirt("SK_part_skirt"); layer = ClothLayer.Outer; break;
                     case "inner": mesh = GarmentShapes.Inner("SK_part_inner"); layer = ClothLayer.Inner; break;
                     case "drape": mesh = GarmentShapes.Drape("SK_part_drape"); layer = ClothLayer.Drape; break;
                     case "wrap": mesh = GarmentShapes.Beizi("SK_part_beizi"); layer = ClothLayer.Outer; break; // 画在裙外，层位算中层由 ItemQuality 决定
                     case "robe":
                         mesh = sp.pattern == "daXiuShan" ? GarmentShapes.BigSleeve("SK_part_daxiu")
                              : sp.pattern == "chiton" ? GarmentShapes.Chiton("SK_part_chiton")
+                             : sp.pattern == "kalasiris" ? GarmentShapes.Kalasiris("SK_part_kalasiris")
+                             : sp.pattern == "juniHitoe" ? GarmentShapes.Uchiki("SK_part_uchiki")
                              : GarmentShapes.Robe("SK_part_robe");
                         layer = ClothLayer.Outer; break;
                     default:

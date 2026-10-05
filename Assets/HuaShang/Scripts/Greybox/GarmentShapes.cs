@@ -63,6 +63,48 @@ namespace HuaShang.Greybox
             return b.Finish();
         }
 
+        /// <summary>卡拉西里斯：胸下到踝的贴身长衣，窄直，细密竖褶，短袖只盖肩头（docs/07 §3）。</summary>
+        public static Mesh Kalasiris(string name)
+        {
+            var b = new Builder(name);
+            var spine = new List<Vector3> { new Vector3(0, 1.45f, 0), new Vector3(0, 1.2f, 0), new Vector3(0, 0.95f, 0), new Vector3(0, 0.5f, 0), new Vector3(0, 0.06f, 0) };
+            b.Sweep(spine, new[] { 0.17f, 0.19f, 0.2f, 0.22f, 0.25f }, 48, new Vector2(1.2f, 0.95f), 1,
+                (angle, down) => 1f + 0.02f * Mathf.Sin(angle * 30f));
+            foreach (int side in new[] { -1, 1 })
+            {
+                var arm = GreyboxBody.ArmPoints(side);
+                var path = new List<Vector3> { arm[0] + new Vector3(side * 0.02f, 0.02f, 0), Vector3.Lerp(arm[0], arm[1], 0.35f) };
+                b.Sweep(path, new[] { 0.08f, 0.1f }, 16, Vector2.one, 1, null);
+            }
+            return b.Finish();
+        }
+
+        /// <summary>十二单的袿：多层叠穿的宽袖长衣，袖口很宽并下垂，下摆铺地（docs/07 §3）。</summary>
+        public static Mesh Uchiki(string name)
+        {
+            var b = new Builder(name);
+            var spine = new List<Vector3> { new Vector3(0, 1.47f, 0), new Vector3(0, 1.2f, 0), new Vector3(0, 0.8f, 0), new Vector3(0, 0.3f, 0), new Vector3(0, 0.02f, 0) };
+            b.Sweep(spine, new[] { 0.19f, 0.25f, 0.33f, 0.42f, 0.5f }, 40, new Vector2(1.15f, 1.0f), 1,
+                (angle, down) => 1f + 0.03f * down * Mathf.Sin(angle * 6f));
+            foreach (int side in new[] { -1, 1 })
+            {
+                var arm = GreyboxBody.ArmPoints(side);
+                var path = new List<Vector3> { arm[0] + new Vector3(side * 0.02f, 0.02f, 0), arm[1], arm[2], arm[2] + new Vector3(0, -0.22f, 0) };
+                b.Sweep(path, new[] { 0.09f, 0.2f, 0.3f, 0.34f }, 24, Vector2.one, 1, null);
+            }
+            return b.Finish();
+        }
+
+        /// <summary>十二单的袴：宽大的裙裤，从腰到地，长过脚面（docs/07 §3）。灰盒按一整圈裙做，不分两腿。</summary>
+        public static Mesh Hakama(string name)
+        {
+            var b = new Builder(name);
+            var spine = new List<Vector3> { new Vector3(0, 1.08f, 0), new Vector3(0, 0.8f, 0), new Vector3(0, 0.4f, 0), new Vector3(0, 0.0f, 0) };
+            b.Sweep(spine, new[] { 0.19f, 0.3f, 0.4f, 0.46f }, 40, new Vector2(1.15f, 1f), 1,
+                (angle, down) => 1f + 0.05f * down * Mathf.Sin(angle * 8f));
+            return b.Finish();
+        }
+
         /// <summary>大袖衫：宽袖外衫，罩在裙外，衣长过膝，袖口垂得很低（docs/07 §3）。</summary>
         public static Mesh BigSleeve(string name)
         {

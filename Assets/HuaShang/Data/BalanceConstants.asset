@@ -170,6 +170,22 @@ MonoBehaviour:
         bend: 0.7
         wind: 1.25
         gloss: 0.95
+      - dynasty: egypt
+        label: "\u57C3\u53CA"
+        launch: 1
+        parsed: 1
+        density: 0.9
+        bend: 0.8
+        wind: 1.1
+        gloss: 1.05
+      - dynasty: heian
+        label: "\u5E73\u5B89"
+        launch: 1
+        parsed: 1
+        density: 1.1
+        bend: 1.15
+        wind: 0.8
+        gloss: 1
       presentation:
       - mode: history
         label: "\u5386\u53F2\u8FD8\u539F"
@@ -480,6 +496,12 @@ MonoBehaviour:
       - level: 18
         xp: 13700
         launch: 0
+      - level: 19
+        xp: 15400
+        launch: 0
+      - level: 20
+        xp: 17200
+        launch: 0
     windLight:
       baseWindMin: 0.3
       baseWindMax: 0.8
@@ -656,6 +678,30 @@ MonoBehaviour:
         climax: 0
         coda: 6
       - characterId: aFuLuoDiTe
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: keLiAoPaTeLa
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: keLiAoPaTeLa
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: xiaoYeXiaoTing
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: xiaoYeXiaoTing
         tier: 30
         setup: 6
         develop: 10

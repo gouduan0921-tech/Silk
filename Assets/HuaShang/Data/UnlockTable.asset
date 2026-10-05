@@ -244,3 +244,27 @@ MonoBehaviour:
       tiers: 
     other: []
     raw: "\u963F\u4F5B\u6D1B\u72C4\u5FD2"
+  - level: 19
+    xpRequired: 15400
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns:
+    - kalasiris
+    characters:
+    - characterId: keLiAoPaTeLa
+      tiers: 
+    other: []
+    raw: "\u5361\u62C9\u897F\u91CC\u65AF\u3001\u514B\u5229\u5965\u5E15\u7279\u62C9"
+  - level: 20
+    xpRequired: 17200
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns:
+    - juniHitoe
+    characters:
+    - characterId: xiaoYeXiaoTing
+      tiers: 
+    other: []
+    raw: "\u5341\u4E8C\u5355\u3001\u5C0F\u91CE\u5C0F\u753A"

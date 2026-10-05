@@ -121,3 +121,38 @@ MonoBehaviour:
       length: 2.5
     dynasty: greek
     launch: 1
+  - id: kalasiris
+    name: "\u5361\u62C9\u897F\u91CC\u65AF"
+    parts:
+    - robe
+    - drape
+    - inner
+    optionalParts:
+    - drape
+    - inner
+    partLengths:
+    - slot: robe
+      length: 4.5
+    - slot: drape
+      length: 1.5
+    - slot: inner
+      length: 2.5
+    dynasty: egypt
+    launch: 1
+  - id: juniHitoe
+    name: "\u5341\u4E8C\u5355"
+    parts:
+    - robe
+    - skirt
+    - inner
+    optionalParts:
+    - inner
+    partLengths:
+    - slot: robe
+      length: 7
+    - slot: skirt
+      length: 4
+    - slot: inner
+      length: 2.5
+    dynasty: heian
+    launch: 1
