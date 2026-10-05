@@ -445,6 +445,15 @@ MonoBehaviour:
       - level: 9
         xp: 2900
         launch: 0
+      - level: 10
+        xp: 3700
+        launch: 0
+      - level: 11
+        xp: 4600
+        launch: 0
+      - level: 12
+        xp: 5600
+        launch: 0
     windLight:
       baseWindMin: 0.3
       baseWindMax: 0.8
@@ -536,6 +545,24 @@ MonoBehaviour:
         develop: 10
         climax: 8
         coda: 6
+      - characterId: wangZhaoJun
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: zhaoFeiYan
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: liQingZhao
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
     exhibit:
       quality: 0.4
       theme: 0.3

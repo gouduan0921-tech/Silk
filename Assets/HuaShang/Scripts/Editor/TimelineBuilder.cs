@@ -40,6 +40,9 @@ namespace HuaShang.EditorTools
         {
             { "xiShi", "（风起，广袖翻飞；无词短音）" },
             { "yangGuiFei", "（风起，披帛满台翻卷；无词短音）" },
+            { "wangZhaoJun", "（风起，她迎风而立，衣摆向后扬开；无词短音）" },
+            { "zhaoFeiYan", "（风起，她旋身，裙摆整圈张开；无词短音）" },
+            { "liQingZhao", "（风过，衣襟与袖口微扬，她不动；无词短音）" },
         };
 
         [MenuItem("HuaShang/演出/生成首发时间轴")]

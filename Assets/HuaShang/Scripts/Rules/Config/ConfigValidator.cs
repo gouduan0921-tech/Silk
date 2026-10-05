@@ -52,11 +52,11 @@ namespace HuaShang.Rules.Config
                         errors.Add("形制 " + p.id + " 的部件 " + part + " 没有槽位");
             }
 
-            // 4 启用角色的 launchTierMax：西施、杨贵妃不超过 70，其余不超过 30（docs/05 §9）
+            // 4 启用角色的 launchTierMax 不超过 70（docs/05 §9）
             foreach (var ch in c.characters)
             {
                 if (!ch.enabled) continue;
-                int cap = ch.id == "xiShi" || ch.id == "yangGuiFei" ? 70 : 30; // 高阶织物：西施、杨贵妃到 70，其余启用角色到 30
+                const int cap = 70; // 高阶织物：启用角色都可到 70
                 if (ch.launchTierMax > cap)
                     errors.Add("角色 " + ch.id + " 的 launchTierMax " + ch.launchTierMax + " 超过 " + cap);
             }

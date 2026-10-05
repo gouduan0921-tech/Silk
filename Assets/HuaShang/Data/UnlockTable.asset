@@ -144,3 +144,36 @@ MonoBehaviour:
       tiers: 1e000000i
     other: []
     raw: "\u738B\u662D\u541B 30 \u6863\u3001\u8D75\u98DE\u71D5 30 \u6863\u3001\u674E\u6E05\u7167 30 \u6863"
+  - level: 10
+    xpRequired: 3700
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: wangZhaoJun
+      tiers: 46000000i
+    other: []
+    raw: "\u738B\u662D\u541B 70 \u6863"
+  - level: 11
+    xpRequired: 4600
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: zhaoFeiYan
+      tiers: 46000000i
+    other: []
+    raw: "\u8D75\u98DE\u71D5 70 \u6863"
+  - level: 12
+    xpRequired: 5600
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: liQingZhao
+      tiers: 46000000i
+    other: []
+    raw: "\u674E\u6E05\u7167 70 \u6863"
