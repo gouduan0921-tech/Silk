@@ -44,13 +44,16 @@ namespace HuaShang.Play
         /// <summary>织一匹的工时项：提花花本按提花，缎、绫按斜纹或素缎，其余平纹（docs/04 §2）。</summary>
         public static string WeaveHoursKey(VarietyRow v, string patternId)
         {
-            if (patternId == PatternJacquard) return "weaveJacquard";
+            if (patternId == PatternJacquard || (v != null && (v.group == "brocade" || v.id == "gaiJi"))) return "weaveJacquard";
             if (v != null && (v.name.Contains("缎") || v.name == "绫")) return "weaveTwillSatin";
             return "weavePlain";
         }
 
-        /// <summary>花本是否选对：花缎必须用提花，其他品种不限（docs/07 §1）。</summary>
-        public static bool PatternFits(VarietyRow v, string patternId) => v == null || v.id != "huaDuan" || patternId == PatternJacquard;
+        /// <summary>花本是否选对：花缎、云锦、改机必须用提花，其他品种不限（docs/07 §1）。</summary>
+        public static bool PatternFits(VarietyRow v, string patternId) => v == null || !NeedsJacquard(v.id) || patternId == PatternJacquard;
+
+        /// <summary>花缎、云锦、改机必须用提花花本（docs/07 §1）。</summary>
+        public static bool NeedsJacquard(string varietyId) => varietyId == "huaDuan" || varietyId == "yunJin" || varietyId == "gaiJi";
 
         /// <summary>织造分 = 节奏×w + 密度稳定×w + 花位×w（docs/04 §5）。</summary>
         public static double WeaveScore(WeaveInput input, Yarn yarn, VarietyRow variety, ConfigSnapshot c)

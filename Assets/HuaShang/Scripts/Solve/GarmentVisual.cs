@@ -54,10 +54,13 @@ namespace HuaShang.Solve
                     case "skirt": mesh = GarmentShapes.Skirt("SK_part_skirt"); layer = ClothLayer.Outer; break;
                     case "inner": mesh = GarmentShapes.Inner("SK_part_inner"); layer = ClothLayer.Inner; break;
                     case "drape": mesh = GarmentShapes.Drape("SK_part_drape"); layer = ClothLayer.Drape; break;
+                    case "wrap": mesh = GarmentShapes.Beizi("SK_part_beizi"); layer = ClothLayer.Outer; break; // 画在裙外，层位算中层由 ItemQuality 决定
                     case "robe":
                         mesh = sp.pattern == "daXiuShan" ? GarmentShapes.BigSleeve("SK_part_daxiu") : GarmentShapes.Robe("SK_part_robe");
                         layer = ClothLayer.Outer; break;
-                    default: mesh = GarmentShapes.Upper("SK_part_upper"); layer = ClothLayer.Outer; break;
+                    default:
+                        mesh = sp.pattern == "aoQun" ? GarmentShapes.Ao("SK_part_ao") : GarmentShapes.Upper("SK_part_upper");
+                        layer = ClothLayer.Outer; break;
                 }
                 var go = new GameObject("Part_" + sp.slot);
                 go.transform.SetParent(body.transform, false);

@@ -90,7 +90,7 @@ namespace HuaShang.Stations
                     if (k == RackView.Kind.Dye)
                     {
                         string raw = RackView.DyeIdOf(id, out bool fresh);
-                        if (C.dyes.Find(d => d.id == raw)?.role == "color") { dyeId = raw; freshDye = fresh; }
+                        if (C.dyes.Find(d => d.id == raw) != null) { dyeId = raw; freshDye = fresh; } // 绿矾是媒染，也在缸里浸（docs/04 §5）
                     }
                     Refresh();
                 }));

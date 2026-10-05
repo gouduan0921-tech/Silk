@@ -142,7 +142,7 @@ namespace HuaShang.Stations
                 m.options.Add(pg);
                 var vsel = C.varieties.Find(v => v.id == varietyId);
                 int hours = C.balance.day.HoursOf(Craft.WeaveHoursKey(vsel, patternId));
-                if (!Craft.PatternFits(vsel, patternId)) m.warnings.Add("花缎要用提花花本：花本选错，花位分归零");
+                if (!Craft.PatternFits(vsel, patternId)) m.warnings.Add(Names.Variety(C, varietyId) + "要用提花花本：花本选错，花位分归零");
                 m.primaryLabel = "开织（" + hours + " 工时）";
                 m.primaryEnabled = yarnId != null && Progress.CanSpend(S, C, hours);
                 m.body = Progress.CanSpend(S, C, hours) ? "织机不会自动取纱，先在侧架点一束。" : "今天的工时不够织一匹。";

@@ -220,7 +220,7 @@ MonoBehaviour:
   - id: yunJin
     name: "\u4E91\u9526"
     group: brocade
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 6.23
@@ -271,7 +271,7 @@ MonoBehaviour:
   - id: gaiJi
     name: "\u6539\u673A"
     group: plain
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 3.46

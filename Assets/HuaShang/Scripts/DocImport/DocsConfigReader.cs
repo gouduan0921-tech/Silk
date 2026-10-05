@@ -110,11 +110,11 @@ namespace HuaShang.DocImport
         static readonly Dictionary<string, string> SlotNames = new Dictionary<string, string>
         {
             { "上襦", "upper" }, { "裙", "skirt" }, { "披帛", "drape" }, { "衬里", "inner" },
-            { "袍", "robe" }, { "大袖", "robe" },
+            { "袍", "robe" }, { "大袖", "robe" }, { "褙子", "wrap" }, { "袄", "upper" },
         };
         static readonly Dictionary<string, string> PatternNames = new Dictionary<string, string>
         {
-            { "襦裙", "ruQun" }, { "直裾", "zhiJu" }, { "大袖衫", "daXiuShan" },
+            { "襦裙", "ruQun" }, { "直裾", "zhiJu" }, { "大袖衫", "daXiuShan" }, { "褙子", "beiZi" }, { "袄裙", "aoQun" },
         };
 
         /// <summary>从工程根目录（含 docs/ 的目录）读出全部配置。</summary>
@@ -229,6 +229,9 @@ namespace HuaShang.DocImport
             var launchCell = s05.Row("字段", "launch")[1];
             var launchNames = new HashSet<string>(
                 Regex.Replace(launchCell, "为\\s*true.*$", "").Split(new[] { '、' }, StringSplitOptions.RemoveEmptyEntries));
+            var chapter = Regex.Match(launchCell, "工艺章另开([^；。|]+)");
+            if (chapter.Success)
+                foreach (var n in chapter.Groups[1].Value.Split(new[] { '、' }, StringSplitOptions.RemoveEmptyEntries)) launchNames.Add(n.Trim());
 
             var best = new Dictionary<string, string>();
             foreach (var r in s04season.Table("季"))
@@ -668,7 +671,7 @@ namespace HuaShang.DocImport
                     else o.parsed = false;
                 }
                 if (o.parsed) { o.density = vals[0]; o.bend = vals[1]; o.wind = vals[2]; o.gloss = vals[3]; }
-                o.launch = o.parsed && (r[0] == launchDynasty || s.text.Contains(r[0] + "的行在工艺章启用"));
+                o.launch = o.parsed && (r[0] == launchDynasty || Regex.IsMatch(s.text, r[0] + "的行在工艺章启用"));
                 q.dynasties.Add(o);
             }
 
@@ -846,7 +849,7 @@ namespace HuaShang.DocImport
             e.exhibitCoinsPer = int.Parse(m.Groups[2].Value);
             e.exhibitCoinCap = int.Parse(m.Groups[3].Value);
             e.sellCommonPerMeter = (int)Num.Parse(Req(s.Row(H, "出售普通布")[1], "每米\\s*(\\d+)", w), w);
-            e.dryDyePrice = Num.FirstInt(s.RowStarting(H, "干靛蓝")[1], w);
+            e.dryDyePrice = Num.FirstInt(s.RowStarting(H, "干染料")[1], w);
             e.threadPrice = Num.FirstInt(s.Row(H, "缝线")[1], w);
             e.goldThreadPrice = Num.FirstInt(s.Row(H, "金线一小轴")[1], w);
             e.seedPrice = Num.FirstInt(s.Row(H, "蚕种")[1], w);

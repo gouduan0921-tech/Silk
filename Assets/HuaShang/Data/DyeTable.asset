@@ -31,25 +31,25 @@ MonoBehaviour:
   - id: safflower
     name: "\u7EA2\u82B1"
     role: color
-    launch: 0
+    launch: 1
     bestSeason: summer
   - id: pagoda
     name: "\u69D0\u7C73"
     role: color
-    launch: 0
+    launch: 1
     bestSeason: spring
   - id: sappan
     name: "\u82CF\u6728"
     role: color
-    launch: 0
+    launch: 1
     bestSeason: any
   - id: acorn
     name: "\u7682\u6597"
     role: color
-    launch: 0
+    launch: 1
     bestSeason: autumn
   - id: vitriol
     name: "\u7EFF\u77FE"
     role: mordant
-    launch: 0
+    launch: 1
     bestSeason: any

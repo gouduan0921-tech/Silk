@@ -27,10 +27,11 @@ namespace HuaShang.Tests
         public void 关闭的行仍在表中()
         {
             Assert.IsTrue(C.varieties.Exists(v => !v.launch), "docs/04 §8 的非首发品种应保留");
-            Assert.IsTrue(C.dyes.Exists(d => !d.launch), "非首发染料应保留");
+            // 工艺章后八种染料都已开放；染料表的行数不随开放而变
+            Assert.AreEqual(8, C.dyes.Count, "docs/05 §3 的染料行都在表里");
             Assert.IsTrue(C.characters.Exists(ch => !ch.enabled), "非首发角色应保留且关闭");
             Assert.IsTrue(C.stages.Exists(s => !s.launch), "关闭的舞台应保留");
-            Assert.IsTrue(C.unlocks.Exists(u => !u.launch), "非首发等级应保留");
+            Assert.AreEqual(C.balance.economy.levels.Count, C.unlocks.Count, "等级表每一级都在");
             Assert.IsTrue(C.activities.TrueForAll(a => !a.enabled), "活动默认关闭");
         }
 

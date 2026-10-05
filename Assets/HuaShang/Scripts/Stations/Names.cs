@@ -24,7 +24,8 @@ namespace HuaShang.Stations
         public static string Character(ConfigSnapshot c, string id) => c.characters.Find(x => x.id == id)?.name ?? id;
 
         /// <summary>形制里的部件名：大袖衫的 robe 叫「大袖」（docs/07 §3）。</summary>
-        public static string Slot(string slot, string pattern) => slot == "robe" && pattern == "daXiuShan" ? "大袖" : Slot(slot);
+        public static string Slot(string slot, string pattern) =>
+            slot == "robe" && pattern == "daXiuShan" ? "大袖" : slot == "upper" && pattern == "aoQun" ? "袄" : Slot(slot);
 
         public static string Slot(string slot)
         {
@@ -35,6 +36,7 @@ namespace HuaShang.Stations
                 case "drape": return "披帛";
                 case "inner": return "衬里";
                 case "robe": return "袍";
+                case "wrap": return "褙子";
                 default: return slot;
             }
         }

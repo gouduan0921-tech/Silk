@@ -156,7 +156,7 @@ MonoBehaviour:
         gloss: 0.95
       - dynasty: ming
         label: "\u660E"
-        launch: 0
+        launch: 1
         parsed: 1
         density: 1.15
         bend: 1.25

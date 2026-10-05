@@ -69,3 +69,37 @@ MonoBehaviour:
       length: 2.5
     dynasty: song
     launch: 1
+  - id: beiZi
+    name: "\u8919\u5B50"
+    parts:
+    - wrap
+    - skirt
+    - inner
+    optionalParts:
+    - inner
+    partLengths:
+    - slot: wrap
+      length: 4.5
+    - slot: skirt
+      length: 3
+    - slot: inner
+      length: 2.5
+    dynasty: song
+    launch: 1
+  - id: aoQun
+    name: "\u8884\u88D9"
+    parts:
+    - upper
+    - skirt
+    - inner
+    optionalParts:
+    - inner
+    partLengths:
+    - slot: upper
+      length: 3
+    - slot: skirt
+      length: 3.5
+    - slot: inner
+      length: 2.5
+    dynasty: ming
+    launch: 1

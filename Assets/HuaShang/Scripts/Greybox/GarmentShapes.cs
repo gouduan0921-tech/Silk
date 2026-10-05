@@ -61,6 +61,36 @@ namespace HuaShang.Greybox
             return b.Finish();
         }
 
+        /// <summary>褙子：对襟长衫，窄袖到腕，衣长过膝，罩在裙外（docs/07 §3）。</summary>
+        public static Mesh Beizi(string name)
+        {
+            var b = new Builder(name);
+            var spine = new List<Vector3> { new Vector3(0, 1.47f, 0), new Vector3(0, 1.2f, 0), new Vector3(0, 0.85f, 0), new Vector3(0, 0.38f, 0) };
+            b.Sweep(spine, new[] { 0.165f, 0.21f, 0.29f, 0.37f }, 32, new Vector2(1.15f, 0.95f), 1, null);
+            foreach (int side in new[] { -1, 1 })
+            {
+                var arm = GreyboxBody.ArmPoints(side);
+                var path = new List<Vector3> { arm[0] + new Vector3(side * 0.02f, 0.02f, 0), arm[1], arm[2] + (arm[2] - arm[1]).normalized * 0.03f };
+                b.Sweep(path, new[] { 0.07f, 0.085f, 0.095f }, 16, Vector2.one, 1, null);
+            }
+            return b.Finish();
+        }
+
+        /// <summary>袄：交领短袄，衣长到胯，袖身宽、袖口收窄（明，docs/07 §3）。</summary>
+        public static Mesh Ao(string name)
+        {
+            var b = new Builder(name);
+            var spine = new List<Vector3> { new Vector3(0, 1.47f, 0), new Vector3(0, 1.25f, 0), new Vector3(0, 1.0f, 0), new Vector3(0, 0.86f, 0) };
+            b.Sweep(spine, new[] { 0.165f, 0.2f, 0.25f, 0.28f }, 28, new Vector2(1.2f, 0.95f), 1, null);
+            foreach (int side in new[] { -1, 1 })
+            {
+                var arm = GreyboxBody.ArmPoints(side);
+                var path = new List<Vector3> { arm[0] + new Vector3(side * 0.02f, 0.02f, 0), arm[1], arm[2] - (arm[2] - arm[1]).normalized * 0.04f, arm[2] + (arm[2] - arm[1]).normalized * 0.04f };
+                b.Sweep(path, new[] { 0.08f, 0.14f, 0.15f, 0.07f }, 18, Vector2.one, 1, null);
+            }
+            return b.Finish();
+        }
+
         public static Mesh Inner(string name)
         {
             var b = new Builder(name);
