@@ -26,6 +26,13 @@ namespace HuaShang.EditorTools
             { "yangGuiFei", new[] { "（杨贵妃缓步上前）", "（披帛垂在臂弯）", "（定格）" } },
         };
 
+        /// <summary>70 档高潮字幕（docs/08 §2）；没写的角色用通用一句。</summary>
+        static readonly Dictionary<string, string> Climax70 = new Dictionary<string, string>
+        {
+            { "xiShi", "（风起，广袖翻飞；无词短音）" },
+            { "yangGuiFei", "（风起，披帛满台翻卷；无词短音）" },
+        };
+
         [MenuItem("HuaShang/演出/生成首发时间轴")]
         public static List<TimelineEntry> BuildAll()
         {
@@ -104,7 +111,7 @@ namespace HuaShang.EditorTools
             {
                 Marker(camTrack, 0.5, caps[0]);
                 Marker(camTrack, len.setup * 0.5, hasTurn ? "（转身，袖随风起）" : caps[1]);
-                if (hasTurn) Marker(camTrack, climaxStart + 0.5, len.tier >= 70 ? "（风起，广袖翻飞；无词短音）" : "（行至台前）");
+                if (hasTurn) Marker(camTrack, climaxStart + 0.5, len.tier >= 70 ? (Climax70.TryGetValue(len.characterId, out var c70) ? c70 : "（风起，衣袂翻飞；无词短音）") : "（行至台前）");
                 Marker(camTrack, codaStart + 0.3, caps[2]);
             }
             EditorUtility.SetDirty(tl);

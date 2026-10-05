@@ -118,3 +118,14 @@ MonoBehaviour:
       tiers: 46000000i
     other: []
     raw: "\u7F02\u4E1D\u3001\u897F\u65BD 70 \u6863"
+  - level: 8
+    xpRequired: 2200
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: yangGuiFei
+      tiers: 46000000i
+    other: []
+    raw: "\u6768\u8D35\u5983 70 \u6863"

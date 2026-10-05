@@ -439,6 +439,9 @@ MonoBehaviour:
       - level: 7
         xp: 1600
         launch: 0
+      - level: 8
+        xp: 2200
+        launch: 0
     windLight:
       baseWindMin: 0.3
       baseWindMax: 0.8
@@ -501,6 +504,12 @@ MonoBehaviour:
         climax: 8
         coda: 6
       - characterId: xiShi
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: yangGuiFei
         tier: 70
         setup: 8
         develop: 12

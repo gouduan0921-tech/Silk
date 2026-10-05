@@ -67,7 +67,7 @@ MonoBehaviour:
     - zhuangHuaDuan
     - yunJin
     preferDynasty: 
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     note: "\u4E14\u8981\u62AB\u5E1B"
     substitutes: []
