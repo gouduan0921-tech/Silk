@@ -39,7 +39,7 @@ namespace HuaShang.Tests
         public void 首发角色与舞台()
         {
             var enabled = C.characters.FindAll(ch => ch.enabled);
-            CollectionAssert.AreEquivalent(new[] { "xiShi", "wangZhaoJun", "zhaoFeiYan", "liQingZhao", "yangGuiFei", "luoShen", "changE" }, enabled.ConvertAll(ch => ch.id), "首发三位，工艺章加李清照、杨贵妃（docs/16 §2），篇章一加洛神、嫦娥（docs/11 §5）");
+            CollectionAssert.AreEquivalent(new[] { "xiShi", "wangZhaoJun", "zhaoFeiYan", "liQingZhao", "yangGuiFei", "luoShen", "changE", "baiSuZhen", "daJi" }, enabled.ConvertAll(ch => ch.id), "首发三位，工艺章加李清照、杨贵妃（docs/16 §2），篇章一加洛神、嫦娥（docs/11 §5），篇章二加白素贞、妲己（§6）");
             Assert.IsTrue(C.stages.Find(s => s.id == "stage_classic").launch);
         }
 

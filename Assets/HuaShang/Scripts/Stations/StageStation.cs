@@ -76,6 +76,7 @@ namespace HuaShang.Stations
             var fxGo = new GameObject("StageEffects");
             fxGo.transform.SetParent(stageRoot, false);
             performance.effects = fxGo.AddComponent<StageEffects>();
+            performance.effects.visual = vis;
 
             var col = gameObject.AddComponent<BoxCollider>();
             col.center = new Vector3(0, 1.5f, 0.5f); col.size = new Vector3(5.4f, 3.4f, 3.6f);

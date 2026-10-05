@@ -173,3 +173,27 @@ MonoBehaviour:
     stageEffect: moon
     note: "\u8981\u62AB\u5E1B"
     substitutes: []
+  - id: baiSuZhen
+    name: "\u767D\u7D20\u8D1E"
+    template: airy
+    preferVariety:
+    - suDuan
+    - juan
+    preferDynasty: song
+    launchTierMax: 30
+    enabled: 1
+    stageEffect: snake
+    note: "\u8981\u62AB\u5E1B"
+    substitutes: []
+  - id: daJi
+    name: "\u59B2\u5DF1"
+    template: strong
+    preferVariety:
+    - yunJin
+    - huaDuan
+    preferDynasty: han
+    launchTierMax: 30
+    enabled: 1
+    stageEffect: petal
+    note: 
+    substitutes: []

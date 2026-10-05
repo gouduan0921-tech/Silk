@@ -349,7 +349,7 @@ namespace HuaShang.DocImport
 
         static readonly Dictionary<string, string> StageEffects = new Dictionary<string, string>
         {
-            { "水波", "water" }, { "月华", "moon" },
+            { "水波", "water" }, { "月华", "moon" }, { "白蛇", "snake" }, { "花瓣", "petal" },
         };
 
         /// <summary>docs/11 §5 起每一篇一张角色表；表里的角色启用，未列入的篇章角色仍关闭（docs/11 §1）。</summary>

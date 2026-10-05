@@ -199,3 +199,25 @@ MonoBehaviour:
       tiers: 
     other: []
     raw: "\u5AE6\u5A25"
+  - level: 15
+    xpRequired: 9200
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: baiSuZhen
+      tiers: 
+    other: []
+    raw: "\u767D\u7D20\u8D1E"
+  - level: 16
+    xpRequired: 10600
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: daJi
+      tiers: 
+    other: []
+    raw: "\u59B2\u5DF1"

@@ -460,6 +460,12 @@ MonoBehaviour:
       - level: 14
         xp: 7900
         launch: 0
+      - level: 15
+        xp: 9200
+        launch: 0
+      - level: 16
+        xp: 10600
+        launch: 0
     windLight:
       baseWindMin: 0.3
       baseWindMax: 0.8
@@ -588,6 +594,30 @@ MonoBehaviour:
         climax: 0
         coda: 6
       - characterId: changE
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: baiSuZhen
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: baiSuZhen
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: daJi
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: daJi
         tier: 30
         setup: 6
         develop: 10
