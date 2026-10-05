@@ -286,5 +286,27 @@ namespace HuaShang.Tests
             Assert.AreEqual(100, b.weaveScore, "全稳拍、素布");
             Assert.AreEqual(C.balance.day.HoursOf("weavePlain"), s.hoursUsed);
         }
+
+        [Test]
+        public void 季节_三级起轮转_换季鲜料转干_冬不收蚁()
+        {
+            var s = NewGame();
+            var sc = C.balance.season;
+            Day.End(s, C);
+            Assert.AreEqual("spring", s.season, "3 级前恒为春");
+            Assert.IsNull(s.seasonStartDay);
+            s.level = sc.rotationFromLevel;
+            Day.End(s, C);
+            Assert.AreEqual(s.dayIndex, s.seasonStartDay, "达到等级后的下一个工坊日开始轮转");
+            Assert.IsTrue(Market.BuyFreshDye(s, C, "indigo").ok, "春有幼靛（记作靛蓝）");
+            int dryBefore = Find.Dye(s, "indigo").count;
+            for (int i = 0; i < sc.daysPerSeason; i++) Day.End(s, C);
+            Assert.AreEqual("summer", s.season);
+            Assert.IsNull(Find.Dye(s, "indigo", true), "换季后鲜料不在");
+            Assert.AreEqual(dryBefore + 1, Find.Dye(s, "indigo").count, "鲜料晒成同种干料");
+            for (int i = 0; i < sc.daysPerSeason * 2; i++) Day.End(s, C);
+            Assert.AreEqual("winter", s.season);
+            Assert.IsFalse(Silk.Hatch(s, C).ok, "冬不收蚁");
+        }
     }
 }

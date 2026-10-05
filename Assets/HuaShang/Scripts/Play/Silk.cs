@@ -11,7 +11,8 @@ namespace HuaShang.Play
     /// </summary>
     public static class Silk
     {
-        static int BaseScore(SaveRoot s, ConfigSnapshot c) => c.balance.season.springBase; // 首发只读春（docs/04 §3）
+        /// <summary>当季蚕种品质基数（docs/04 §3）。</summary>
+        static int BaseScore(SaveRoot s, ConfigSnapshot c) => Seasons.Current(s, c)?.cocoonBase ?? c.balance.season.springBase;
 
         static Result StepCheck(SaveRoot s, ConfigSnapshot c, string expectedStage)
         {
@@ -34,6 +35,8 @@ namespace HuaShang.Play
         public static Result Hatch(SaveRoot s, ConfigSnapshot c)
         {
             if (s.tray.stage != TrayStage.Empty) return Result.Fail("蚕箔上已经有一批蚕");
+            var season = Seasons.Current(s, c);
+            if (season != null && !season.CanHatch) return Result.Fail(season.label + "天不结新茧，不能收蚁");
             if (!Progress.CanSpend(s, c, c.balance.day.HoursOf("feed"))) return Result.Fail("今天的工时不够");
             int price = c.balance.economy.seedPrice * c.balance.season.seedPerTray;
             if (s.silkCoin < price) return Result.Fail("丝钱不够买蚕种（" + price + "）");
@@ -66,7 +69,7 @@ namespace HuaShang.Play
             return Result.Ok();
         }
 
-        static int SeasonHeatLoss(SaveRoot s, ConfigSnapshot c) => s.season == "summer" ? c.balance.season.summerHeatPerDay : 0;
+        static int SeasonHeatLoss(SaveRoot s, ConfigSnapshot c) => Seasons.Current(s, c)?.heatPerDay ?? 0;
 
         /// <summary>上蔟：得茧篮一只（docs/04 §3）。</summary>
         public static Result Mount(SaveRoot s, ConfigSnapshot c, bool crowded)

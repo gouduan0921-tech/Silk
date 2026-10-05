@@ -167,7 +167,8 @@ namespace HuaShang.Stations
         public void RefreshChrome()
         {
             var s = G.Save;
-            Hud.I.SetTopInfo(Names.Season(s.season) + " · " + Names.Day(s.dayIndex)
+            int? sday = Seasons.DayOfSeason(s, G.Config);
+            Hud.I.SetTopInfo(Names.Season(s.season) + (sday.HasValue ? "季第 " + sday.Value + " 日" : "") + " · " + Names.Day(s.dayIndex)
                              + "      丝钱 " + s.silkCoin + "      等级 " + s.level
                              + "      工时 " + Progress.HoursLeft(s, G.Config) + "/" + G.Config.balance.day.HoursLimit(s.dayIndex)
                              + "      " + TodoTitle());

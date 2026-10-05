@@ -18,6 +18,7 @@ namespace HuaShang.Stations
     {
         Renderer liquid, hangingCloth;
         string boltId, dyeId;
+        bool freshDye;
         string concentration = DyeCalc.Medium;
         string temperature = Craft.TempWarm;
         float immersedAt = -1;
@@ -81,12 +82,16 @@ namespace HuaShang.Stations
 
         public override void Refresh()
         {
-            H.SetRack(RackView.Build(S, C, k => k == RackView.Kind.Bolt || k == RackView.Kind.Dye, dyeId ?? boltId,
+            H.SetRack(RackView.Build(S, C, k => k == RackView.Kind.Bolt || k == RackView.Kind.Dye, dyeId != null ? RackView.DyeKey(dyeId, freshDye) : boltId,
                 (k, id) =>
                 {
                     if (immersedAt >= 0) return;
                     if (k == RackView.Kind.Bolt) boltId = id;
-                    if (k == RackView.Kind.Dye && C.dyes.Find(d => d.id == id)?.role == "color") dyeId = id;
+                    if (k == RackView.Kind.Dye)
+                    {
+                        string raw = RackView.DyeIdOf(id, out bool fresh);
+                        if (C.dyes.Find(d => d.id == raw)?.role == "color") { dyeId = raw; freshDye = fresh; }
+                    }
                     Refresh();
                 }));
 
@@ -129,7 +134,7 @@ namespace HuaShang.Stations
             temp.onSelect = i => temperature = TempKeys[i];
             mm.options.Add(temp);
             int hours = C.balance.day.HoursOf("dyeBath");
-            bool hasStock = dyeId != null && (Play.Find.Dye(S, dyeId)?.count ?? 0) >= C.balance.dye.costPerBolt;
+            bool hasStock = dyeId != null && (Play.Find.Dye(S, dyeId, freshDye)?.count ?? 0) >= C.balance.dye.costPerBolt;
             mm.primaryLabel = "将" + (bolt != null ? Names.Variety(C, bolt.variety) : "布") + "浸入缸中";
             mm.primaryEnabled = bolt != null && hasStock && Progress.CanSpend(S, C, hours);
             mm.body = bolt == null ? "侧架上没有布。" : !Progress.CanSpend(S, C, hours) ? "今天的工时不够浸染一匹（需要 " + hours + "）。"
@@ -152,7 +157,7 @@ namespace HuaShang.Stations
             foreach (var r in stir.results) { if (r == Beat.Steady) steady++; else if (r == Beat.Off) off++; }
             var input = new Craft.DyeInput
             {
-                boltId = boltId, dyeId = dyeId, concentration = concentration, temperature = temperature,
+                boltId = boltId, dyeId = dyeId, fresh = freshDye, concentration = concentration, temperature = temperature,
                 liftSeconds = Time.time - immersedAt, stirSteady = steady, stirOff = off, stirTotal = stir.Total,
             };
             immersedAt = -1;

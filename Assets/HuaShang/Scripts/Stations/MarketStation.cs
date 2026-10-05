@@ -46,6 +46,13 @@ namespace HuaShang.Stations
                     lines.Add("· 委托：" + Names.Variety(C, q.needVariety) + "襦裙，" + Names.Dye(C, q.needDye) + "，至少" + Names.Tier(q.needMinTier)
                               + "（第 " + (q.expireDay + 1) + " 日前" + (q.characterId != null ? "，" + Names.Character(C, q.characterId) : "") + "）");
             }
+            var season = Seasons.Current(S, C);
+            int? sday = Seasons.DayOfSeason(S, C);
+            if (sday.HasValue && season != null)
+                lines.Insert(0, season.label + "季第 " + sday.Value + " 日（每季 " + C.balance.season.daysPerSeason + " 日）"
+                                + (season.CanHatch ? "" : "；冬天不结新茧"));
+            else
+                lines.Insert(0, "季节到 " + C.balance.season.rotationFromLevel + " 级后开始轮转");
             m.body = string.Join("\n", lines);
             foreach (var q in S.quests)
             {
@@ -59,6 +66,12 @@ namespace HuaShang.Stations
                 var d = dye;
                 m.secondary.Add(new KeyValuePair<string, System.Action>("买一份干" + Names.Dye(C, d) + "（" + C.balance.economy.dryDyePrice + " 丝钱）",
                     () => { Run((s, c) => Market.BuyDryDye(s, c, d), "买到了"); Refresh(); }));
+            }
+            foreach (var fresh in Seasons.FreshOnSale(S, C))
+            {
+                var d = fresh;
+                m.secondary.Add(new KeyValuePair<string, System.Action>("买一份鲜" + Names.Dye(C, d) + "（" + C.balance.economy.freshDyePrice + " 丝钱，当季）",
+                    () => { Run((s, c) => Market.BuyFreshDye(s, c, d), "买到了"); Refresh(); }));
             }
             if (pickBoltId != null)
                 m.secondary.Add(new KeyValuePair<string, System.Action>("出售这匹普通布", () => { if (Run((s, c) => Market.SellBolt(s, c, pickBoltId), "卖出了")) { pickBoltId = null; Refresh(); } }));

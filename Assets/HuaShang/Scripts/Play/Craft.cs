@@ -120,6 +120,8 @@ namespace HuaShang.Play
             /// <summary>入缸到起布的秒数。</summary>
             public double liftSeconds;
             public int stirSteady, stirOff, stirTotal;
+            /// <summary>用当季新鲜染料（浓度系数加成，docs/04 §5）。</summary>
+            public bool fresh;
         }
 
         public class DyePreview
@@ -139,6 +141,8 @@ namespace HuaShang.Play
             p.timeMatch = Math.Max(d.liftMatchMin, 1 - off * d.liftPenaltyPerSecond);
             p.stirStability = input.stirTotal <= 0 ? 0 : Math.Min(1, (input.stirSteady + input.stirOff * d.stirOffWeight) / input.stirTotal);
             p.strength = DyeCalc.Strength(input.concentration, p.timeMatch, p.tempMatch, d);
+            if (input.fresh) // 新鲜染料浓度系数 × 加成，强度仍封顶
+                p.strength = Math.Min(d.strengthCap, p.strength * d.freshConcentrationFactor);
             p.score = DyeCalc.Score(p.tempMatch, p.timeMatch, p.stirStability, d);
             p.uneven = 1 - p.stirStability;
             p.failureMottle = p.uneven > d.unevenAllowedMax;
@@ -153,9 +157,9 @@ namespace HuaShang.Play
             var dyeRow = c.dyes.Find(x => x.id == input.dyeId);
             if (dyeRow == null || !dyeRow.launch) return Result.Fail("这口缸不用这种染料");
             if (!Unlocks.DyeOpen(s, c, dyeRow.id)) return Result.Fail("这种染料还没解锁");
-            var stock = Find.Dye(s, input.dyeId);
+            var stock = Find.Dye(s, input.dyeId, input.fresh);
             int cost = c.balance.dye.costPerBolt;
-            if (stock == null || stock.count < cost) return Result.Fail("侧架上没有足够的干" + dyeRow.name);
+            if (stock == null || stock.count < cost) return Result.Fail("侧架上没有足够的" + (input.fresh ? "鲜" : "干") + dyeRow.name);
             int hours = c.balance.day.HoursOf("dyeBath");
             if (!Progress.CanSpend(s, c, hours)) return Result.Fail("今天的工时不够浸染一匹（需要 " + hours + "）");
 

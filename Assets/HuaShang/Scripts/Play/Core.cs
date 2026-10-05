@@ -131,7 +131,12 @@ namespace HuaShang.Play
         public static Yarn Yarn(SaveRoot s, string id) => s.yarns.Find(x => x.id == id);
         public static Piece Piece(SaveRoot s, string id) => s.pieces.Find(x => x.id == id);
         public static Garment Garment(SaveRoot s, string id) => s.garments.Find(x => x.id == id);
-        public static DyeStock Dye(SaveRoot s, string dyeId) => s.dyes.Find(x => x.dyeId == dyeId && x.state == "dry");
+        public const string Dry = "dry";
+        public const string Fresh = "fresh";
+
+        public static DyeStock Dye(SaveRoot s, string dyeId) => s.dyes.Find(x => x.dyeId == dyeId && x.state == Dry);
+
+        public static DyeStock Dye(SaveRoot s, string dyeId, bool fresh) => s.dyes.Find(x => x.dyeId == dyeId && x.state == (fresh ? Fresh : Dry));
         public static QuestState Quest(SaveRoot s, string id) => s.quests.Find(x => x.id == id);
 
         public static CharacterState Character(SaveRoot s, string id)

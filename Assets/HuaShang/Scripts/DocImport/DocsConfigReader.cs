@@ -567,6 +567,23 @@ namespace HuaShang.DocImport
             season.seedPerTray = (int)s.Number("收蚁耗蚕种\\s*(\\d+)\\s*份");
             season.trayBatch = (int)s.Number("批量\\s*(\\d+)\\s*束");
             season.reelBeats = (int)s.Number("缫丝一束\\s*(\\d+)\\s*拍");
+            season.rotationFromLevel = Num.FirstInt(s.Row("项", "轮转开始等级")[1], s.where);
+            season.daysPerSeason = Num.FirstInt(s.Row("项", "每季工坊日")[1], s.where);
+            season.rows.Clear();
+            foreach (var kv in new[] { "春", "夏", "秋", "冬" })
+            {
+                var r = s.Row("季", kv);
+                var row = new SeasonRow { id = Seasons[kv], label = kv };
+                row.cocoonBase = r[1].Contains("不结茧") ? -1 : Num.FirstInt(r[1], s.where);
+                row.heatPerDay = Regex.IsMatch(r[2], "\\d") ? Num.FirstInt(r[2], s.where) : 0;
+                foreach (var part in r[3].Split('、'))
+                {
+                    string n = part.Trim();
+                    if (n == "幼靛") n = "靛蓝"; // docs/04 §3：幼靛记作靛蓝
+                    foreach (var d in DyeNames) if (d.Value == n && !row.freshDyes.Contains(d.Key)) row.freshDyes.Add(d.Key);
+                }
+                season.rows.Add(row);
+            }
         }
 
         static void ReadQuality(Section s, QualityData q)
@@ -713,6 +730,7 @@ namespace HuaShang.DocImport
             d.scoreStir = Num.Parse(sc.Groups[3].Value, s.where);
             d.colorMix = s.Number("强度×" + Num.Unsigned);
             d.maxLayers = (int)s.Number("最多\\s*(\\d+)\\s*层");
+            d.freshConcentrationFactor = s.Number("新鲜染料浓度系数\\s*×\\s*" + Num.Unsigned);
             d.overflowPenalty = (int)s.Number("挤掉最早一层，染色分\\s*" + Num.Signed);
             d.costPerBolt = (int)s.Number("每浸染一匹耗所选干染料\\s*(\\d+)\\s*份");
             var temp = s.Row("操作", "水温")[1];
@@ -819,6 +837,7 @@ namespace HuaShang.DocImport
             e.threadPrice = Num.FirstInt(s.Row(H, "缝线")[1], w);
             e.goldThreadPrice = Num.FirstInt(s.Row(H, "金线一小轴")[1], w);
             e.seedPrice = Num.FirstInt(s.Row(H, "蚕种")[1], w);
+            e.freshDyePrice = Num.FirstInt(s.RowStarting(H, "当季新鲜染料")[1], w);
 
             var xp = s.MatchAll("工序工时\\s*×\\s*" + Num.Unsigned + "\\s*×\\s*品质系数。普通\\s*" + Num.Unsigned
                                 + "，精良\\s*" + Num.Unsigned + "，传世\\s*" + Num.Unsigned);

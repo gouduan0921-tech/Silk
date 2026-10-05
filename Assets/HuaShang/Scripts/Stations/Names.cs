@@ -90,6 +90,15 @@ namespace HuaShang.Stations
     {
         public enum Kind { Bolt, Yarn, Dye, Piece, Garment, Cocoon }
 
+        /// <summary>侧架上干料与鲜料分开：鲜料的 id 加后缀。</summary>
+        public const string FreshSuffix = "@fresh";
+        public static string DyeKey(string dyeId, bool fresh) => fresh ? dyeId + FreshSuffix : dyeId;
+        public static string DyeIdOf(string key, out bool fresh)
+        {
+            fresh = key != null && key.EndsWith(FreshSuffix);
+            return fresh ? key.Substring(0, key.Length - FreshSuffix.Length) : key;
+        }
+
         public static List<RackItem> Build(SaveRoot s, ConfigSnapshot c, System.Func<Kind, bool> show,
                                            string selectedId, System.Action<Kind, string> onClick, System.Func<Kind, string, bool> clickable = null)
         {
@@ -126,7 +135,7 @@ namespace HuaShang.Stations
             foreach (var cb in s.cocoons)
                 Add(Kind.Cocoon, cb.id, "茧篮", "可缫 " + cb.batch + " 束", new Color(0.95f, 0.93f, 0.86f));
             foreach (var d in s.dyes)
-                Add(Kind.Dye, d.dyeId, (d.state == "dry" ? "干" : "鲜") + Names.Dye(c, d.dyeId), d.count + "份", Names.DyeColor(c, d.dyeId));
+                Add(Kind.Dye, DyeKey(d.dyeId, d.state == Play.Find.Fresh), (d.state == Play.Find.Fresh ? "鲜" : "干") + Names.Dye(c, d.dyeId), d.count + "份", Names.DyeColor(c, d.dyeId));
             return list;
         }
     }

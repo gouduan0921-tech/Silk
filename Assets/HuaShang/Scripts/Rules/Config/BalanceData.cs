@@ -54,6 +54,27 @@ namespace HuaShang.Rules.Config
         public int seedPerTray;
         public int trayBatch;
         public int reelBeats;
+        /// <summary>docs/04 §3 季节轮转：从几级开始、每季几个工坊日。</summary>
+        public int rotationFromLevel;
+        public int daysPerSeason;
+        /// <summary>春夏秋冬四行，顺序即轮转顺序。</summary>
+        public List<SeasonRow> rows = new List<SeasonRow>();
+
+        public SeasonRow Row(string id) => rows.Find(r => r.id == id);
+    }
+
+    [Serializable]
+    public class SeasonRow
+    {
+        public string id;
+        public string label;
+        /// <summary>蚕种品质基数；不结茧的季为 −1。</summary>
+        public int cocoonBase;
+        /// <summary>控温失败每天的热损（负数）。</summary>
+        public int heatPerDay;
+        /// <summary>当季新鲜染料 id。</summary>
+        public List<string> freshDyes = new List<string>();
+        public bool CanHatch => cocoonBase >= 0;
     }
 
     /// <summary>docs/04 §4 Q 的七项权重</summary>
@@ -203,6 +224,8 @@ namespace HuaShang.Rules.Config
         public int overflowPenalty;
         public double opacityPerLayer;
         public List<TreatmentMod> mods = new List<TreatmentMod>();
+        /// <summary>新鲜染料的浓度系数乘数（docs/04 §5）。</summary>
+        public double freshConcentrationFactor;
         /// <summary>每浸染一匹耗干染料份数。</summary>
         public int costPerBolt;
         /// <summary>水温：最佳档名与吻合度。</summary>
@@ -301,7 +324,7 @@ namespace HuaShang.Rules.Config
         public int startCoin;
         public int exhibitPointsPer, exhibitCoinsPer, exhibitCoinCap;
         public int sellCommonPerMeter;
-        public int dryDyePrice, threadPrice, goldThreadPrice, seedPrice;
+        public int dryDyePrice, threadPrice, goldThreadPrice, seedPrice, freshDyePrice;
         public double xpPerHour;
         public double xpCommon, xpFine, xpLegendary;
         public double xpDefectFactor;

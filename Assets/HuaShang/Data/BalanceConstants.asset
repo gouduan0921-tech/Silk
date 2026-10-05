@@ -60,6 +60,36 @@ MonoBehaviour:
       seedPerTray: 1
       trayBatch: 3
       reelBeats: 12
+      rotationFromLevel: 3
+      daysPerSeason: 6
+      rows:
+      - id: spring
+        label: "\u6625"
+        cocoonBase: 80
+        heatPerDay: 0
+        freshDyes:
+        - pagoda
+        - indigo
+      - id: summer
+        label: "\u590F"
+        cocoonBase: 65
+        heatPerDay: -6
+        freshDyes:
+        - indigo
+        - safflower
+      - id: autumn
+        label: "\u79CB"
+        cocoonBase: 70
+        heatPerDay: 0
+        freshDyes:
+        - madder
+        - gardenia
+        - acorn
+      - id: winter
+        label: "\u51AC"
+        cocoonBase: -1
+        heatPerDay: 0
+        freshDyes: []
     quality:
       weights:
         material: 0.15
@@ -248,6 +278,7 @@ MonoBehaviour:
         bend: 0
         bendFactor: 1.08
         gloss: 1
+      freshConcentrationFactor: 1.15
       costPerBolt: 1
       bestTemp: "\u6E29"
       tempMatchBest: 1
@@ -380,6 +411,7 @@ MonoBehaviour:
       threadPrice: 2
       goldThreadPrice: 12
       seedPrice: 3
+      freshDyePrice: 3
       xpPerHour: 4
       xpCommon: 1
       xpFine: 1.2

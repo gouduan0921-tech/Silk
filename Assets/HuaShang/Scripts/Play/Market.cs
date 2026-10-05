@@ -34,6 +34,19 @@ namespace HuaShang.Play
             return Result.Ok();
         }
 
+        /// <summary>当季新鲜染料：只在当季、只卖已开放的染料（docs/04 §3、§7）。</summary>
+        public static Result BuyFreshDye(SaveRoot s, ConfigSnapshot c, string dyeId)
+        {
+            if (!Seasons.FreshOnSale(s, c).Contains(dyeId)) return Result.Fail("这个季节市集没有新鲜的这种染料");
+            int price = c.balance.economy.freshDyePrice;
+            if (s.silkCoin < price) return Result.Fail("丝钱不够");
+            s.silkCoin -= price;
+            var stock = Find.Dye(s, dyeId, true);
+            if (stock == null) s.dyes.Add(new DyeStock { dyeId = dyeId, count = 1, state = Find.Fresh });
+            else stock.count += 1;
+            return Result.Ok();
+        }
+
         public static void Add(SaveRoot s, string dyeId, int count)
         {
             var stock = Find.Dye(s, dyeId);

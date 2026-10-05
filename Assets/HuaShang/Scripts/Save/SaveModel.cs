@@ -10,6 +10,8 @@ namespace HuaShang.Save
         public int schema;
         public int dayIndex;
         public string season;
+        /// <summary>季节轮转开始的日序（docs/04 §3）；未开始为空。</summary>
+        public int? seasonStartDay;
         public int silkCoin;
         public int xp;
         public int level;
