@@ -289,7 +289,18 @@ namespace HuaShang.UI
                 UiKit.Chip(plaque, (item.on ? "开 · " : "关 · ") + item.label, item.on, () => { item.on = !item.on; item.onChange?.Invoke(item.on); BuildPlaque(); });
             }
             if (!string.IsNullOrEmpty(m.primaryLabel)) UiKit.Button(plaque, m.primaryLabel, m.onPrimary, true, m.primaryEnabled);
-            foreach (var kv in m.secondary) UiKit.Button(plaque, kv.Key, kv.Value, false);
+            // 小屏（1280×720）次按钮三个以上时两两并排，木牌不把页首挤叠
+            if (UiTheme.Small && m.secondary.Count >= 3)
+            {
+                for (int i = 0; i < m.secondary.Count; i += 2)
+                {
+                    var pair = UiKit.Rect("SecondaryRow", plaque);
+                    UiKit.Horizontal(pair.gameObject, 6).childForceExpandWidth = true;
+                    UiKit.Button(pair, m.secondary[i].Key, m.secondary[i].Value, false);
+                    if (i + 1 < m.secondary.Count) UiKit.Button(pair, m.secondary[i + 1].Key, m.secondary[i + 1].Value, false);
+                }
+            }
+            else foreach (var kv in m.secondary) UiKit.Button(plaque, kv.Key, kv.Value, false);
             if (!string.IsNullOrEmpty(m.details))
             {
                 var detailsText = UiKit.Label(plaque, m.details, UiTheme.Note, UiTheme.OldGrey);
@@ -362,7 +373,10 @@ namespace HuaShang.UI
             if (corridor == null) return;
             UiKit.Clear(corridor);
             var row = UiKit.Rect("Stops", corridor);
-            Anchor(row, new Vector2(0.5f, 0), new Vector2(0.5f, 1), new Vector2(-stops.Count * 68, 8), new Vector2(stops.Count * 68, -8));
+            // 每站最宽 136，放不下时等分可用宽度（1280×720 下 10 站也不出屏）
+            float avail = Screen.width / Mathf.Max(0.01f, scaler.scaleFactor) - 32f;
+            float half = Mathf.Min(68f, avail / (2f * Mathf.Max(1, stops.Count)));
+            Anchor(row, new Vector2(0.5f, 0), new Vector2(0.5f, 1), new Vector2(-stops.Count * half, 8), new Vector2(stops.Count * half, -8));
             UiKit.Horizontal(row.gameObject, 2).childForceExpandHeight = true;
             foreach (var s in stops)
             {

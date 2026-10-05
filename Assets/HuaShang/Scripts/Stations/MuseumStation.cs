@@ -29,15 +29,9 @@ namespace HuaShang.Stations
             Props.Box(root, "Wall", new Vector3(0, 1.8f, 1.2f), new Vector3(4f, 3.6f, 0.1f), Props.Wall);
             Props.Box(root, "CaseBase", new Vector3(0, 0.3f, 0), new Vector3(2.6f, 0.6f, 1.2f), Props.Wood);
             var glass = Props.Box(root, "Glass", new Vector3(0, 1.45f, 0), new Vector3(2.6f, 1.7f, 1.2f), Color.white);
-            var gm = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            gm.SetFloat("_Surface", 1f); gm.SetFloat("_SrcBlend", 5f); gm.SetFloat("_DstBlend", 10f); gm.SetFloat("_ZWrite", 0f);
-            gm.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-            gm.renderQueue = 3000;
-            gm.SetColor("_BaseColor", new Color(0.85f, 0.9f, 0.92f, 0.08f));
+            // 透明、关环境反射：模板里已设好（灰盒天空盒偏蓝，玻璃反射会整块发青）
+            var gm = LitMaterials.New(LitMaterials.Kind.Glass, new Color(0.85f, 0.9f, 0.92f, 0.08f));
             gm.SetFloat("_Smoothness", 0.9f);
-            // 灰盒场景的天空盒偏蓝，玻璃反射环境会整块发青，盖住柜里的布；只留灯的高光。
-            gm.SetFloat("_EnvironmentReflections", 0f);
-            gm.EnableKeyword("_ENVIRONMENTREFLECTIONS_OFF");
             var gr = glass.GetComponent<MeshRenderer>();
             gr.sharedMaterial = gm;
             gr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; // 玻璃不投影，否则柜内整片发暗

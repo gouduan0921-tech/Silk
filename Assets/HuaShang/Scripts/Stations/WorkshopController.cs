@@ -76,10 +76,14 @@ namespace HuaShang.Stations
             current = null;
             cameraDirector.GoTo(overviewPose, 45f);
             Hud.I.SetHeader("全景", "工位链", "织、染、裁、缝、人台，一路到戏台与展柜。");
+            RefreshChrome();
+        }
+
+        void ShowOverviewPlaque()
+        {
             var m = new PlaqueModel { kicker = "今天", title = TodoTitle(), body = TodoBody(), onCancel = null };
             m.secondary.Add(new KeyValuePair<string, System.Action>("走近下一站", () => Approach(NextStation())));
             Hud.I.ShowPlaque(m);
-            RefreshChrome();
         }
 
         public void Approach(StationBase s, bool enterNow = false)
@@ -177,6 +181,7 @@ namespace HuaShang.Stations
                 stops.Add(new CorridorStop { id = st.stationId, number = st.number, label = st.title, current = current == st && layer != Layer.Overview, done = st.Done, onClick = () => Approach(x) });
             }
             Hud.I.SetCorridor(stops);
+            if (layer == Layer.Overview) ShowOverviewPlaque(); // 新开一局或读档后，今日待办跟着存档变
             if (layer == Layer.Inside && current != null) current.Refresh();
             else Hud.I.SetRack(RackView.Build(s, G.Config, null, null, null));
         }

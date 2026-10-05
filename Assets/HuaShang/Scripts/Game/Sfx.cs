@@ -53,10 +53,16 @@ namespace HuaShang.Game
             music.volume = Settings.Current.musicVolume;
         }
 
+        /// <summary>本次运行播出的操作声次数（发布门第 9 条的自动验收读它）。</summary>
+        public static int PlayedCount { get; private set; }
+        public float OperationVolume => operation.volume;
+        public bool OperationAudible => operation.enabled && !operation.mute && operation.volume > 0f;
+
         public static void Play(Cue cue)
         {
             if (I == null) return;
             I.operation.PlayOneShot(I.clips[(int)cue]);
+            PlayedCount++;
         }
 
         /// <summary>正弦加噪声的衰减短音。noise 0 为纯音，1 为纯噪声。</summary>

@@ -51,8 +51,9 @@ namespace HuaShang.Solve
         /// <summary>新建一个双面 URP Lit 材质实例。</summary>
         public static Material CreateMaterial()
         {
-            var shader = Shader.Find("Universal Render Pipeline/Lit");
-            var m = new Material(shader) { name = "M_cloth_instance" };
+            // 从模板复制：透明变体要在构建里（LitMaterials）
+            var m = HuaShang.Greybox.LitMaterials.New(HuaShang.Greybox.LitMaterials.Kind.Transparent, Color.white);
+            m.name = "M_cloth_instance";
             m.SetFloat(CullId, 0f);
             return m;
         }

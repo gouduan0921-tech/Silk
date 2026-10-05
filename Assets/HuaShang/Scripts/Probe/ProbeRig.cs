@@ -116,7 +116,7 @@ namespace HuaShang.Probe
             var vp4 = new GameObject("VP4_零档三十秒").transform;
             vp4.SetParent(transform, false);
             vp4.localPosition = new Vector3(3f, 0f, 0f);
-            var skin = new Material(Shader.Find("Universal Render Pipeline/Lit")) { color = new Color(0.55f, 0.53f, 0.5f) };
+            var skin = LitMaterials.New(LitMaterials.Kind.Opaque, new Color(0.55f, 0.53f, 0.5f));
             vp4Body = GreyboxBody.Create("Body_西施灰盒", vp4, skin);
             vp4Body.gameObject.AddComponent<ProbeMotion>();
             vp4Skirt = Part(vp4Body.hips, "Skirt_Indigo", GreyboxMeshes.Tube("P_skirt", 0.17f, 0.42f, 0.9f), new Vector3(0, 0.12f, 0), SilkId, indigo, c, t, dynasty, paintTop, vp4Body.colliders, ClothLayer.Outer, ClothContext.Probe);
@@ -146,7 +146,7 @@ namespace HuaShang.Probe
             ground.name = "Ground";
             ground.transform.SetParent(transform, false);
             ground.transform.localScale = new Vector3(2, 1, 1);
-            ground.GetComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit")) { color = new Color(0.42f, 0.41f, 0.39f) };
+            ground.GetComponent<MeshRenderer>().sharedMaterial = LitMaterials.New(LitMaterials.Kind.Opaque, new Color(0.42f, 0.41f, 0.39f));
         }
 
         static void Backdrop(Transform parent, Vector3 pos, Vector2 size)
@@ -158,7 +158,7 @@ namespace HuaShang.Probe
             q.transform.localPosition = pos;
             q.transform.localRotation = Quaternion.Euler(0, 180, 0);
             q.transform.localScale = new Vector3(size.x, size.y, 1);
-            var m = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { color = new Color(0.82f, 0.82f, 0.80f) };
+            var m = LitMaterials.New(LitMaterials.Kind.Unlit, new Color(0.82f, 0.82f, 0.80f));
             q.GetComponent<MeshRenderer>().sharedMaterial = m;
         }
 

@@ -13,22 +13,22 @@ using HuaShang.UI;
 
 namespace HuaShang.Tests
 {
-    /// <summary>
-    /// 运行时走查（docs/26 §3 的首日流程与演出项）：在 HS_Chain 场景里按木牌按钮走一遍，
-    /// 判定只读存档与界面模型，数字都取自手册导入的配置。用单独的测试存档，不碰玩家存档。
-    /// </summary>
-    public class WorkshopFlowTests
+    /// <summary>在 HS_Chain 场景里按木牌按钮驱动的测试基类；用单独的测试存档，不碰玩家存档。设置在测试后还原。</summary>
+    public abstract class ChainSceneTestBase
     {
-        const string TestSave = "huashang_playmode_test.json";
+        protected const string TestSave = "huashang_playmode_test.json";
 
-        GameSession G => GameSession.I;
-        SaveRoot S => G.Save;
-        WorkshopController W => Object.FindFirstObjectByType<WorkshopController>();
-        PlaqueModel P => Hud.I.CurrentPlaque;
+        protected GameSession G => GameSession.I;
+        protected SaveRoot S => G.Save;
+        protected WorkshopController W => Object.FindFirstObjectByType<WorkshopController>();
+        protected PlaqueModel P => Hud.I.CurrentPlaque;
+
+        string settingsBefore;
 
         [UnitySetUp]
         public IEnumerator SetUp()
         {
+            settingsBefore = JsonUtility.ToJson(Settings.Current);
             GameSession.SaveFileOverride = TestSave;
             Time.captureDeltaTime = 1f / 60f;
             yield return SceneManager.LoadSceneAsync("HS_Chain");
@@ -43,14 +43,16 @@ namespace HuaShang.Tests
             Time.captureDeltaTime = 0;
             Time.timeScale = 1f;
             GameSession.SaveFileOverride = null;
+            JsonUtility.FromJsonOverwrite(settingsBefore, Settings.Current);
+            Settings.Apply();
             yield return null;
         }
 
-        static IEnumerator Frames(int n) { for (int i = 0; i < n; i++) yield return null; }
+        protected static IEnumerator Frames(int n) { for (int i = 0; i < n; i++) yield return null; }
 
-        static IEnumerator Seconds(float s) => Frames(Mathf.CeilToInt(s * 60f));
+        protected static IEnumerator Seconds(float s) => Frames(Mathf.CeilToInt(s * 60f));
 
-        IEnumerator Primary(int frames = 20)
+        protected IEnumerator Primary(int frames = 20)
         {
             Assert.IsNotNull(P.onPrimary, "木牌没有主按钮：" + P.title);
             Assert.IsTrue(P.primaryEnabled, "主按钮是灰的：" + P.primaryLabel + "（" + P.body + "）");
@@ -58,7 +60,7 @@ namespace HuaShang.Tests
             yield return Frames(frames);
         }
 
-        IEnumerator Secondary(string label, int frames = 20)
+        protected IEnumerator Secondary(string label, int frames = 20)
         {
             var s = P.secondary.Find(x => x.Key.Contains(label));
             Assert.IsNotNull(s.Value, "木牌没有次按钮：" + label);
@@ -66,7 +68,7 @@ namespace HuaShang.Tests
             yield return Frames(frames);
         }
 
-        IEnumerator Pick(string id)
+        protected IEnumerator Pick(string id)
         {
             var f = typeof(Hud).GetField("rackItems", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var items = (List<RackItem>)f.GetValue(Hud.I);
@@ -77,7 +79,7 @@ namespace HuaShang.Tests
         }
 
         /// <summary>每拍目标点上按空格（稳拍）。</summary>
-        IEnumerator Beats(int count)
+        protected IEnumerator Beats(int count)
         {
             float interval = (float)G.Config.balance.weave.beatInterval;
             float t0 = Time.time;
@@ -92,7 +94,7 @@ namespace HuaShang.Tests
         }
 
         /// <summary>教学路线走到人台收成襦裙；顺带裁下披帛留着不缝（docs/10 §2 首日结束状态）。</summary>
-        IEnumerator Day1ToGarment()
+        protected IEnumerator Day1ToGarment()
         {
             var w = W;
             w.Approach(w.stations.Find(s => s.stationId == "station_loom"), true);
@@ -127,7 +129,11 @@ namespace HuaShang.Tests
             yield return Primary(90);               // 进入人台
             yield return Primary(30);               // 收成襦裙
         }
+    }
 
+    /// <summary>运行时走查（docs/26 §3 的首日流程与演出项）：判定只读存档与界面模型，数字都取自手册导入的配置。</summary>
+    public class WorkshopFlowTests : ChainSceneTestBase
+    {
         [UnityTest]
         public IEnumerator 首日_三条教学在教学日工时内走完()
         {

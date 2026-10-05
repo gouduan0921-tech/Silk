@@ -44,7 +44,7 @@ namespace HuaShang.Performance
         public bool Paused { get; private set; }
         public Action<string> onFinished; // 演出记录 id
 
-        string characterId, garmentId;
+        string characterId, garmentId, shownMode;
         int tier;
         int cameraPreset;
         bool freeCam;
@@ -65,7 +65,7 @@ namespace HuaShang.Performance
             var g = HuaShang.Play.Find.Garment(s, gid);
             var tl = Find(ch, t);
             if (g == null || tl == null) return;
-            characterId = ch; tier = t; garmentId = gid;
+            characterId = ch; tier = t; garmentId = gid; shownMode = presentMode;
             visual.ownerId = ch;
             visual.BuildGarment(s, c, g, presentMode); // 呈现模式只改显示拷贝（docs/03 §2）
             if (ClothQualityDirector.Instance != null) ClothQualityDirector.Instance.stageFocusOwner = ch; // 同时只有一位角色用高档
@@ -177,7 +177,7 @@ namespace HuaShang.Performance
             Hud.I.SetPerformanceMode(false, null);
             if (ClothQualityDirector.Instance != null) ClothQualityDirector.Instance.stageFocusOwner = null;
             // 演出完成才写记录（docs/21 §6）
-            var r = GameSession.I.Run((s, c) => Stage.Record(s, c, characterId, tier, garmentId));
+            var r = GameSession.I.Run((s, c) => Stage.Record(s, c, characterId, tier, garmentId, shownMode));
             if (r.ok) SaveSnapshot(r.createdId);
             else Hud.I.Toast(r.error);
             onFinished?.Invoke(r.ok ? r.createdId : null);

@@ -31,7 +31,7 @@ namespace HuaShang.Stations
         {
             var root = transform;
             Props.Cyl(root, "Vat", new Vector3(0, 0.42f, 0), new Vector3(1.3f, 0.42f, 1.3f), Props.Pottery);
-            var l = Props.Cyl(root, "Liquid", new Vector3(0, 0.83f, 0), new Vector3(1.18f, 0.01f, 1.18f), new Color(0.2f, 0.24f, 0.28f));
+            var l = Props.Cyl(root, "Liquid", new Vector3(0, 0.845f, 0) /* 略高于缸口，避免与缸顶共面闪烁 */, new Vector3(1.18f, 0.01f, 1.18f), new Color(0.2f, 0.24f, 0.28f));
             l.GetComponent<MeshRenderer>().sharedMaterial = new Material(Props.Mat(Color.black)) { color = new Color(0.2f, 0.24f, 0.28f) };
             l.GetComponent<MeshRenderer>().sharedMaterial.SetFloat("_Smoothness", 0.85f);
             liquid = l.GetComponent<Renderer>();

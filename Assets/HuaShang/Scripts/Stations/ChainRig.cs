@@ -8,22 +8,6 @@ using HuaShang.UI;
 
 namespace HuaShang.Stations
 {
-    /// <summary>
-    /// 首发是一条工位链，不是七张开放地图（docs/00 §6、docs/02 §1）。
-    /// 灰盒：建筑退后，布与器物先被看见（docs/14）。正式美术交付后逐个替换道具。
-    /// </summary>
-    public class ChainBootstrap : MonoBehaviour
-    {
-        public List<TimelineEntry> timelines = new List<TimelineEntry>();
-
-        void Start()
-        {
-            var rig = ChainRig.Build(transform);
-            var stage = rig.stations.Find(s => s is StageStation) as StageStation;
-            if (stage != null) stage.performance.timelines = timelines;
-        }
-    }
-
     public class ChainRig : MonoBehaviour
     {
         public readonly List<StationBase> stations = new List<StationBase>();
@@ -70,6 +54,10 @@ namespace HuaShang.Stations
             var camGo = go("Main Camera");
             camGo.tag = "MainCamera";
             var cam = camGo.AddComponent<Camera>();
+            // 室内工坊：不露蓝天，背景用暗一档的墙色（风格规范「色与材质」）
+            cam.clearFlags = CameraClearFlags.SolidColor;
+            cam.backgroundColor = Props.Wall * 0.55f;
+            RenderSettings.skybox = null;
             cam.nearClipPlane = 0.05f;
             camGo.AddComponent<AudioListener>();
             var camDir = camGo.AddComponent<CameraDirector>();

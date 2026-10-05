@@ -19,7 +19,7 @@ namespace HuaShang.Greybox
         {
             int key = c.GetHashCode() ^ smooth.GetHashCode();
             if (cache.TryGetValue(key, out var m) && m != null) return m;
-            m = new Material(Shader.Find("Universal Render Pipeline/Lit")) { color = c };
+            m = LitMaterials.New(LitMaterials.Kind.Opaque, c);
             m.SetFloat("_Smoothness", smooth);
             cache[key] = m;
             return m;
@@ -66,7 +66,7 @@ namespace HuaShang.Greybox
             q.transform.localPosition = pos;
             q.transform.localEulerAngles = euler;
             q.transform.localScale = new Vector3(size.x, size.y, 1);
-            var m = new Material(Shader.Find("Universal Render Pipeline/Lit")) { color = c };
+            var m = LitMaterials.New(LitMaterials.Kind.Opaque, c);
             m.SetFloat("_Cull", 0f);
             m.SetFloat("_Smoothness", 0.25f);
             var r = q.GetComponent<MeshRenderer>();
