@@ -21,8 +21,19 @@ namespace HuaShang.Greybox
             public float length;
         }
 
-        /// <summary>身高约 1.6 米，脚底在原点。</summary>
-        public static GreyboxBody Create(string name, Transform parent, Material skin)
+        /// <summary>手臂关节点（身体根节点局部空间）：肩、肘、腕。side −1 为左，+1 为右。双手在腹前，小臂略向前收。</summary>
+        public static Vector3[] ArmPoints(int side)
+        {
+            return new[]
+            {
+                new Vector3(side * 0.19f, 1.40f, 0f),
+                new Vector3(side * 0.27f, 1.13f, 0.02f),
+                new Vector3(side * 0.17f, 0.93f, 0.17f),
+            };
+        }
+
+        /// <summary>身高约 1.6 米，脚底在原点。arms 为 false 时不做手臂（P1 探针用筒形上襦验证穿模，留无臂）。</summary>
+        public static GreyboxBody Create(string name, Transform parent, Material skin, bool arms = true)
         {
             var root = new GameObject(name);
             root.transform.SetParent(parent, false);
@@ -32,8 +43,25 @@ namespace HuaShang.Greybox
             Segment(body, root.transform, "Head", new Vector3(0, 1.52f, 0), Vector3.zero, 0.09f, 0.20f, skin);
             body.leftLeg = Segment(body, root.transform, "LegL", new Vector3(-0.08f, 0.45f, 0), Vector3.zero, 0.07f, 0.85f, skin);
             body.rightLeg = Segment(body, root.transform, "LegR", new Vector3(0.08f, 0.45f, 0), Vector3.zero, 0.07f, 0.85f, skin);
-            // 灰盒不做手臂：程序筒形上襦无法绕开穿过衣身的手臂，袖与臂留给正式 FBX（docs/17 §3）。
+            if (arms)
+            {
+                // 上襦带袖（GarmentShapes.Upper），手臂在袖里；袖靠臂上的碰撞体托住
+                foreach (int side in new[] { -1, 1 })
+                {
+                    var p = ArmPoints(side);
+                    string tag = side < 0 ? "L" : "R";
+                    Between(body, root.transform, "UpperArm" + tag, p[0], p[1], 0.045f, skin);
+                    Between(body, root.transform, "Forearm" + tag, p[1], p[2], 0.04f, skin);
+                }
+            }
             return body;
+        }
+
+        static Transform Between(GreyboxBody body, Transform parent, string name, Vector3 a, Vector3 b, float radius, Material skin)
+        {
+            var dir = b - a;
+            var euler = Quaternion.FromToRotation(Vector3.up, dir.normalized).eulerAngles;
+            return Segment(body, parent, name, (a + b) * 0.5f, euler, radius, dir.magnitude + radius * 2f, skin);
         }
 
         static Transform Segment(GreyboxBody body, Transform parent, string name, Vector3 pos, Vector3 euler, float radius, float length, Material skin)

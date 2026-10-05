@@ -117,7 +117,7 @@ namespace HuaShang.Probe
             vp4.SetParent(transform, false);
             vp4.localPosition = new Vector3(3f, 0f, 0f);
             var skin = LitMaterials.New(LitMaterials.Kind.Opaque, new Color(0.55f, 0.53f, 0.5f));
-            vp4Body = GreyboxBody.Create("Body_西施灰盒", vp4, skin);
+            vp4Body = GreyboxBody.Create("Body_西施灰盒", vp4, skin, false);
             vp4Body.gameObject.AddComponent<ProbeMotion>();
             vp4Skirt = Part(vp4Body.hips, "Skirt_Indigo", GreyboxMeshes.Tube("P_skirt", 0.17f, 0.42f, 0.9f), new Vector3(0, 0.12f, 0), SilkId, indigo, c, t, dynasty, paintTop, vp4Body.colliders, ClothLayer.Outer, ClothContext.Probe);
             vp4Upper = Part(vp4Body.torso, "Upper_SuSha", GreyboxMeshes.Tube("P_upper", 0.16f, 0.24f, 0.42f), new Vector3(0, 0.18f, 0), GauzeId, undyed, c, t, dynasty, paintTop, vp4Body.colliders, ClothLayer.Outer, ClothContext.Probe);

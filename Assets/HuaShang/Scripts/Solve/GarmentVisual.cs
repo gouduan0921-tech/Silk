@@ -43,21 +43,17 @@ namespace HuaShang.Solve
             foreach (var sp in specs)
             {
                 if (sp.bolt == null) continue;
-                Transform anchor; Mesh mesh; Vector3 pos; ClothLayer layer;
+                // 网格在人体根节点空间生成（GarmentShapes），部件直接挂在人体根上
+                Mesh mesh; ClothLayer layer;
                 switch (sp.slot)
                 {
-                    case "skirt":
-                        anchor = body.hips; mesh = GreyboxMeshes.Tube("SK_part_skirt", 0.17f, 0.44f, 0.92f); pos = new Vector3(0, 0.12f, 0); layer = ClothLayer.Outer; break;
-                    case "inner":
-                        anchor = body.torso; mesh = GreyboxMeshes.Tube("SK_part_inner", 0.15f, 0.2f, 0.5f); pos = new Vector3(0, 0.19f, 0); layer = ClothLayer.Inner; break;
-                    case "drape":
-                        anchor = body.torso; mesh = GreyboxMeshes.Panel("SK_part_drape", 0.62f, 1.05f); pos = new Vector3(0, 0.16f, -0.18f); layer = ClothLayer.Drape; break;
-                    default:
-                        anchor = body.torso; mesh = GreyboxMeshes.Tube("SK_part_upper", 0.165f, 0.25f, 0.44f); pos = new Vector3(0, 0.19f, 0); layer = ClothLayer.Outer; break;
+                    case "skirt": mesh = GarmentShapes.Skirt("SK_part_skirt"); layer = ClothLayer.Outer; break;
+                    case "inner": mesh = GarmentShapes.Inner("SK_part_inner"); layer = ClothLayer.Inner; break;
+                    case "drape": mesh = GarmentShapes.Drape("SK_part_drape"); layer = ClothLayer.Drape; break;
+                    default: mesh = GarmentShapes.Upper("SK_part_upper"); layer = ClothLayer.Outer; break;
                 }
                 var go = new GameObject("Part_" + sp.slot);
-                go.transform.SetParent(anchor, false);
-                go.transform.localPosition = pos;
+                go.transform.SetParent(body.transform, false);
                 go.AddComponent<MeshFilter>().sharedMesh = mesh;
                 var mr = go.AddComponent<MeshRenderer>();
                 var part = go.AddComponent<ClothPart>();

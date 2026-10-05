@@ -88,6 +88,10 @@ namespace HuaShang.Stations
             stage.enterPose.rotation = Quaternion.LookRotation(stage.transform.TransformPoint(new Vector3(0, 1.4f, 0)) - stage.enterPose.position);
             stage.performance.cam = cam;
 
+            // 人台整身入画：从头到裙摆（袖与披帛也在框里）
+            form.enterPose.localPosition = new Vector3(-0.2f, 1.3f, -3.1f);
+            form.enterPose.rotation = Quaternion.LookRotation(form.transform.TransformPoint(new Vector3(-0.2f, 0.95f, 0)) - form.enterPose.position);
+
             // 展柜整柜两个展位都要入画
             museum.enterPose.localPosition = new Vector3(-0.2f, 1.6f, -3.7f);
             museum.enterPose.rotation = Quaternion.LookRotation(museum.transform.TransformPoint(new Vector3(-0.2f, 1.2f, 0)) - museum.enterPose.position);
