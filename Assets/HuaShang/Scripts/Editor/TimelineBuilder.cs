@@ -22,6 +22,8 @@ namespace HuaShang.EditorTools
             { "xiShi", new[] { "（西施立定，缓缓抬袖）", "（袖口在风里轻轻浮起）", "（定格）" } },
             { "wangZhaoJun", new[] { "（王昭君立定，衣摆垂直）", "（她回望远处）", "（定格）" } },
             { "zhaoFeiYan", new[] { "（赵飞燕轻步站定）", "（裙摆随步子收回）", "（定格）" } },
+            { "liQingZhao", new[] { "（李清照执卷立定）", "（她低头看衣襟的纹路）", "（定格）" } },
+            { "yangGuiFei", new[] { "（杨贵妃缓步上前）", "（披帛垂在臂弯）", "（定格）" } },
         };
 
         [MenuItem("HuaShang/演出/生成首发时间轴")]
@@ -66,7 +68,13 @@ namespace HuaShang.EditorTools
             // 风：基础风常在；转身时侧风（不超过 30 档上限）；定格前降到余韵值（docs/04 §9、docs/08 §3）
             var wind = tl.CreateTrack<WindTrack>(null, "MagicaWindZone");
             AddWind(wind, 0, hasTurn ? devStart : codaStart, baseWind, new Vector3(0, 0, -1));
-            if (hasTurn) AddWind(wind, devStart, codaStart - devStart, (float)wl.tier30WindMax, Vector3.right);
+            if (hasTurn && len.tier >= 70)
+            {
+                // 70 档：发展段侧风不超过 30 档上限，高潮到 6–9（取中），定格前降到余韵值（docs/04 §9）
+                AddWind(wind, devStart, len.develop, (float)wl.tier30WindMax, Vector3.right);
+                AddWind(wind, climaxStart, len.climax, (float)((wl.tier70PeakMin + wl.tier70PeakMax) * 0.5), new Vector3(1, 0, -0.4f).normalized);
+            }
+            else if (hasTurn) AddWind(wind, devStart, codaStart - devStart, (float)wl.tier30WindMax, Vector3.right);
             AddWind(wind, codaStart, total - codaStart, (float)wl.tier70EndMax, new Vector3(0, 0, -1));
 
             // 灯：0 档一盏柔光；30 档转身时加边缘光，定格前回到轮廓
@@ -96,7 +104,7 @@ namespace HuaShang.EditorTools
             {
                 Marker(camTrack, 0.5, caps[0]);
                 Marker(camTrack, len.setup * 0.5, hasTurn ? "（转身，袖随风起）" : caps[1]);
-                if (hasTurn) Marker(camTrack, climaxStart + 0.5, "（行至台前）");
+                if (hasTurn) Marker(camTrack, climaxStart + 0.5, len.tier >= 70 ? "（风起，广袖翻飞；无词短音）" : "（行至台前）");
                 Marker(camTrack, codaStart + 0.3, caps[2]);
             }
             EditorUtility.SetDirty(tl);

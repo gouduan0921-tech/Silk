@@ -59,7 +59,7 @@ namespace HuaShang.Rules.Config
             foreach (var ch in c.characters)
             {
                 if (!ch.enabled) continue;
-                int cap = System.Array.IndexOf(TierExceptionCharacters, ch.id) >= 0 ? 30 : 0;
+                int cap = ch.id == "xiShi" ? 70 : System.Array.IndexOf(TierExceptionCharacters, ch.id) >= 0 ? 30 : 0; // 西施在高阶织物到 70
                 if (ch.launchTierMax > cap)
                     errors.Add("角色 " + ch.id + " 的 launchTierMax " + ch.launchTierMax + " 超过 " + cap);
             }

@@ -44,7 +44,7 @@ namespace HuaShang.Play
         /// <summary>织一匹的工时项：提花花本按提花，缎、绫按斜纹或素缎，其余平纹（docs/04 §2）。</summary>
         public static string WeaveHoursKey(VarietyRow v, string patternId)
         {
-            if (patternId == PatternJacquard || (v != null && (v.group == "brocade" || v.id == "gaiJi"))) return "weaveJacquard";
+            if (patternId == PatternJacquard || (v != null && (v.group == "brocade" || v.id == "gaiJi" || v.id == "keSi"))) return "weaveJacquard";
             if (v != null && (v.name.Contains("缎") || v.name == "绫")) return "weaveTwillSatin";
             return "weavePlain";
         }

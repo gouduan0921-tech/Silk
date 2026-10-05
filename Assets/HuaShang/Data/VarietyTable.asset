@@ -254,7 +254,7 @@ MonoBehaviour:
   - id: keSi
     name: "\u7F02\u4E1D"
     group: brocade
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 4.43

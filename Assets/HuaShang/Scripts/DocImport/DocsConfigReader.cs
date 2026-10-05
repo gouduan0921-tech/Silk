@@ -307,8 +307,9 @@ namespace HuaShang.DocImport
             c.patterns.Add(p);
         }
 
-        /// <summary>开放列：「是」为首发，「工艺章」为首发后第一章；「否」不开放。</summary>
-        static bool IsOpen(string cell) => cell.StartsWith("是", StringComparison.Ordinal) || cell.StartsWith("工艺章", StringComparison.Ordinal);
+        /// <summary>开放列：「是」为首发，「工艺章」「高阶织物」为首发后依次开放的阶段（docs/01 §7）；「否」不开放。</summary>
+        static bool IsOpen(string cell) => cell.StartsWith("是", StringComparison.Ordinal) || cell.StartsWith("工艺章", StringComparison.Ordinal)
+                                           || cell.StartsWith("高阶织物", StringComparison.Ordinal);
 
         // ---- docs/16 角色 ----
 

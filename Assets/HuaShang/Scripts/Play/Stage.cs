@@ -22,7 +22,7 @@ namespace HuaShang.Play
             foreach (int tier in c.balance.affection.tierThresholds)
             {
                 if (tier > row.launchTierMax) continue;
-                if (levelTiers != null && levelTiers.Count > 0 && !levelTiers.Contains(tier)) continue;
+                if (levelTiers == null || !levelTiers.Contains(tier)) continue;
                 if (affection >= tier) list.Add(tier);
             }
             return list;

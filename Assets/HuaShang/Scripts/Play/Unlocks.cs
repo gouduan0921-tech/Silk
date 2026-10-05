@@ -33,17 +33,31 @@ namespace HuaShang.Play
             return false;
         }
 
-        /// <summary>角色是否由等级打开，以及等级表写明的档位（空表示基础演出）。</summary>
+        /// <summary>
+        /// 角色是否由等级打开，以及打开的档位（docs/10 §1）：只写角色名的行开放 0 与 30 档，
+        /// 写明档位的行只开放写明的档；30 档以上只能写明。tiers 为已打开等级各行的并集。
+        /// </summary>
         public static bool CharacterOpen(SaveRoot s, ConfigSnapshot c, string id, out List<int> tiers)
         {
             tiers = null;
             var row = c.characters.Find(x => x.id == id);
             if (row == null || !row.enabled) return false;
+            bool open = false;
+            var set = new List<int>();
             foreach (var u in Open(s, c))
                 foreach (var ch in u.characters)
-                    if (ch.characterId == id) { tiers = ch.tiers; return true; }
-            return false;
+                {
+                    if (ch.characterId != id) continue;
+                    open = true;
+                    var listed = ch.tiers.Count > 0 ? ch.tiers : BaseTiers;
+                    foreach (int t in listed) if (!set.Contains(t)) set.Add(t);
+                }
+            tiers = set;
+            return open;
         }
+
+        /// <summary>只写角色名时开放的档。</summary>
+        public static readonly List<int> BaseTiers = new List<int> { 0, 30 };
 
         /// <summary>等级表里不对应表格行的条目，例如「提花花本」「宋风」。</summary>
         public static bool OtherOpen(SaveRoot s, ConfigSnapshot c, string token)

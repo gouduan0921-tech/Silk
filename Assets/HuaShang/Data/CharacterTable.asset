@@ -20,7 +20,7 @@ MonoBehaviour:
     - suSha
     - suLuo
     preferDynasty: 
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     note: 
     substitutes: []
