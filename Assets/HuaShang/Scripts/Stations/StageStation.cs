@@ -73,6 +73,9 @@ namespace HuaShang.Stations
             performance.visual = vis;
             performance.stageWind = wind;
             performance.lights = lights;
+            var fxGo = new GameObject("StageEffects");
+            fxGo.transform.SetParent(stageRoot, false);
+            performance.effects = fxGo.AddComponent<StageEffects>();
 
             var col = gameObject.AddComponent<BoxCollider>();
             col.center = new Vector3(0, 1.5f, 0.5f); col.size = new Vector3(5.4f, 3.4f, 3.6f);

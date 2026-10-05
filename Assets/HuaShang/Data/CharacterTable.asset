@@ -22,6 +22,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 70
     enabled: 1
+    stageEffect: 
     note: 
     substitutes: []
   - id: wangZhaoJun
@@ -33,6 +34,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 70
     enabled: 1
+    stageEffect: 
     note: 
     substitutes: []
   - id: zhaoFeiYan
@@ -44,6 +46,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 70
     enabled: 1
+    stageEffect: 
     note: "\u9996\u53D1\u6CA1\u6709\u82B1\u7EB1\u65F6\uFF1B\u7D20\u7EB1\u4E5F\u7B97\u54C1\u79CD\u547D\u4E2D"
     substitutes:
     - whenMissing: huaSha
@@ -57,6 +60,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 70
     enabled: 1
+    stageEffect: 
     note: "\u5149\u6CFD\u8FC7\u9AD8\u4E0D\u52A0\u5206"
     substitutes: []
   - id: yangGuiFei
@@ -69,6 +73,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 70
     enabled: 1
+    stageEffect: 
     note: "\u4E14\u8981\u62AB\u5E1B"
     substitutes: []
   - id: diaoChan
@@ -80,6 +85,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 0
     enabled: 0
+    stageEffect: 
     note: "\u6247\u5B50\u662F\u9053\u5177"
     substitutes: []
   - id: liShiShi
@@ -92,6 +98,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 0
     enabled: 0
+    stageEffect: 
     note: 
     substitutes: []
   - id: yuJi
@@ -103,6 +110,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 0
     enabled: 0
+    stageEffect: 
     note: 
     substitutes: []
   - id: hongFu
@@ -114,6 +122,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 0
     enabled: 0
+    stageEffect: 
     note: 
     substitutes: []
   - id: chenYuanYuan
@@ -125,6 +134,7 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 0
     enabled: 0
+    stageEffect: 
     note: 
     substitutes: []
   - id: liuRuShi
@@ -136,5 +146,30 @@ MonoBehaviour:
     preferDynasty: 
     launchTierMax: 0
     enabled: 0
+    stageEffect: 
     note: 
+    substitutes: []
+  - id: luoShen
+    name: "\u6D1B\u795E"
+    template: airy
+    preferVariety:
+    - suSha
+    - huaDuan
+    preferDynasty: han
+    launchTierMax: 30
+    enabled: 1
+    stageEffect: water
+    note: "\u8981\u62AB\u5E1B"
+    substitutes: []
+  - id: changE
+    name: "\u5AE6\u5A25"
+    template: cold
+    preferVariety:
+    - suSha
+    - suDuan
+    preferDynasty: han
+    launchTierMax: 30
+    enabled: 1
+    stageEffect: moon
+    note: "\u8981\u62AB\u5E1B"
     substitutes: []

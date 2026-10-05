@@ -20,6 +20,7 @@ namespace HuaShang.DocImport
         public const string Doc09 = "09_博物馆策展.md";
         public const string Doc10 = "10_升级与成长.md";
         public const string Doc16 = "16_美人与好感.md";
+        public const string Doc11 = "11_神话与跨文化篇章.md";
 
         // ---- 中文名与 id 的对照 ----
 
@@ -145,6 +146,7 @@ namespace HuaShang.DocImport
             c.balance.weave.legendaryGauzeMaxJoints = (int)s8.Number("接头\\s*≤\\s*(\\d+)");
             ReadPattern(d07.SectionOf(3), d04.SectionOf(2), c);
             ReadCharacters(d16, c);
+            ReadChapters(new MarkdownDoc(Path.Combine(docs, Doc11)), c);
             foreach (var r in d04.SectionOf(9).Table("时间轴"))
             {
                 var m = Regex.Match(r[0], "^(\\S+?)\\s*(\\d+)\\s*档$");
@@ -309,7 +311,7 @@ namespace HuaShang.DocImport
 
         /// <summary>开放列：「是」为首发，「工艺章」「高阶织物」为首发后依次开放的阶段（docs/01 §7）；「否」不开放。</summary>
         static bool IsOpen(string cell) => cell.StartsWith("是", StringComparison.Ordinal) || cell.StartsWith("工艺章", StringComparison.Ordinal)
-                                           || cell.StartsWith("高阶织物", StringComparison.Ordinal);
+                                           || cell.StartsWith("高阶织物", StringComparison.Ordinal) || cell.StartsWith("篇章", StringComparison.Ordinal);
 
         // ---- docs/16 角色 ----
 
@@ -343,7 +345,38 @@ namespace HuaShang.DocImport
                 ParsePrefs(r[2], ch, c);
                 c.characters.Add(ch);
             }
-            c.notes.Add("docs/11 的篇章角色没有 id，未入表；它们默认关闭，见 docs/11 §1");
+        }
+
+        static readonly Dictionary<string, string> StageEffects = new Dictionary<string, string>
+        {
+            { "水波", "water" }, { "月华", "moon" },
+        };
+
+        /// <summary>docs/11 §5 起每一篇一张角色表；表里的角色启用，未列入的篇章角色仍关闭（docs/11 §1）。</summary>
+        static void ReadChapters(MarkdownDoc d11, ConfigSnapshot c)
+        {
+            for (int n = 5; ; n++)
+            {
+                Section s;
+                try { s = d11.SectionOf(n); } catch (DocParseException) { break; }
+                if (s == null) break;
+                foreach (var r in s.Table("id"))
+                {
+                    if (c.characters.Exists(x => x.id == r[0])) throw new DocParseException(s.where + " 的角色 " + r[0] + " 重复");
+                    var ch = new CharacterRow { id = r[0], name = r[1], enabled = true };
+                    ch.template = Template(r[2], s.where);
+                    ParsePrefs(r[3], ch, c);
+                    if (!Dynasties.TryGetValue(r[4], out var dyn)) throw new DocParseException(s.where + " 的风格「" + r[4] + "」不在 docs/05 的朝代取值内");
+                    ch.preferDynasty = dyn;
+                    int max = 0;
+                    foreach (Match m in Regex.Matches(r[5], "\\d+")) max = Math.Max(max, int.Parse(m.Value));
+                    ch.launchTierMax = max;
+                    string fx = r[6].Trim();
+                    if (fx.Length > 0 && fx != "无" && !StageEffects.TryGetValue(fx, out ch.stageEffect))
+                        throw new DocParseException(s.where + " 的特效「" + fx + "」未知");
+                    c.characters.Add(ch);
+                }
+            }
         }
 
         static string Template(string label, string where)

@@ -43,6 +43,7 @@ namespace HuaShang.EditorTools
             var boot = root.AddComponent<ChainBootstrap>();
             boot.timelines = timelines;
             EditorSceneManager.SaveScene(scene, ChainScene);
+            EditorSceneManager.OpenScene(ChainScene, OpenSceneMode.Single); // 从磁盘重开，编辑器里的引用与打包一致
             EditorBuildSettings.scenes = new[]
             {
                 new EditorBuildSettingsScene(ChainScene, true),

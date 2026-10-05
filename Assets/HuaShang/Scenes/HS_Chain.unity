@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &1917058835
+--- !u!1 &618641138
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,9 +127,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1917058838}
-  - component: {fileID: 1917058837}
-  - component: {fileID: 1917058836}
+  - component: {fileID: 618641141}
+  - component: {fileID: 618641140}
+  - component: {fileID: 618641139}
   m_Layer: 0
   m_Name: HuaShang
   m_TagString: Untagged
@@ -137,13 +137,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1917058836
+--- !u!114 &618641139
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917058835}
+  m_GameObject: {fileID: 618641138}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96b59903f79e1420a8875031234cb2e0, type: 3}
@@ -195,13 +195,25 @@ MonoBehaviour:
   - characterId: liQingZhao
     tier: 70
     timeline: {fileID: 11400000, guid: ce8d650c1575d4715a572213a81b3bba, type: 2}
---- !u!114 &1917058837
+  - characterId: luoShen
+    tier: 0
+    timeline: {fileID: 11400000, guid: 48b39956490b94397bb92f8b294cb809, type: 2}
+  - characterId: luoShen
+    tier: 30
+    timeline: {fileID: 11400000, guid: 2fb49528f3dfa4c2d85f38bdaf34dda4, type: 2}
+  - characterId: changE
+    tier: 0
+    timeline: {fileID: 11400000, guid: 654b8de3b99b942eebf77f5109e8e953, type: 2}
+  - characterId: changE
+    tier: 30
+    timeline: {fileID: 11400000, guid: b144c40bd24434729ab8c5111915a2b6, type: 2}
+--- !u!114 &618641140
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917058835}
+  m_GameObject: {fileID: 618641138}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee2cf9e3cf2c64bb2b7d58dcf8824ea6, type: 3}
@@ -209,13 +221,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: HuaShang::HuaShang.Game.GameSession
   database: {fileID: 11400000, guid: 3156b577a62b647d08035a83d689c770, type: 2}
   saveFileName: huashang_save_1.json
---- !u!4 &1917058838
+--- !u!4 &618641141
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917058835}
+  m_GameObject: {fileID: 618641138}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -228,4 +240,4 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1917058838}
+  - {fileID: 618641141}

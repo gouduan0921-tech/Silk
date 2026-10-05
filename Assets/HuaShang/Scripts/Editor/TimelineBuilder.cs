@@ -24,6 +24,8 @@ namespace HuaShang.EditorTools
             { "zhaoFeiYan", new[] { "（赵飞燕轻步站定）", "（裙摆随步子收回）", "（定格）" } },
             { "liQingZhao", new[] { "（李清照执卷立定）", "（她低头看衣襟的纹路）", "（定格）" } },
             { "yangGuiFei", new[] { "（杨贵妃缓步上前）", "（披帛垂在臂弯）", "（定格）" } },
+            { "luoShen", new[] { "（洛神凌波而来）", "（披帛贴着水面拂过）", "（定格）" } },
+            { "changE", new[] { "（嫦娥独立月下）", "（她抬头望月，袖口垂落）", "（定格）" } },
         };
 
         /// <summary>有转身的档位（30、70）发展段字幕；没写的角色用通用一句。</summary>
@@ -33,6 +35,8 @@ namespace HuaShang.EditorTools
             { "zhaoFeiYan", "（轻旋一周，裙摆随风张开）" },
             { "liQingZhao", "（转身，袖口随风微扬）" },
             { "yangGuiFei", "（转身，披帛随风扬起）" },
+            { "luoShen", "（回身，水纹随步散开）" },
+            { "changE", "（转身，月华落满衣襟）" },
         };
 
         /// <summary>70 档高潮字幕（docs/08 §2）；没写的角色用通用一句。</summary>
@@ -58,6 +62,9 @@ namespace HuaShang.EditorTools
                 list.Add(new TimelineEntry { characterId = t.characterId, tier = t.tier, timeline = Build(c, t) });
             }
             AssetDatabase.SaveAssets();
+            // 保存后按路径重新取资源：CreateInstance 出来的对象在后续导入时可能被替换，留着旧引用会在编辑器里变成空
+            foreach (var e in list)
+                e.timeline = AssetDatabase.LoadAssetAtPath<TimelineAsset>(Folder + "/LS_" + e.characterId + "_t" + e.tier + ".playable");
             Debug.Log("[HuaShang] 已生成 " + list.Count + " 条时间轴");
             return list;
         }

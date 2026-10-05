@@ -177,3 +177,25 @@ MonoBehaviour:
       tiers: 46000000i
     other: []
     raw: "\u674E\u6E05\u7167 70 \u6863"
+  - level: 13
+    xpRequired: 6700
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: luoShen
+      tiers: 
+    other: []
+    raw: "\u6D1B\u795E"
+  - level: 14
+    xpRequired: 7900
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: changE
+      tiers: 
+    other: []
+    raw: "\u5AE6\u5A25"

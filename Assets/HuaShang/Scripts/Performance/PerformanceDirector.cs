@@ -36,6 +36,7 @@ namespace HuaShang.Performance
         public GarmentVisual visual;
         public MagicaWindZone stageWind;
         public StageLights lights;
+        public StageEffects effects;
         public Camera cam;
         public List<TimelineEntry> timelines = new List<TimelineEntry>();
         public Bounds freeCameraBox = new Bounds(new Vector3(0, 1.4f, -2.2f), new Vector3(5f, 2.4f, 3.6f));
@@ -94,6 +95,8 @@ namespace HuaShang.Performance
             Paused = false;
             Hud.I.SetPerformanceMode(true, TogglePause);
             Hud.I.Subtitle(null);
+            var row = c.characters.Find(x => x.id == ch);
+            if (effects != null) effects.Begin(row != null ? row.stageEffect : null, t); // 篇章特效（docs/11 §3）
             director.time = 0;
             director.Play();
         }
@@ -170,6 +173,7 @@ namespace HuaShang.Performance
         {
             if (!Playing) return;
             Playing = false;
+            if (effects != null) effects.End();
             Time.timeScale = 1f;
             AudioListener.pause = false;
             CameraPoseMixer.overridden = false;
@@ -188,6 +192,7 @@ namespace HuaShang.Performance
         {
             if (!Playing) return;
             Playing = false;
+            if (effects != null) effects.End();
             director.Stop();
             Time.timeScale = 1f;
             AudioListener.pause = false;

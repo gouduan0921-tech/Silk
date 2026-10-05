@@ -454,6 +454,12 @@ MonoBehaviour:
       - level: 12
         xp: 5600
         launch: 0
+      - level: 13
+        xp: 6700
+        launch: 0
+      - level: 14
+        xp: 7900
+        launch: 0
     windLight:
       baseWindMin: 0.3
       baseWindMax: 0.8
@@ -563,6 +569,30 @@ MonoBehaviour:
         develop: 12
         climax: 10
         coda: 8
+      - characterId: luoShen
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: luoShen
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: changE
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: changE
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
     exhibit:
       quality: 0.4
       theme: 0.3

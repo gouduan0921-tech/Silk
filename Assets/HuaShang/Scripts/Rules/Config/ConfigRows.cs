@@ -85,6 +85,8 @@ namespace HuaShang.Rules.Config
         public string preferDynasty;
         public int launchTierMax;
         public bool enabled;
+        /// <summary>篇章特效（docs/11 §3）：water / moon；空为无。</summary>
+        public string stageEffect = "";
         /// <summary>偏好列里无法对上品种 id 的原文，供策划核对。</summary>
         public string note;
         /// <summary>docs/16 §2：某偏好品种首发不可选时，由另一品种代为计品种命中。</summary>
