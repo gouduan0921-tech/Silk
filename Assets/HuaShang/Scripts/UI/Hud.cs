@@ -385,7 +385,7 @@ namespace HuaShang.UI
                 var btn = img.gameObject.AddComponent<Button>();
                 if (s.onClick != null) btn.onClick.AddListener(() => stop.onClick());
                 img.gameObject.AddComponent<FocusFrame>();
-                var t = UiKit.Label(img.transform, s.number + (s.done ? " / 已完成 ·" : " / 工位") + "\n" + s.label, UiTheme.Note + 1, UiTheme.Ink, false, TextAnchor.MiddleCenter);
+                var t = UiKit.Label(img.transform, s.number + (s.locked != null ? " / " + s.locked : s.done ? " / 已完成 ·" : " / 工位") + "\n" + s.label, UiTheme.Note + 1, UiTheme.Ink, false, TextAnchor.MiddleCenter);
                 UiKit.Stretch((RectTransform)t.transform, 2);
             }
         }

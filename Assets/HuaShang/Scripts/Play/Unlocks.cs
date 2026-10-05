@@ -66,6 +66,13 @@ namespace HuaShang.Play
             return false;
         }
 
+        /// <summary>等级表里写着这个开放词的等级；没写返回 null。</summary>
+        public static int? LevelOfOther(ConfigSnapshot c, string token)
+        {
+            foreach (var u in c.unlocks) if (u.other.Contains(token)) return u.level;
+            return null;
+        }
+
         public static List<string> OpenPatterns(SaveRoot s, ConfigSnapshot c)
         {
             var list = new List<string>();

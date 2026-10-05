@@ -47,9 +47,9 @@ namespace HuaShang.Stations
             sun.colorTemperature = 5600;
             sun.shadows = LightShadows.Soft;
             UnityEngine.Rendering.GraphicsSettings.lightsUseColorTemperature = true;
-            Props.Box(transform, "Floor", new Vector3(30, -0.05f, 2), new Vector3(80, 0.1f, 14), Props.Floor);
-            Props.Box(transform, "BackWall", new Vector3(30, 2.2f, 3.2f), new Vector3(80, 4.4f, 0.2f), Props.Wall);
-            for (int i = 0; i < 9; i++) Props.Box(transform, "Beam", new Vector3(-3.5f + i * 8f, 2.2f, 2.6f), new Vector3(0.18f, 4.4f, 0.18f), Props.Wood);
+            Props.Box(transform, "Floor", new Vector3(37, -0.05f, 2), new Vector3(94, 0.1f, 14), Props.Floor);
+            Props.Box(transform, "BackWall", new Vector3(37, 2.2f, 3.2f), new Vector3(94, 4.4f, 0.2f), Props.Wall);
+            for (int i = 0; i < 11; i++) Props.Box(transform, "Beam", new Vector3(-3.5f + i * 8f, 2.2f, 2.6f), new Vector3(0.18f, 4.4f, 0.18f), Props.Wood);
 
             var camGo = go("Main Camera");
             camGo.tag = "MainCamera";
@@ -65,14 +65,17 @@ namespace HuaShang.Stations
             director.viewer = camGo.transform;
 
             Add<SilkStation>("station_silk", "00", "蚕房", "SILK HOUSE", "叶、茧、丝绪。蚕箔与缫丝。", 0f, s => s.BuildProps());
-            Add<LoomStation>("station_loom", "01", "织机", "SILK WORKSHOP", "经线整齐，踏板和梭打在节拍上。", 7f, s => s.BuildProps());
-            Add<DyeStation>("station_dye", "02", "染缸", "SILK WORKSHOP", "液面平静，靛蓝慢慢入布。", 14f, s => s.BuildProps());
-            Add<CutStation>("station_cut", "03", "裁桌", "SILK WORKSHOP", "布摊开，剪刀和针能看清。", 21f, s => s.BuildProps());
-            Add<SewStation>("station_sew", "04", "针线", "SILK WORKSHOP", "沿着缝线，让衣片接在一起。", 28f, s => s.BuildProps());
-            var form = Add<FormStation>("station_form", "05", "人台", "SILK WORKSHOP", "只用基础风与中性白光，看衣领与下摆。", 35f, s => s.BuildProps());
-            var stage = Add<StageStation>("station_stage", "06", "戏台", "CLASSIC STAGE", "木色戏台，背景暗于衣服。", 44f, s => s.BuildProps());
-            var museum = Add<MuseumStation>("station_museum", "07", "展柜", "MUSEUM", "玻璃与中性墙，灯可以暖。", 54f, s => s.BuildProps());
-            Add<MarketStation>("station_market", "08", "委托牌", "MARKET", "接委托、买卖、结束今天。", 61f, s => s.BuildProps());
+            // 三台织机各是一个工位（docs/07 §1）
+            Add<LoomStation>("station_loom", "01", "平纹机", "SILK WORKSHOP", "经线整齐，踏板和梭打在节拍上。素纱、绢、绸。", 7f, s => s.BuildProps());
+            Add<LoomStation>("station_loom_satin", "02", "缎机", "SILK WORKSHOP", "多片综框，经浮长，织出缎面的光。", 14f, s => { s.kind = Play.Craft.Loom.Satin; s.BuildProps(); });
+            Add<LoomStation>("station_loom_draw", "03", "花楼机", "SILK WORKSHOP", "楼上拽花，楼下投梭，两人合织提花。", 21f, s => { s.kind = Play.Craft.Loom.Draw; s.BuildProps(); });
+            Add<DyeStation>("station_dye", "04", "染缸", "SILK WORKSHOP", "液面平静，靛蓝慢慢入布。", 28f, s => s.BuildProps());
+            Add<CutStation>("station_cut", "05", "裁桌", "SILK WORKSHOP", "布摊开，剪刀和针能看清。", 35f, s => s.BuildProps());
+            Add<SewStation>("station_sew", "06", "针线", "SILK WORKSHOP", "沿着缝线，让衣片接在一起。", 42f, s => s.BuildProps());
+            var form = Add<FormStation>("station_form", "07", "人台", "SILK WORKSHOP", "只用基础风与中性白光，看衣领与下摆。", 49f, s => s.BuildProps());
+            var stage = Add<StageStation>("station_stage", "08", "戏台", "CLASSIC STAGE", "木色戏台，背景暗于衣服。", 58f, s => s.BuildProps());
+            var museum = Add<MuseumStation>("station_museum", "09", "展柜", "MUSEUM", "玻璃与中性墙，灯可以暖。", 68f, s => s.BuildProps());
+            Add<MarketStation>("station_market", "10", "委托牌", "MARKET", "接委托、买卖、结束今天。", 75f, s => s.BuildProps());
 
             // 人台加基础风（docs/07 §5）
             var formWind = new GameObject("FormBaseWind").AddComponent<MagicaCloth2.MagicaWindZone>();
@@ -99,8 +102,8 @@ namespace HuaShang.Stations
             var overview = new GameObject("OverviewPose").transform;
             overview.SetParent(transform, false);
             // 全景：略高的四分之三视角，工位沿纵深排开（参考 素材/工位链全景.png 的机位）
-            overview.position = new Vector3(-7.5f, 5.2f, -8.5f);
-            overview.rotation = Quaternion.LookRotation(new Vector3(18f, 0.6f, 1.2f) - overview.position);
+            overview.position = new Vector3(-9.5f, 6.2f, -10.5f);
+            overview.rotation = Quaternion.LookRotation(new Vector3(22f, 0.6f, 1.2f) - overview.position);
             camGo.transform.SetPositionAndRotation(overview.position, overview.rotation);
 
             workshop = gameObject.AddComponent<WorkshopController>();

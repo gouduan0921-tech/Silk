@@ -104,6 +104,8 @@ namespace HuaShang.Stations
                 onPrimary = () => Enter(s),
                 onCancel = () => Back(),
             };
+            var locked = s.LockedNote;
+            if (locked != null) { m.primaryEnabled = false; m.body = s.subtitle + "\n" + locked + "。"; enterNow = false; }
             Hud.I.ShowPlaque(m);
             RefreshChrome();
             if (enterNow) Enter(s);
@@ -111,6 +113,7 @@ namespace HuaShang.Stations
 
         public void Enter(StationBase s)
         {
+            if (s.LockedNote != null) { Approach(s); return; }
             current = s;
             layer = Layer.Inside;
             cameraDirector.GoTo(s.enterPose, s.enterFov);
@@ -179,7 +182,7 @@ namespace HuaShang.Stations
             foreach (var st in stations)
             {
                 var x = st;
-                stops.Add(new CorridorStop { id = st.stationId, number = st.number, label = st.title, current = current == st && layer != Layer.Overview, done = st.Done, onClick = () => Approach(x) });
+                stops.Add(new CorridorStop { id = st.stationId, number = st.number, label = st.title, current = current == st && layer != Layer.Overview, done = st.Done, locked = st.LockedNote, onClick = () => Approach(x) });
             }
             Hud.I.SetCorridor(stops);
             if (layer == Layer.Overview) ShowOverviewPlaque(); // 新开一局或读档后，今日待办跟着存档变

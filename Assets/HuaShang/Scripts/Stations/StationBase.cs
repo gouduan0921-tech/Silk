@@ -52,6 +52,9 @@ namespace HuaShang.Stations
 
         public virtual bool Done => false;
 
+        /// <summary>未开放时的说明（例如「4 级开放」）；null 表示可进入。</summary>
+        public virtual string LockedNote => null;
+
         protected PlaqueModel Plaque(string title, string kicker = "下一步")
         {
             return new PlaqueModel { title = title, kicker = kicker, onCancel = () => Workshop.Back() };

@@ -10,11 +10,13 @@ using HuaShang.UI;
 namespace HuaShang.Stations
 {
     /// <summary>
-    /// 织机（docs/07 §1）：经线和梭是动画与节拍，不是布料粒子（docs/03 §1）。
-    /// 教学第 1 步可以直接确认开局绢（docs/10 §2）：不新增布，不消耗细丝。
+    /// 织机（docs/07 §1）：平纹机、缎机、花楼机是三个独立工位，各织各的品种。
+    /// 经线和梭是动画与节拍，不是布料粒子（docs/03 §1）。
+    /// 教学第 1 步只在平纹机：可以直接确认开局绢（docs/10 §2），不新增布，不消耗细丝。
     /// </summary>
     public class LoomStation : StationBase
     {
+        public Craft.Loom kind = Craft.Loom.Plain;
         Transform shuttle;
         Renderer clothOnLoom;
         string yarnId;
@@ -42,8 +44,47 @@ namespace HuaShang.Stations
             clothOnLoom = Props.Cloth(root, "WovenCloth", new Vector3(0, 0.93f, -0.42f), new Vector3(70, 0, 0), new Vector2(1.2f, 0.3f), Props.Warp);
             shuttle = Props.Box(root, "Shuttle", new Vector3(-0.7f, 1.0f, -0.25f), new Vector3(0.22f, 0.04f, 0.05f), Props.WoodLight).transform;
             Props.Box(root, "Bench", new Vector3(0, 0.25f, -1.1f), new Vector3(1.0f, 0.5f, 0.35f), Props.Wood);
+            float h = 1.8f;
+            if (kind == Craft.Loom.Satin)
+            {
+                // 缎机：多片综框，前后排开（缎纹要多综）
+                for (int i = 0; i < 5; i++)
+                {
+                    float z = -0.22f + i * 0.1f;
+                    Props.Box(root, "HeddleTop", new Vector3(0, 1.42f, z), new Vector3(1.4f, 0.03f, 0.025f), Props.WoodLight);
+                    Props.Box(root, "HeddleBottom", new Vector3(0, 1.08f, z), new Vector3(1.4f, 0.03f, 0.025f), Props.WoodLight);
+                }
+                for (int i = 0; i < 5; i++)
+                    Props.Box(root, "Treadle", new Vector3(-0.4f + i * 0.2f, 0.12f, -0.75f), new Vector3(0.08f, 0.03f, 0.6f), Props.Wood);
+            }
+            else if (kind == Craft.Loom.Draw)
+            {
+                // 花楼机：机身上加高楼，拽花的人坐在楼上，衢线垂下
+                foreach (var x in new[] { -0.7f, 0.7f })
+                    foreach (var z in new[] { 0.05f, 0.75f })
+                        Props.Box(root, "TowerPost", new Vector3(x, 2.1f, z), new Vector3(0.07f, 1.4f, 0.07f), Props.Wood);
+                Props.Box(root, "TowerFloor", new Vector3(0, 2.8f, 0.4f), new Vector3(1.5f, 0.06f, 0.8f), Props.Wood);
+                Props.Box(root, "DrawSeat", new Vector3(0, 3.0f, 0.65f), new Vector3(0.5f, 0.06f, 0.3f), Props.WoodLight);
+                for (int i = 0; i < 24; i++)
+                {
+                    float x = -0.55f + i * (1.1f / 23f);
+                    Props.Box(root, "DrawCord", new Vector3(x, 2.15f, 0.3f), new Vector3(0.005f, 1.3f, 0.005f), Props.Warp);
+                }
+                h = 3.2f;
+            }
             var col = gameObject.AddComponent<BoxCollider>();
-            col.center = new Vector3(0, 0.8f, 0); col.size = new Vector3(2, 1.8f, 2);
+            col.center = new Vector3(0, h * 0.45f, 0); col.size = new Vector3(2, h, 2);
+        }
+
+        public override string LockedNote
+        {
+            get
+            {
+                var token = Craft.LoomToken(kind);
+                if (token == null || Unlocks.OtherOpen(S, C, token)) return null;
+                int? lv = Unlocks.LevelOfOther(C, token);
+                return lv.HasValue ? lv.Value + " 级开放" : "暂未开放";
+            }
         }
 
         public override bool Done => Play.Find.Quest(S, Craft.Tutorial1)?.done == true;
@@ -94,7 +135,15 @@ namespace HuaShang.Stations
             H.SetRack(RackView.Build(S, C, k => k == RackView.Kind.Yarn || k == RackView.Kind.Bolt, yarnId,
                 (k, id) => { if (k == RackView.Kind.Yarn) { yarnId = id; Refresh(); } }, (k, id) => k == RackView.Kind.Yarn && track == null));
 
-            if (depth == 0 && tutorialPending && opening != null)
+            var lockedNote = LockedNote;
+            if (lockedNote != null)
+            {
+                var lm = Plaque(title + "未开放", "织机");
+                lm.body = lockedNote + "。到时这台机上织：" + VarietyList() + "。";
+                Show(lm);
+                return;
+            }
+            if (depth == 0 && tutorialPending && opening != null && kind == Craft.Loom.Plain)
             {
                 var m = Plaque("确认开局绢 A");
                 m.body = Names.Bolt(C, opening) + "：" + Names.Fineness(C.opening.bolt.fineness) + "丝，" + Names.Layers(C, opening) + "，" + Names.Meters(opening.length)
@@ -123,18 +172,20 @@ namespace HuaShang.Stations
             }
             if (depth <= 1)
             {
-                var open = Unlocks.OpenVarieties(S, C);
+                var open = Unlocks.OpenVarieties(S, C).FindAll(id => Craft.LoomOf(C.varieties.Find(v => v.id == id)) == kind);
                 if (varietyId == null || !open.Contains(varietyId)) varietyId = open.Count > 0 ? open[0] : null;
-                var m = Plaque(yarnId == null ? "从侧架选一束纱" : "选品种与花本，再开织");
+                var m = Plaque(open.Count == 0 ? "这台机上还没有能织的品种" : yarnId == null ? "从侧架选一束纱" : "选品种与花本，再开织");
                 var vg = new OptionGroup { label = "品种" };
                 foreach (var v in open) vg.choices.Add(Names.Variety(C, v));
                 vg.selected = open.IndexOf(varietyId);
                 vg.onSelect = i => { varietyId = open[i]; Refresh(); };
                 m.options.Add(vg);
-                var patterns = new List<string> { Craft.PatternPlain };
-                if (S.level >= 2) patterns.Add(Craft.PatternGrid); // docs/10 §1：细方格花本 2 级
-                if (Unlocks.OtherOpen(S, C, "提花花本")) patterns.Add(Craft.PatternJacquard); // 工艺章 5 级
-                if (!patterns.Contains(patternId)) patternId = Craft.PatternPlain;
+                // docs/07 §1：平纹机素与细方格（2 级），缎机只素，花楼机只提花（5 级）
+                var patterns = new List<string>();
+                if (kind == Craft.Loom.Draw && Unlocks.OtherOpen(S, C, "提花花本")) patterns.Add(Craft.PatternJacquard);
+                else patterns.Add(Craft.PatternPlain);
+                if (kind == Craft.Loom.Plain && S.level >= 2) patterns.Add(Craft.PatternGrid);
+                if (!patterns.Contains(patternId)) patternId = patterns[0];
                 var pg = new OptionGroup { label = "花本" };
                 foreach (var p in patterns) pg.choices.Add(p == Craft.PatternPlain ? "素" : p == Craft.PatternGrid ? "细方格" : "提花");
                 pg.selected = patterns.IndexOf(patternId);
@@ -144,7 +195,7 @@ namespace HuaShang.Stations
                 int hours = C.balance.day.HoursOf(Craft.WeaveHoursKey(vsel, patternId));
                 if (!Craft.PatternFits(vsel, patternId)) m.warnings.Add(Names.Variety(C, varietyId) + "要用提花花本：花本选错，花位分归零");
                 m.primaryLabel = "开织（" + hours + " 工时）";
-                m.primaryEnabled = yarnId != null && Progress.CanSpend(S, C, hours);
+                m.primaryEnabled = yarnId != null && varietyId != null && Progress.CanSpend(S, C, hours);
                 m.body = Progress.CanSpend(S, C, hours) ? "织机不会自动取纱，先在侧架点一束。" : "今天的工时不够织一匹。";
                 m.onPrimary = () => { segments.Clear(); depth = 1; StartSegment(); };
                 if (track != null)
@@ -174,6 +225,13 @@ namespace HuaShang.Stations
                 };
                 Show(m);
             }
+        }
+
+        string VarietyList()
+        {
+            var names = new List<string>();
+            foreach (var v in C.varieties) if (v.launch && !v.liningOnly && Craft.LoomOf(v) == kind) names.Add(v.name);
+            return names.Count > 0 ? string.Join("、", names) : "（表中暂无）";
         }
     }
 }

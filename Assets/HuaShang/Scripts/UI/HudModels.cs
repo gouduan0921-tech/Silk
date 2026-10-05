@@ -82,6 +82,7 @@ namespace HuaShang.UI
         public string number;
         public string label;
         public bool current, done;
+        public string locked;
         public Action onClick;
     }
 }

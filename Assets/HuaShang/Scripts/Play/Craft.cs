@@ -52,6 +52,22 @@ namespace HuaShang.Play
         /// <summary>花本是否选对：花缎、云锦、改机必须用提花，其他品种不限（docs/07 §1）。</summary>
         public static bool PatternFits(VarietyRow v, string patternId) => v == null || !NeedsJacquard(v.id) || patternId == PatternJacquard;
 
+        /// <summary>三台织机（docs/07 §1）。</summary>
+        public enum Loom { Plain, Satin, Draw }
+
+        /// <summary>品种上哪台织机：提花与锦上花楼机，缎与绫上缎机，其余（含缂丝）上平纹机。</summary>
+        public static Loom LoomOf(VarietyRow v)
+        {
+            if (v == null) return Loom.Plain;
+            if (v.id == "keSi") return Loom.Plain;
+            if (NeedsJacquard(v.id) || v.group == "brocade") return Loom.Draw;
+            if (v.name.Contains("缎") || v.name == "绫") return Loom.Satin;
+            return Loom.Plain;
+        }
+
+        /// <summary>织机在等级表里的开放词；平纹机无需开放。</summary>
+        public static string LoomToken(Loom k) => k == Loom.Satin ? "缎机" : k == Loom.Draw ? "花楼机" : null;
+
         /// <summary>花缎、云锦、改机必须用提花花本（docs/07 §1）。</summary>
         public static bool NeedsJacquard(string varietyId) => varietyId == "huaDuan" || varietyId == "yunJin" || varietyId == "gaiJi";
 
