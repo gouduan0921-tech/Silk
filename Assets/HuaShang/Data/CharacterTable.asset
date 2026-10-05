@@ -31,7 +31,7 @@ MonoBehaviour:
     - juan
     - chou
     preferDynasty: 
-    launchTierMax: 0
+    launchTierMax: 30
     enabled: 1
     note: 
     substitutes: []
@@ -42,7 +42,7 @@ MonoBehaviour:
     - huaSha
     - suLuo
     preferDynasty: 
-    launchTierMax: 0
+    launchTierMax: 30
     enabled: 1
     note: "\u9996\u53D1\u6CA1\u6709\u82B1\u7EB1\u65F6\uFF1B\u7D20\u7EB1\u4E5F\u7B97\u54C1\u79CD\u547D\u4E2D"
     substitutes:
@@ -55,7 +55,7 @@ MonoBehaviour:
     - juan
     - keSi
     preferDynasty: 
-    launchTierMax: 0
+    launchTierMax: 30
     enabled: 1
     note: "\u5149\u6CFD\u8FC7\u9AD8\u4E0D\u52A0\u5206"
     substitutes: []

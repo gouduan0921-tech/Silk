@@ -14,9 +14,6 @@ namespace HuaShang.Rules.Config
         /// <summary>docs/05 §4 的槽位。</summary>
         public static readonly string[] Slots = { "inner", "upper", "skirt", "drape", "robe", "wrap" };
 
-        /// <summary>docs/05 §9：可到 30 档的角色；其余启用角色不超过 0。</summary>
-        public static readonly string[] TierExceptionCharacters = { "xiShi", "yangGuiFei" };
-
         /// <summary>docs/16 §2 启用表里的角色（首发三位与工艺章两位）。</summary>
         public static readonly string[] EnabledCharacters = { "xiShi", "wangZhaoJun", "zhaoFeiYan", "liQingZhao", "yangGuiFei" };
 
@@ -55,11 +52,11 @@ namespace HuaShang.Rules.Config
                         errors.Add("形制 " + p.id + " 的部件 " + part + " 没有槽位");
             }
 
-            // 4 首发角色的 launchTierMax 不超过 30，除西施外不超过 0
+            // 4 启用角色的 launchTierMax：西施、杨贵妃不超过 70，其余不超过 30（docs/05 §9）
             foreach (var ch in c.characters)
             {
                 if (!ch.enabled) continue;
-                int cap = ch.id == "xiShi" || ch.id == "yangGuiFei" ? 70 : System.Array.IndexOf(TierExceptionCharacters, ch.id) >= 0 ? 30 : 0; // 西施在高阶织物到 70
+                int cap = ch.id == "xiShi" || ch.id == "yangGuiFei" ? 70 : 30; // 高阶织物：西施、杨贵妃到 70，其余启用角色到 30
                 if (ch.launchTierMax > cap)
                     errors.Add("角色 " + ch.id + " 的 launchTierMax " + ch.launchTierMax + " 超过 " + cap);
             }

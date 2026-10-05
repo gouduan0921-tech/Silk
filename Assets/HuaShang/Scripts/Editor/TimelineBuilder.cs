@@ -26,6 +26,15 @@ namespace HuaShang.EditorTools
             { "yangGuiFei", new[] { "（杨贵妃缓步上前）", "（披帛垂在臂弯）", "（定格）" } },
         };
 
+        /// <summary>有转身的档位（30、70）发展段字幕；没写的角色用通用一句。</summary>
+        static readonly Dictionary<string, string> TurnCaptions = new Dictionary<string, string>
+        {
+            { "wangZhaoJun", "（转身回望，衣摆随风扬起）" },
+            { "zhaoFeiYan", "（轻旋一周，裙摆随风张开）" },
+            { "liQingZhao", "（转身，袖口随风微扬）" },
+            { "yangGuiFei", "（转身，披帛随风扬起）" },
+        };
+
         /// <summary>70 档高潮字幕（docs/08 §2）；没写的角色用通用一句。</summary>
         static readonly Dictionary<string, string> Climax70 = new Dictionary<string, string>
         {
@@ -110,7 +119,7 @@ namespace HuaShang.EditorTools
             if (Captions.TryGetValue(len.characterId, out var caps))
             {
                 Marker(camTrack, 0.5, caps[0]);
-                Marker(camTrack, len.setup * 0.5, hasTurn ? "（转身，袖随风起）" : caps[1]);
+                Marker(camTrack, len.setup * 0.5, hasTurn ? (TurnCaptions.TryGetValue(len.characterId, out var turn) ? turn : "（转身，袖随风起）") : caps[1]);
                 if (hasTurn) Marker(camTrack, climaxStart + 0.5, len.tier >= 70 ? (Climax70.TryGetValue(len.characterId, out var c70) ? c70 : "（风起，衣袂翻飞；无词短音）") : "（行至台前）");
                 Marker(camTrack, codaStart + 0.3, caps[2]);
             }
