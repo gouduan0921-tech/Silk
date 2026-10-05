@@ -45,6 +45,11 @@ namespace HuaShang.Tests
             GameSession.SaveFileOverride = null;
             JsonUtility.FromJsonOverwrite(settingsBefore, Settings.Current);
             Settings.Apply();
+            // 卸掉工位链场景（风区、灯、布都在里面），不影响后面在空场景里搭探针的测试
+            var chain = SceneManager.GetActiveScene();
+            var empty = SceneManager.CreateScene("Empty_" + System.Guid.NewGuid().ToString("N"));
+            SceneManager.SetActiveScene(empty);
+            if (chain.IsValid() && chain.isLoaded) yield return SceneManager.UnloadSceneAsync(chain);
             yield return null;
         }
 

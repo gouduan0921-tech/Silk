@@ -38,6 +38,19 @@ namespace HuaShang.Play
 
         public const string PatternPlain = "su";
         public const string PatternGrid = "grid";
+        public const string PatternJacquard = "jacquard";
+        public const string RuQun = "ruQun";
+
+        /// <summary>织一匹的工时项：提花花本按提花，缎、绫按斜纹或素缎，其余平纹（docs/04 §2）。</summary>
+        public static string WeaveHoursKey(VarietyRow v, string patternId)
+        {
+            if (patternId == PatternJacquard) return "weaveJacquard";
+            if (v != null && (v.name.Contains("缎") || v.name == "绫")) return "weaveTwillSatin";
+            return "weavePlain";
+        }
+
+        /// <summary>花本是否选对：花缎必须用提花，其他品种不限（docs/07 §1）。</summary>
+        public static bool PatternFits(VarietyRow v, string patternId) => v == null || v.id != "huaDuan" || patternId == PatternJacquard;
 
         /// <summary>织造分 = 节奏×w + 密度稳定×w + 花位×w（docs/04 §5）。</summary>
         public static double WeaveScore(WeaveInput input, Yarn yarn, VarietyRow variety, ConfigSnapshot c)
@@ -68,10 +81,10 @@ namespace HuaShang.Play
             var yarn = Find.Yarn(s, input.yarnId);
             if (yarn == null) return Result.Fail("没有选纱线，织机不会自动取纱（docs/06 §4）");
             var v = c.varieties.Find(x => x.id == input.varietyId);
-            if (v == null || !v.launch || v.liningOnly) return Result.Fail("这台平纹机织不了这个品种");
+            if (v == null || !v.launch || v.liningOnly) return Result.Fail("这台织机织不了这个品种");
             if (!Unlocks.VarietyOpen(s, c, v.id)) return Result.Fail("这个品种还没解锁");
             if (input.segments.Count != c.balance.weave.segments) return Result.Fail("需要织完全部 " + c.balance.weave.segments + " 段");
-            int hours = c.balance.day.HoursOf("weavePlain");
+            int hours = c.balance.day.HoursOf(WeaveHoursKey(v, input.patternId));
             if (!Progress.CanSpend(s, c, hours)) return Result.Fail("今天的工时不够织一匹（需要 " + hours + "）");
 
             double len = Math.Min(c.balance.day.boltLength, yarn.length * c.balance.day.clothPerYarnMeter);
@@ -191,7 +204,7 @@ namespace HuaShang.Play
         public class CutInput
         {
             public string boltId;
-            public string patternId = "ruQun";
+            public string patternId = RuQun;
             public string slot;
             public bool rotated90;
             public bool seamOnFront;
@@ -213,6 +226,7 @@ namespace HuaShang.Play
             if (bolt == null) return Result.Fail("没有这匹布");
             var pattern = c.patterns.Find(x => x.id == input.patternId);
             if (pattern == null || !pattern.launch) return Result.Fail("没有这个形制");
+            if (!Unlocks.PatternOpen(s, c, pattern.id)) return Result.Fail("这个形制还没解锁");
             if (!pattern.parts.Contains(input.slot)) return Result.Fail("这个形制没有这个部件");
             var len = pattern.partLengths.Find(x => x.slot == input.slot);
             if (len == null) return Result.Fail("docs/04 §2 没有这个部件的用量");
@@ -231,6 +245,7 @@ namespace HuaShang.Play
             var piece = new Piece
             {
                 id = Ids.Next(s, "piece"),
+                pattern = pattern.id,
                 slot = input.slot,
                 boltId = bolt.id,
                 lengthUsed = len.length,
@@ -274,11 +289,12 @@ namespace HuaShang.Play
 
         public class AssembleInput
         {
-            public string patternId = "ruQun";
+            public string patternId = RuQun;
             public List<string> pieceIds = new List<string>();
             /// <summary>人台是否打开过；没打开就入库要扣缝制分（docs/04 §5）。</summary>
             public bool previewSeen = true;
-            public string name = "襦裙";
+            /// <summary>为空时用形制名。</summary>
+            public string name;
         }
 
         public static Result Assemble(SaveRoot s, ConfigSnapshot c, AssembleInput input)
@@ -291,6 +307,7 @@ namespace HuaShang.Play
                 var p = Find.Piece(s, id);
                 if (p == null) return Result.Fail("衣片不在侧架上");
                 if (!p.sewScore.HasValue) return Result.Fail("还有部件没缝好（" + p.slot + "）");
+                if ((p.pattern ?? RuQun) != pattern.id) return Result.Fail("衣片不是这个形制裁的");
                 pieces.Add(p);
             }
             foreach (var slot in pattern.parts)
@@ -300,7 +317,7 @@ namespace HuaShang.Play
             var g = new Garment
             {
                 id = Ids.Next(s, "garment"),
-                name = input.name,
+                name = string.IsNullOrEmpty(input.name) ? pattern.name : input.name,
                 pattern = pattern.id,
                 dynastyStyle = pattern.dynasty,
                 previewSeen = input.previewSeen,
@@ -348,7 +365,7 @@ namespace HuaShang.Play
             }
 
             var outerBolt = g.parts.Count > 0 ? Find.Bolt(s, g.parts.Find(p => ItemQuality.LayerOf(p.slot) == "outer")?.boltId ?? g.parts[0].boltId) : null;
-            if (g.pattern == "ruQun" && outerBolt != null && outerBolt.dyeLayers.Exists(l => l.dyeId == "indigo"))
+            if (g.pattern == RuQun && outerBolt != null && outerBolt.dyeLayers.Exists(l => l.dyeId == "indigo"))
                 CompleteQuest(s, Tutorial2);
             return Result.Ok(g.id);
         }

@@ -135,7 +135,7 @@ MonoBehaviour:
   - id: suDuan
     name: "\u7D20\u7F0E"
     group: plain
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 2.63
@@ -152,7 +152,7 @@ MonoBehaviour:
   - id: huaDuan
     name: "\u82B1\u7F0E"
     group: plain
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 2.77

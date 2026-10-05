@@ -99,12 +99,23 @@ namespace HuaShang.Stations
 
         public override void OnApproach() { ShowCurrent(); }
 
+        /// <summary>人台上这一件的形制：按最早缝好的衣片（docs/21 §10 衣片带形制）。</summary>
+        string CurrentPattern()
+        {
+            var first = S.pieces.Find(p => p.sewScore.HasValue);
+            return first != null ? first.pattern ?? Craft.RuQun : Craft.RuQun;
+        }
+
+        List<Piece> SewnOfPattern(string pattern) => S.pieces.FindAll(p => p.sewScore.HasValue && (p.pattern ?? Craft.RuQun) == pattern);
+
         void ShowCurrent()
         {
-            var sewn = S.pieces.FindAll(p => p.sewScore.HasValue);
+            string patternNow = CurrentPattern();
+            var sewn = SewnOfPattern(patternNow);
             if (sewn.Count > 0)
             {
-                var specs = sewn.ConvertAll(p => new GarmentVisual.PartSpec { slot = p.slot, bolt = Play.Find.Bolt(S, p.boltId), sewScore = p.sewScore });
+                var prow = C.patterns.Find(x => x.id == patternNow);
+                var specs = sewn.ConvertAll(p => new GarmentVisual.PartSpec { slot = p.slot, bolt = Play.Find.Bolt(S, p.boltId), sewScore = p.sewScore, pattern = patternNow, dynasty = prow?.dynasty });
                 double t = 0;
                 var parts = sewn.ConvertAll(p => new GarmentPart { slot = p.slot, boltId = p.boltId, cutScore = p.cutScore, sewScore = p.sewScore });
                 if (ItemQuality.TryGarmentQ(S, C, parts, out var q, out _)) t = QualityCalc.T(q, C.balance.quality);
@@ -169,12 +180,13 @@ namespace HuaShang.Stations
                 Show(m);
                 return;
             }
-            var sewn = S.pieces.FindAll(p => p.sewScore.HasValue);
-            var pattern = C.patterns.Find(p => p.id == "ruQun");
+            string patternId = CurrentPattern();
+            var sewn = SewnOfPattern(patternId);
+            var pattern = C.patterns.Find(p => p.id == patternId);
             bool complete = true;
             foreach (var slot in pattern.parts)
                 if (!pattern.optionalParts.Contains(slot) && !sewn.Exists(p => p.slot == slot)) complete = false;
-            var mm = Plaque(sewn.Count == 0 ? (S.garments.Count > 0 ? "人台上是已收好的成衣" : "先去针线接好上襦与裙") : complete ? "检查后收成襦裙" : "还缺部件");
+            var mm = Plaque(sewn.Count == 0 ? (S.garments.Count > 0 ? "人台上是已收好的成衣" : "先去针线把衣片缝好") : complete ? "检查后收成" + pattern.name : "还缺部件");
             mm.body = "A / D 或拖动旋转；只有基础风与中性白光。";
             mm.secondary.Add(new KeyValuePair<string, System.Action>("近看衣领", () => Workshop.cameraDirector.GoTo(collarPose, 30f)));
             mm.secondary.Add(new KeyValuePair<string, System.Action>("近看下摆", () => Workshop.cameraDirector.GoTo(hemPose, 34f)));
@@ -182,11 +194,11 @@ namespace HuaShang.Stations
             mm.secondary.Add(new KeyValuePair<string, System.Action>("材料透光", ShowTransmittance));
             if (sewn.Count > 0)
             {
-                mm.primaryLabel = "收成襦裙";
+                mm.primaryLabel = "收成" + pattern.name;
                 mm.primaryEnabled = complete;
                 mm.onPrimary = () =>
                 {
-                    var input = new Craft.AssembleInput { previewSeen = true };
+                    var input = new Craft.AssembleInput { previewSeen = true, patternId = patternId };
                     foreach (var p in sewn) input.pieceIds.Add(p.id);
                     var r = G.Run((s, c) => Craft.Assemble(s, c, input));
                     if (r.ok) { resultGarmentId = r.createdId; depth = 2; shownGarmentId = null; ShowCurrent(); }

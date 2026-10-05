@@ -92,7 +92,7 @@ namespace HuaShang.Stations
                 m.onPrimary = () =>
                 {
                     needles = null;
-                    if (Run((s, c) => Craft.Sew(s, c, pieceId, results), Names.Slot(piece.slot) + "缝好了"))
+                    if (Run((s, c) => Craft.Sew(s, c, pieceId, results), Names.Slot(piece.slot, piece.pattern) + "缝好了"))
                     {
                         var next = S.pieces.Find(p => !p.sewScore.HasValue && p.slot != "drape");
                         pieceId = next?.id;
@@ -110,7 +110,7 @@ namespace HuaShang.Stations
                 return;
             }
             int hours = C.balance.day.HoursOf("sewPart");
-            var mm = Plaque(piece == null ? "从侧架选一片衣片" : "沿缝：" + Names.Slot(piece.slot));
+            var mm = Plaque(piece == null ? "从侧架选一片衣片" : "沿缝：" + Names.Slot(piece.slot, piece.pattern));
             mm.primaryLabel = "落针（" + hours + " 工时）";
             mm.primaryEnabled = piece != null && !piece.sewScore.HasValue && Progress.CanSpend(S, C, hours);
             mm.body = piece == null ? "披帛可以留着不缝。" : !Progress.CanSpend(S, C, hours) ? "今天的工时不够。" : "按空格落针，共 " + C.balance.weave.sewNeedlesPerPart + " 针。";
@@ -129,7 +129,7 @@ namespace HuaShang.Stations
         void ShowSewnSummary()
         {
             var sewn = S.pieces.FindAll(p => p.sewScore.HasValue);
-            var m = Plaque(string.Join("与", sewn.ConvertAll(p => Names.Slot(p.slot))) + "接好了", "缝合完成");
+            var m = Plaque(string.Join("与", sewn.ConvertAll(p => Names.Slot(p.slot, p.pattern))) + "接好了", "缝合完成");
             var parts = sewn.ConvertAll(p => new GarmentPart { slot = p.slot, boltId = p.boltId, lengthUsed = p.lengthUsed, cutScore = p.cutScore, sewScore = p.sewScore });
             if (ItemQuality.TryGarmentQ(S, C, parts, out var q, out var outer))
             {
@@ -139,10 +139,19 @@ namespace HuaShang.Stations
                             + "\n裁剪 " + outer.cut?.ToString("0") + "\n缝制 " + outer.sew?.ToString("0");
             }
             var b = parts.Count > 0 ? Play.Find.Bolt(S, parts[0].boltId) : null;
-            if (b != null) m.source = (b.id == NewGameFactory.OpeningBoltId ? "春日开局" : Names.Season(S.season) + "茧") + "平纹" + Names.Variety(C, b.variety) + "，" + Names.Layers(C, b) + "，汉风襦裙";
+            if (b != null) m.source = (b.id == NewGameFactory.OpeningBoltId ? "春日开局" : Names.Season(S.season) + "茧") + "平纹" + Names.Variety(C, b.variety) + "，" + Names.Layers(C, b) + "，" + PatternLabel(sewn);
             m.primaryLabel = "走近人台";
             m.onPrimary = () => Workshop.Approach(Workshop.stations.Find(x => x.stationId == "station_form"));
             Show(m);
+        }
+
+        /// <summary>来源句里的风格与形制，例如「汉风襦裙」「宋风大袖衫」（docs/12 §2 来源句）。</summary>
+        string PatternLabel(List<Piece> sewn)
+        {
+            string pid = sewn.Count > 0 ? sewn[0].pattern ?? Craft.RuQun : Craft.RuQun;
+            var row = C.patterns.Find(x => x.id == pid);
+            if (row == null) return "";
+            return Names.Dynasty(row.dynasty) + row.name;
         }
     }
 }

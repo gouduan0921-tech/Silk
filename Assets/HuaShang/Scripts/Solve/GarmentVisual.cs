@@ -26,6 +26,10 @@ namespace HuaShang.Solve
             public string slot;
             public Bolt bolt;
             public double? sewScore;
+            /// <summary>形制 id，决定 robe 的形体（直裾长袍或大袖）；为空按襦裙。</summary>
+            public string pattern;
+            /// <summary>成衣的朝代风格（形制决定）；为空用布匹自己的。</summary>
+            public string dynasty;
         }
 
         public void Clear()
@@ -50,6 +54,9 @@ namespace HuaShang.Solve
                     case "skirt": mesh = GarmentShapes.Skirt("SK_part_skirt"); layer = ClothLayer.Outer; break;
                     case "inner": mesh = GarmentShapes.Inner("SK_part_inner"); layer = ClothLayer.Inner; break;
                     case "drape": mesh = GarmentShapes.Drape("SK_part_drape"); layer = ClothLayer.Drape; break;
+                    case "robe":
+                        mesh = sp.pattern == "daXiuShan" ? GarmentShapes.BigSleeve("SK_part_daxiu") : GarmentShapes.Robe("SK_part_robe");
+                        layer = ClothLayer.Outer; break;
                     default: mesh = GarmentShapes.Upper("SK_part_upper"); layer = ClothLayer.Outer; break;
                 }
                 var go = new GameObject("Part_" + sp.slot);
@@ -64,8 +71,8 @@ namespace HuaShang.Solve
                 part.layered = layered;
                 var b = sp.bolt;
                 var d = string.IsNullOrEmpty(presentMode) || presentMode == ClothDescribe.ModeStandard
-                    ? ClothDescribe.FromLayers(c, b.variety, t, b.dynastyStyle, b.dyeLayers, b.finish, b.edgeDamage, sp.sewScore)
-                    : ClothDescribe.ForPresentation(c, presentMode, b.variety, t, b.dynastyStyle, b.dyeLayers, b.finish, b.edgeDamage, sp.sewScore);
+                    ? ClothDescribe.FromLayers(c, b.variety, t, sp.dynasty ?? b.dynastyStyle, b.dyeLayers, b.finish, b.edgeDamage, sp.sewScore)
+                    : ClothDescribe.ForPresentation(c, presentMode, b.variety, t, sp.dynasty ?? b.dynastyStyle, b.dyeLayers, b.finish, b.edgeDamage, sp.sewScore);
                 part.Build(d, ClothLook.DyedColor(b.dyeLayers, c.balance.dye), c.clothFixed, paint, body.colliders, false);
                 parts.Add(part);
             }
@@ -75,7 +82,7 @@ namespace HuaShang.Solve
         public void BuildGarment(SaveRoot s, ConfigSnapshot c, Garment g, string presentMode = null)
         {
             var specs = new List<PartSpec>();
-            foreach (var p in g.parts) specs.Add(new PartSpec { slot = p.slot, bolt = Play.Find.Bolt(s, p.boltId), sewScore = p.sewScore });
+            foreach (var p in g.parts) specs.Add(new PartSpec { slot = p.slot, bolt = Play.Find.Bolt(s, p.boltId), sewScore = p.sewScore, pattern = g.pattern, dynasty = g.dynastyStyle });
             double t = ItemQuality.TryGarmentQ(s, c, g.parts, out var q, out _) ? QualityCalc.T(q, c.balance.quality) : 0;
             Build(c, specs, t, g.traits != null && g.traits.Contains("层叠"), presentMode ?? g.presentMode);
         }

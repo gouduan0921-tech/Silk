@@ -43,7 +43,7 @@ namespace HuaShang.Stations
             {
                 if (q.tutorial) lines.Add((q.done ? "✓ " : "· ") + TutorialText(q.id));
                 else if (!q.expired && !q.done)
-                    lines.Add("· 委托：" + Names.Variety(C, q.needVariety) + "襦裙，" + Names.Dye(C, q.needDye) + "，至少" + Names.Tier(q.needMinTier)
+                    lines.Add("· 委托：" + Names.Variety(C, q.needVariety) + "成衣，" + Names.Dye(C, q.needDye) + "，至少" + Names.Tier(q.needMinTier)
                               + "（第 " + (q.expireDay + 1) + " 日前" + (q.characterId != null ? "，" + Names.Character(C, q.characterId) : "") + "）");
             }
             var season = Seasons.Current(S, C);

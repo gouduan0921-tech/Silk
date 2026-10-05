@@ -110,10 +110,11 @@ namespace HuaShang.DocImport
         static readonly Dictionary<string, string> SlotNames = new Dictionary<string, string>
         {
             { "上襦", "upper" }, { "裙", "skirt" }, { "披帛", "drape" }, { "衬里", "inner" },
+            { "袍", "robe" }, { "大袖", "robe" },
         };
         static readonly Dictionary<string, string> PatternNames = new Dictionary<string, string>
         {
-            { "襦裙", "ruQun" },
+            { "襦裙", "ruQun" }, { "直裾", "zhiJu" }, { "大袖衫", "daXiuShan" },
         };
 
         /// <summary>从工程根目录（含 docs/ 的目录）读出全部配置。</summary>
@@ -207,7 +208,7 @@ namespace HuaShang.DocImport
                     group = group,
                     stretchGroup = group,
                     idProvisional = !HandbookVarietyIds.Contains(id),
-                    launch = r[6].StartsWith("是", StringComparison.Ordinal),
+                    launch = IsOpen(r[6]),
                     liningOnly = r[6].Contains("仅衬里"),
                 };
                 Num.Range(r[1], s8.where, out v.densityMin, out v.densityMax);
@@ -271,11 +272,20 @@ namespace HuaShang.DocImport
         static void ReadPattern(Section s07, Section s04day, ConfigSnapshot c)
         {
             var m = s07.MatchAll("首发形制只有(\\S+?)：(\\S+?)。");
-            string patternName = m.Groups[1].Value;
+            AddPattern(m.Groups[1].Value, "汉", m.Groups[2].Value, s07, s04day, c);
+            // 工艺章形制：名（朝代）：部件。（docs/07 §3）
+            foreach (Match cm in Regex.Matches(s07.text, "(\\p{IsCJKUnifiedIdeographs}+)（(\\p{IsCJKUnifiedIdeographs})）：([^。]+)。"))
+                AddPattern(cm.Groups[1].Value, cm.Groups[2].Value, cm.Groups[3].Value, s07, s04day, c);
+        }
+
+        static void AddPattern(string patternName, string dynastyLabel, string partsText, Section s07, Section s04day, ConfigSnapshot c)
+        {
             if (!PatternNames.TryGetValue(patternName, out var pid))
                 throw new DocParseException(s07.where + " 的形制「" + patternName + "」没有 id");
-            var p = new PatternRow { id = pid, name = patternName, dynasty = "han", launch = true };
-            foreach (var raw in m.Groups[2].Value.Split('、'))
+            if (!Dynasties.TryGetValue(dynastyLabel, out var dyn))
+                throw new DocParseException(s07.where + " 的形制「" + patternName + "」朝代「" + dynastyLabel + "」未知");
+            var p = new PatternRow { id = pid, name = patternName, dynasty = dyn, launch = true };
+            foreach (var raw in partsText.Split('、'))
             {
                 bool optional = raw.StartsWith("可选", StringComparison.Ordinal);
                 string n = optional ? raw.Substring(2) : raw;
@@ -293,6 +303,9 @@ namespace HuaShang.DocImport
             }
             c.patterns.Add(p);
         }
+
+        /// <summary>开放列：「是」为首发，「工艺章」为首发后第一章；「否」不开放。</summary>
+        static bool IsOpen(string cell) => cell.StartsWith("是", StringComparison.Ordinal) || cell.StartsWith("工艺章", StringComparison.Ordinal);
 
         // ---- docs/16 角色 ----
 
@@ -483,7 +496,7 @@ namespace HuaShang.DocImport
                 {
                     level = int.Parse(r[0]),
                     raw = r[1],
-                    launch = r[2].StartsWith("是", StringComparison.Ordinal),
+                    launch = IsOpen(r[2]),
                 };
                 var lv = c.balance.economy.levels.Find(l => l.level == u.level);
                 if (lv == null) throw new DocParseException(s1.where + " 的等级 " + u.level + " 在 docs/04 §7 没有经验门槛");
@@ -655,7 +668,7 @@ namespace HuaShang.DocImport
                     else o.parsed = false;
                 }
                 if (o.parsed) { o.density = vals[0]; o.bend = vals[1]; o.wind = vals[2]; o.gloss = vals[3]; }
-                o.launch = o.parsed && r[0] == launchDynasty;
+                o.launch = o.parsed && (r[0] == launchDynasty || s.text.Contains(r[0] + "的行在工艺章启用"));
                 q.dynasties.Add(o);
             }
 

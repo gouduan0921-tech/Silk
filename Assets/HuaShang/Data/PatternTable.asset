@@ -34,3 +34,38 @@ MonoBehaviour:
       length: 2.5
     dynasty: han
     launch: 1
+  - id: zhiJu
+    name: "\u76F4\u88FE"
+    parts:
+    - robe
+    - inner
+    optionalParts:
+    - inner
+    partLengths:
+    - slot: robe
+      length: 6
+    - slot: inner
+      length: 2.5
+    dynasty: han
+    launch: 1
+  - id: daXiuShan
+    name: "\u5927\u8896\u886B"
+    parts:
+    - robe
+    - skirt
+    - drape
+    - inner
+    optionalParts:
+    - drape
+    - inner
+    partLengths:
+    - slot: robe
+      length: 4
+    - slot: skirt
+      length: 3
+    - slot: drape
+      length: 1.5
+    - slot: inner
+      length: 2.5
+    dynasty: song
+    launch: 1

@@ -8,7 +8,7 @@ using HuaShang.UI;
 namespace HuaShang.Stations
 {
     /// <summary>
-    /// 裁桌（docs/07 §3）：上襦、裙、可选披帛与衬里，用量见 docs/04 §2。
+    /// 裁桌（docs/07 §3）：按已开放的形制裁部件，用量见 docs/04 §2。
     /// 横放有方向提醒，拼缝不妥给出图标加文字；警告不阻止确认，衣片仍保留。
     /// </summary>
     public class CutStation : StationBase
@@ -17,6 +17,7 @@ namespace HuaShang.Stations
         Transform pieceOutline;
         string boltId;
         string slot = "upper";
+        string patternId = Craft.RuQun;
         bool rotated, seamFront;
         string sizeClass = "standard";
         static readonly string[] Sizes = { "narrow", "standard", "wide" };
@@ -65,16 +66,27 @@ namespace HuaShang.Stations
         {
             H.SetRack(RackView.Build(S, C, k => k == RackView.Kind.Bolt || k == RackView.Kind.Piece, boltId,
                 (k, id) => { if (k == RackView.Kind.Bolt) { boltId = id; Refresh(); } }, (k, id) => k == RackView.Kind.Bolt));
-            var pattern = C.patterns.Find(p => p.id == "ruQun");
-            var bolt = boltId != null ? Play.Find.Bolt(S, boltId) : null;
-            var m = Plaque(bolt == null ? "从侧架拖一匹布到裁桌" : "铺布，裁下" + Names.Slot(slot));
-
+            var openPatterns = Unlocks.OpenPatterns(S, C);
+            if (!openPatterns.Contains(patternId)) patternId = openPatterns.Count > 0 ? openPatterns[0] : Craft.RuQun;
+            var pattern = C.patterns.Find(p => p.id == patternId);
             var parts = new List<string>(pattern.parts);
+            if (!parts.Contains(slot)) slot = parts[0];
+            var bolt = boltId != null ? Play.Find.Bolt(S, boltId) : null;
+            var m = Plaque(bolt == null ? "从侧架拖一匹布到裁桌" : "铺布，裁下" + Names.Slot(slot, patternId));
+
+            if (openPatterns.Count > 1)
+            {
+                var fg = new OptionGroup { label = "形制" };
+                foreach (var id in openPatterns) fg.choices.Add(C.patterns.Find(x => x.id == id).name);
+                fg.selected = openPatterns.IndexOf(patternId);
+                fg.onSelect = i => { patternId = openPatterns[i]; Refresh(); };
+                m.options.Add(fg);
+            }
             var pg = new OptionGroup { label = "部件" };
             foreach (var p in parts)
             {
                 var len = pattern.partLengths.Find(x => x.slot == p);
-                pg.choices.Add(Names.Slot(p) + (len != null ? " " + Names.Meters(len.length) : ""));
+                pg.choices.Add(Names.Slot(p, patternId) + (len != null ? " " + Names.Meters(len.length) : ""));
             }
             pg.selected = parts.IndexOf(slot);
             pg.onSelect = i => slot = parts[i];
@@ -88,16 +100,16 @@ namespace HuaShang.Stations
             int hours = C.balance.day.HoursOf("cutPart");
             var lenRow = pattern.partLengths.Find(x => x.slot == slot);
             bool enough = bolt != null && lenRow != null && bolt.length + 1e-6 >= lenRow.length;
-            m.primaryLabel = "裁下" + Names.Slot(slot) + "（" + hours + " 工时）";
+            m.primaryLabel = "裁下" + Names.Slot(slot, patternId) + "（" + hours + " 工时）";
             m.primaryEnabled = enough && Progress.CanSpend(S, C, hours);
-            m.body = bolt == null ? "" : !enough ? "这匹布剩 " + Names.Meters(bolt.length) + "，不够裁" + Names.Slot(slot) + "。"
+            m.body = bolt == null ? "" : !enough ? "这匹布剩 " + Names.Meters(bolt.length) + "，不够裁" + Names.Slot(slot, patternId) + "。"
                 : !Progress.CanSpend(S, C, hours) ? "今天的工时不够。" : Names.Bolt(C, bolt) + "：" + Names.Layers(C, bolt) + "，剩 " + Names.Meters(bolt.length) + "。";
             m.onPrimary = () =>
             {
-                var input = new Craft.CutInput { boltId = boltId, slot = slot, rotated90 = rotated, seamOnFront = seamFront, sizeClass = sizeClass };
-                if (Run((s, c) => Craft.Cut(s, c, input), Names.Slot(slot) + "已裁下，留在侧架"))
+                var input = new Craft.CutInput { boltId = boltId, patternId = patternId, slot = slot, rotated90 = rotated, seamOnFront = seamFront, sizeClass = sizeClass };
+                if (Run((s, c) => Craft.Cut(s, c, input), Names.Slot(slot, patternId) + "已裁下，留在侧架"))
                 {
-                    var left = parts.FindAll(p => !S.pieces.Exists(x => x.slot == p));
+                    var left = parts.FindAll(p => !S.pieces.Exists(x => x.slot == p && (x.pattern ?? Craft.RuQun) == patternId));
                     if (left.Count > 0) slot = left[0];
                     Refresh();
                 }

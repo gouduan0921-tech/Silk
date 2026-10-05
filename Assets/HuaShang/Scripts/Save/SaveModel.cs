@@ -152,6 +152,8 @@ namespace HuaShang.Save
     public class Piece
     {
         public string id;
+        /// <summary>裁时选的形制（docs/21 §10）；旧档为空时按襦裙。</summary>
+        public string pattern;
         public string slot;
         public string boltId;
         public double lengthUsed;

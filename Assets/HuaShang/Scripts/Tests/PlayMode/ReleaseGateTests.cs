@@ -14,7 +14,7 @@ namespace HuaShang.Tests
 {
     /// <summary>
     /// 发布门（docs/26 §1）在运行时的验收：第 4 条穿得上、第 6 条呈现模式不改仓库、
-    /// 第 8 条低布料质量、第 9 条静音音乐后仍有操作声。第 1、2、3、5、7 条见 WorkshopFlowTests、VisualProofTests 与 EditMode。
+    /// 第 8 条低布料质量、第 9 条静音音乐后仍有操作声。第 1、2、3、5、7 条见 WorkshopFlowTests、ClothProofTests 与 EditMode。
     /// </summary>
     public class ReleaseGateTests : ChainSceneTestBase
     {

@@ -48,6 +48,17 @@ MonoBehaviour:
     substitutes:
     - whenMissing: huaSha
       countsAs: suSha
+  - id: liQingZhao
+    name: "\u674E\u6E05\u7167"
+    template: cold
+    preferVariety:
+    - juan
+    - keSi
+    preferDynasty: 
+    launchTierMax: 0
+    enabled: 1
+    note: "\u5149\u6CFD\u8FC7\u9AD8\u4E0D\u52A0\u5206"
+    substitutes: []
   - id: yangGuiFei
     name: "\u6768\u8D35\u5983"
     template: rich
@@ -56,8 +67,8 @@ MonoBehaviour:
     - zhuangHuaDuan
     - yunJin
     preferDynasty: 
-    launchTierMax: 0
-    enabled: 0
+    launchTierMax: 30
+    enabled: 1
     note: "\u4E14\u8981\u62AB\u5E1B"
     substitutes: []
   - id: diaoChan
@@ -82,17 +93,6 @@ MonoBehaviour:
     launchTierMax: 0
     enabled: 0
     note: 
-    substitutes: []
-  - id: liQingZhao
-    name: "\u674E\u6E05\u7167"
-    template: cold
-    preferVariety:
-    - juan
-    - keSi
-    preferDynasty: 
-    launchTierMax: 0
-    enabled: 0
-    note: "\u5149\u6CFD\u8FC7\u9AD8\u4E0D\u52A0\u5206"
     substitutes: []
   - id: yuJi
     name: "\u865E\u59EC"

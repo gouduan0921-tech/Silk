@@ -45,6 +45,20 @@ namespace HuaShang.Play
             return false;
         }
 
+        /// <summary>等级表里不对应表格行的条目，例如「提花花本」「宋风」。</summary>
+        public static bool OtherOpen(SaveRoot s, ConfigSnapshot c, string token)
+        {
+            foreach (var u in Open(s, c)) if (u.other.Contains(token)) return true;
+            return false;
+        }
+
+        public static List<string> OpenPatterns(SaveRoot s, ConfigSnapshot c)
+        {
+            var list = new List<string>();
+            foreach (var p in c.patterns) if (p.launch && PatternOpen(s, c, p.id)) list.Add(p.id);
+            return list;
+        }
+
         public static List<string> OpenVarieties(SaveRoot s, ConfigSnapshot c)
         {
             var list = new List<string>();

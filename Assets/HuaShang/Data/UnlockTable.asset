@@ -59,30 +59,32 @@ MonoBehaviour:
     raw: "\u8D75\u98DE\u71D5\u4E0E\u738B\u662D\u541B\u7684 0 \u6863\u3001\u59D4\u6258\u5237\u65B0"
   - level: 4
     xpRequired: 400
-    launch: 0
-    varieties: []
+    launch: 1
+    varieties:
+    - suDuan
     dyes: []
-    patterns: []
+    patterns:
+    - zhiJu
     characters:
     - characterId: liQingZhao
       tiers: 
     other:
-    - "\u7F0E"
     - "\u5B8B\u98CE"
-    raw: "\u7F0E\u3001\u5B8B\u98CE\u3001\u674E\u6E05\u7167"
+    raw: "\u7D20\u7F0E\u3001\u5B8B\u98CE\u3001\u76F4\u88FE\u3001\u674E\u6E05\u7167"
   - level: 5
     xpRequired: 700
-    launch: 0
-    varieties: []
+    launch: 1
+    varieties:
+    - huaDuan
     dyes: []
-    patterns: []
+    patterns:
+    - daXiuShan
     characters:
     - characterId: yangGuiFei
       tiers: 000000001e000000i
     other:
-    - "\u63D0\u82B1"
-    - "\u5927\u8896\u886B"
-    raw: "\u63D0\u82B1\u3001\u5927\u8896\u886B\u3001\u6768\u8D35\u5983 0/30"
+    - "\u63D0\u82B1\u82B1\u672C"
+    raw: "\u63D0\u82B1\u82B1\u672C\u3001\u82B1\u7F0E\u3001\u5927\u8896\u886B\u3001\u6768\u8D35\u5983 0/30"
   - level: 6
     xpRequired: 1100
     launch: 0

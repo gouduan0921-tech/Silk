@@ -148,7 +148,7 @@ MonoBehaviour:
         gloss: 0
       - dynasty: song
         label: "\u5B8B"
-        launch: 0
+        launch: 1
         parsed: 1
         density: 0.95
         bend: 0.9
@@ -478,6 +478,24 @@ MonoBehaviour:
         setup: 12
         develop: 0
         climax: 0
+        coda: 6
+      - characterId: liQingZhao
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: yangGuiFei
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: yangGuiFei
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
         coda: 6
     exhibit:
       quality: 0.4

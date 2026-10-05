@@ -14,8 +14,11 @@ namespace HuaShang.Rules.Config
         /// <summary>docs/05 §4 的槽位。</summary>
         public static readonly string[] Slots = { "inner", "upper", "skirt", "drape", "robe", "wrap" };
 
-        /// <summary>docs/05 §5：除此角色外，首发角色的 launchTierMax 不超过 0。</summary>
-        public const string TierExceptionCharacter = "xiShi";
+        /// <summary>docs/05 §9：可到 30 档的角色；其余启用角色不超过 0。</summary>
+        public static readonly string[] TierExceptionCharacters = { "xiShi", "yangGuiFei" };
+
+        /// <summary>docs/16 §2 启用表里的角色（首发三位与工艺章两位）。</summary>
+        public static readonly string[] EnabledCharacters = { "xiShi", "wangZhaoJun", "zhaoFeiYan", "liQingZhao", "yangGuiFei" };
 
         public static List<string> Validate(ConfigSnapshot c)
         {
@@ -56,15 +59,15 @@ namespace HuaShang.Rules.Config
             foreach (var ch in c.characters)
             {
                 if (!ch.enabled) continue;
-                int cap = ch.id == TierExceptionCharacter ? 30 : 0;
+                int cap = System.Array.IndexOf(TierExceptionCharacters, ch.id) >= 0 ? 30 : 0;
                 if (ch.launchTierMax > cap)
                     errors.Add("角色 " + ch.id + " 的 launchTierMax " + ch.launchTierMax + " 超过 " + cap);
             }
 
             // 5 非首发角色关闭：首发名单之外的角色必须 enabled 为 false（docs/16 §3、docs/11）
             foreach (var ch in c.characters)
-                if (ch.enabled && ch.id != "xiShi" && ch.id != "wangZhaoJun" && ch.id != "zhaoFeiYan")
-                    errors.Add("非首发角色 " + ch.id + " 未关闭");
+                if (ch.enabled && System.Array.IndexOf(EnabledCharacters, ch.id) < 0)
+                    errors.Add("未启用的角色 " + ch.id + " 未关闭");
 
             // 其他：开局与固定项
             if (c.opening.bolt == null || string.IsNullOrEmpty(c.opening.bolt.variety))

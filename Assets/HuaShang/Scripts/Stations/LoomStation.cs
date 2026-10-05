@@ -129,16 +129,20 @@ namespace HuaShang.Stations
                 var vg = new OptionGroup { label = "品种" };
                 foreach (var v in open) vg.choices.Add(Names.Variety(C, v));
                 vg.selected = open.IndexOf(varietyId);
-                vg.onSelect = i => varietyId = open[i];
+                vg.onSelect = i => { varietyId = open[i]; Refresh(); };
                 m.options.Add(vg);
                 var patterns = new List<string> { Craft.PatternPlain };
                 if (S.level >= 2) patterns.Add(Craft.PatternGrid); // docs/10 §1：细方格花本 2 级
+                if (Unlocks.OtherOpen(S, C, "提花花本")) patterns.Add(Craft.PatternJacquard); // 工艺章 5 级
+                if (!patterns.Contains(patternId)) patternId = Craft.PatternPlain;
                 var pg = new OptionGroup { label = "花本" };
-                foreach (var p in patterns) pg.choices.Add(p == Craft.PatternPlain ? "素" : "细方格");
+                foreach (var p in patterns) pg.choices.Add(p == Craft.PatternPlain ? "素" : p == Craft.PatternGrid ? "细方格" : "提花");
                 pg.selected = patterns.IndexOf(patternId);
-                pg.onSelect = i => patternId = patterns[i];
+                pg.onSelect = i => { patternId = patterns[i]; Refresh(); };
                 m.options.Add(pg);
-                int hours = C.balance.day.HoursOf("weavePlain");
+                var vsel = C.varieties.Find(v => v.id == varietyId);
+                int hours = C.balance.day.HoursOf(Craft.WeaveHoursKey(vsel, patternId));
+                if (!Craft.PatternFits(vsel, patternId)) m.warnings.Add("花缎要用提花花本：花本选错，花位分归零");
                 m.primaryLabel = "开织（" + hours + " 工时）";
                 m.primaryEnabled = yarnId != null && Progress.CanSpend(S, C, hours);
                 m.body = Progress.CanSpend(S, C, hours) ? "织机不会自动取纱，先在侧架点一束。" : "今天的工时不够织一匹。";
@@ -154,7 +158,8 @@ namespace HuaShang.Stations
             }
             if (depth == 2)
             {
-                var input = new Craft.WeaveInput { yarnId = yarnId, varietyId = varietyId, patternId = patternId, segments = segments };
+                var input = new Craft.WeaveInput { yarnId = yarnId, varietyId = varietyId, patternId = patternId, segments = segments,
+                    patternCorrect = Craft.PatternFits(C.varieties.Find(v => v.id == varietyId), patternId) };
                 var m = Plaque("下机");
                 var yarn = Play.Find.Yarn(S, yarnId);
                 var vrow = C.varieties.Find(v => v.id == varietyId);

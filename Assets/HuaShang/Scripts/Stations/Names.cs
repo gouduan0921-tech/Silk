@@ -23,6 +23,9 @@ namespace HuaShang.Stations
         public static string Dye(ConfigSnapshot c, string id) => c.dyes.Find(d => d.id == id)?.name ?? id;
         public static string Character(ConfigSnapshot c, string id) => c.characters.Find(x => x.id == id)?.name ?? id;
 
+        /// <summary>形制里的部件名：大袖衫的 robe 叫「大袖」（docs/07 §3）。</summary>
+        public static string Slot(string slot, string pattern) => slot == "robe" && pattern == "daXiuShan" ? "大袖" : Slot(slot);
+
         public static string Slot(string slot)
         {
             switch (slot)
@@ -31,6 +34,7 @@ namespace HuaShang.Stations
                 case "skirt": return "裙";
                 case "drape": return "披帛";
                 case "inner": return "衬里";
+                case "robe": return "袍";
                 default: return slot;
             }
         }
@@ -75,13 +79,15 @@ namespace HuaShang.Stations
         }
 
         /// <summary>来源句（docs/12 §2）：「精良 · 春茧平纹绢，靛蓝一套」的句式。</summary>
+        public static string Dynasty(string d) => d == "song" ? "宋风" : d == "tang" ? "唐风" : d == "ming" ? "明风" : "汉风";
+
         public static string Source(SaveRoot s, ConfigSnapshot c, Garment g)
         {
             var outer = g.parts.Find(p => ItemQuality.LayerOf(p.slot) == "outer");
             var b = outer != null ? Play.Find.Bolt(s, outer.boltId) : null;
             if (b == null) return Tier(g.tier) + " · " + g.name;
             string origin = b.id == NewGameFactory.OpeningBoltId ? "开局" : Season(s.season) + "茧";
-            return Tier(g.tier) + " · " + origin + "平纹" + Variety(c, b.variety) + "，" + Layers(c, b) + "，汉风" + g.name;
+            return Tier(g.tier) + " · " + origin + "平纹" + Variety(c, b.variety) + "，" + Layers(c, b) + "，" + Dynasty(g.dynastyStyle) + g.name;
         }
     }
 
@@ -123,7 +129,7 @@ namespace HuaShang.Stations
             foreach (var p in s.pieces)
             {
                 var b = Play.Find.Bolt(s, p.boltId);
-                Add(Kind.Piece, p.id, Names.Slot(p.slot) + "衣片", p.sewScore.HasValue ? "已裁 · 已缝" : "已裁 · 未缝", b != null ? Names.BoltColor(c, b) : Color.white);
+                Add(Kind.Piece, p.id, Names.Slot(p.slot, p.pattern) + "衣片", p.sewScore.HasValue ? "已裁 · 已缝" : "已裁 · 未缝", b != null ? Names.BoltColor(c, b) : Color.white);
             }
             foreach (var b in s.bolts)
             {
