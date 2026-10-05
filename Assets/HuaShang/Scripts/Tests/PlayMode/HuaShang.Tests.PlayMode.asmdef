@@ -1,0 +1,27 @@
+{
+    "name": "HuaShang.Tests.PlayMode",
+    "rootNamespace": "HuaShang.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "HuaShang",
+        "HuaShang.Rules",
+        "HuaShang.Data",
+        "HuaShang.Save",
+        "HuaShang.Play",
+        "MagicaClothV2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

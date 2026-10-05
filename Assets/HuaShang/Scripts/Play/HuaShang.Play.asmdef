@@ -1,0 +1,17 @@
+{
+    "name": "HuaShang.Play",
+    "rootNamespace": "HuaShang.Play",
+    "references": [
+        "HuaShang.Rules",
+        "HuaShang.Save"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6453489165654689939f2277ec921c6, type: 3}
+  m_Name: ConfigDatabase
+  m_EditorClassIdentifier: HuaShang.Data::HuaShang.Data.ConfigDatabase
+  varieties: {fileID: 11400000, guid: 52ecc7edfb39e4a2a8c3b9f5ca67f65b, type: 2}
+  stretchGroups: {fileID: 11400000, guid: 27121ce5ce37d47fa8327eb2ff1c6c87, type: 2}
+  dyes: {fileID: 11400000, guid: cd0bd8bc1ffb948e0b61c0275d27600d, type: 2}
+  patterns: {fileID: 11400000, guid: caed3af661ba04477bfdd75cb4318efa, type: 2}
+  characters: {fileID: 11400000, guid: 2460b72d08b3c4bea9cc395eb7fd9242, type: 2}
+  stages: {fileID: 11400000, guid: 1ac994f444b704bc282b759b71bba32b, type: 2}
+  quests: {fileID: 11400000, guid: 5e8200906de644decbadd32380dccf72, type: 2}
+  activities: {fileID: 11400000, guid: 0c147296f061a4519b4869f9b657f869, type: 2}
+  unlocks: {fileID: 11400000, guid: 390cfa75db02a43219a91cb3b4c67cac, type: 2}
+  balance: {fileID: 11400000, guid: 81ec43e42c4f044ad88f1822a1812ae9, type: 2}
+  opening: {fileID: 11400000, guid: 19086d3a066084882ac5985e1dcfef35, type: 2}
+  clothFixed: {fileID: 11400000, guid: 5755a78c396724191956226f5a374fb9, type: 2}

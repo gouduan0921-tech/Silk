@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6c471a9d07494a4c897052bf67dba9b, type: 3}
+  m_Name: StretchGroupTable
+  m_EditorClassIdentifier: HuaShang.Data::HuaShang.Data.StretchGroupTable
+  rows:
+  - id: gauze
+    name: "\u7EB1\u7F57"
+    distanceMin: 0.82
+    distanceMax: 0.92
+    dampingMin: 0.02
+    dampingMax: 0.05
+  - id: plain
+    name: "\u7EE2\u7EF8\u7EEB\u7F0E\u3001\u6539\u673A"
+    distanceMin: 0.9
+    distanceMax: 0.98
+    dampingMin: 0.04
+    dampingMax: 0.08
+  - id: brocade
+    name: "\u9526\u3001\u4E91\u9526\u3001\u5986\u82B1\u3001\u7F02\u4E1D"
+    distanceMin: 0.96
+    distanceMax: 1
+    dampingMin: 0.08
+    dampingMax: 0.14
+  - id: bast
+    name: "\u9EBB\u845B"
+    distanceMin: 0.92
+    distanceMax: 0.99
+    dampingMin: 0.06
+    dampingMax: 0.12

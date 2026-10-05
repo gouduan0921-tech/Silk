@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 544cd0c97dd2d420f96b2087eb327be8, type: 3}
+  m_Name: DyeTable
+  m_EditorClassIdentifier: HuaShang.Data::HuaShang.Data.DyeTable
+  rows:
+  - id: indigo
+    name: "\u975B\u84DD"
+    role: color
+    launch: 1
+    bestSeason: summer
+  - id: madder
+    name: "\u831C\u8349"
+    role: color
+    launch: 1
+    bestSeason: autumn
+  - id: gardenia
+    name: "\u6800\u5B50"
+    role: color
+    launch: 1
+    bestSeason: autumn
+  - id: safflower
+    name: "\u7EA2\u82B1"
+    role: color
+    launch: 0
+    bestSeason: summer
+  - id: pagoda
+    name: "\u69D0\u7C73"
+    role: color
+    launch: 0
+    bestSeason: spring
+  - id: sappan
+    name: "\u82CF\u6728"
+    role: color
+    launch: 0
+    bestSeason: any
+  - id: acorn
+    name: "\u7682\u6597"
+    role: color
+    launch: 0
+    bestSeason: autumn
+  - id: vitriol
+    name: "\u7EFF\u77FE"
+    role: mordant
+    launch: 0
+    bestSeason: any

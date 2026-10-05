@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35980e51718843a88424e404436e99a, type: 3}
+  m_Name: UnlockTable
+  m_EditorClassIdentifier: HuaShang.Data::HuaShang.Data.UnlockTable
+  rows:
+  - level: 1
+    xpRequired: 0
+    launch: 1
+    varieties:
+    - suSha
+    - juan
+    dyes:
+    - indigo
+    - madder
+    patterns:
+    - ruQun
+    characters:
+    - characterId: xiShi
+      tiers: 
+    other:
+    - "\u5BB6\u8695"
+    - "\u5E73\u7EB9"
+    raw: "\u5BB6\u8695\u3001\u5E73\u7EB9\u3001\u7D20\u7EB1\u4E0E\u7EE2\u3001\u975B\u84DD\u4E0E\u831C\u8349\u3001\u8966\u88D9\u3001\u897F\u65BD"
+  - level: 2
+    xpRequired: 80
+    launch: 1
+    varieties:
+    - chou
+    dyes:
+    - gardenia
+    patterns: []
+    characters: []
+    other:
+    - "\u7EC6\u65B9\u683C\u82B1\u672C"
+    raw: "\u7EF8\u3001\u6800\u5B50\u3001\u7EC6\u65B9\u683C\u82B1\u672C"
+  - level: 3
+    xpRequired: 200
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: zhaoFeiYan
+      tiers: 00000000i
+    - characterId: wangZhaoJun
+      tiers: 00000000i
+    other:
+    - "\u59D4\u6258\u5237\u65B0"
+    raw: "\u8D75\u98DE\u71D5\u4E0E\u738B\u662D\u541B\u7684 0 \u6863\u3001\u59D4\u6258\u5237\u65B0"
+  - level: 4
+    xpRequired: 400
+    launch: 0
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: liQingZhao
+      tiers: 
+    other:
+    - "\u7F0E"
+    - "\u5B8B\u98CE"
+    raw: "\u7F0E\u3001\u5B8B\u98CE\u3001\u674E\u6E05\u7167"
+  - level: 5
+    xpRequired: 700
+    launch: 0
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: yangGuiFei
+      tiers: 000000001e000000i
+    other:
+    - "\u63D0\u82B1"
+    - "\u5927\u8896\u886B"
+    raw: "\u63D0\u82B1\u3001\u5927\u8896\u886B\u3001\u6768\u8D35\u5983 0/30"
+  - level: 6
+    xpRequired: 1100
+    launch: 0
+    varieties:
+    - yunJin
+    - gaiJi
+    dyes: []
+    patterns: []
+    characters: []
+    other:
+    - "\u660E\u98CE"
+    raw: "\u4E91\u9526\u3001\u6539\u673A\u3001\u660E\u98CE"

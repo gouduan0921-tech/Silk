@@ -1,0 +1,25 @@
+{
+    "name": "HuaShang.Editor",
+    "rootNamespace": "HuaShang.EditorTools",
+    "references": [
+        "HuaShang.Rules",
+        "HuaShang.DocImport",
+        "HuaShang.Data",
+        "HuaShang",
+        "HuaShang.Save",
+        "HuaShang.Play",
+        "Unity.Timeline",
+        "Unity.Timeline.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

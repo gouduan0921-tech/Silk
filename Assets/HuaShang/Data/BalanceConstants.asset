@@ -1,0 +1,462 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba9a85c11aa14de6b8486726269ced3, type: 3}
+  m_Name: BalanceConstants
+  m_EditorClassIdentifier: HuaShang.Data::HuaShang.Data.BalanceConstants
+  balance:
+    day:
+      hoursPerDay: 8
+      teachingDayHours: 13
+      hours:
+      - key: feed
+        label: "\u5582\u8695\u6216\u63A7\u6E29"
+        hours: 1
+      - key: reel
+        label: "\u7F2B\u4E1D\u4E00\u675F"
+        hours: 2
+      - key: weavePlain
+        label: "\u5E73\u7EB9\u4E00\u5339"
+        hours: 3
+      - key: weaveTwillSatin
+        label: "\u659C\u7EB9\u6216\u7D20\u7F0E\u4E00\u5339"
+        hours: 4
+      - key: weaveJacquard
+        label: "\u63D0\u82B1\u3001\u9526\u3001\u7F02\u4E1D\u4E00\u5339"
+        hours: 6
+      - key: dyeBath
+        label: "\u6D78\u67D3\u4E00\u5339"
+        hours: 2
+      - key: dyeResist
+        label: "\u624E\u67D3\u6216\u5939\u7F2C"
+        hours: 3
+      - key: cutPart
+        label: "\u88C1\u4E00\u4E2A\u90E8\u4EF6"
+        hours: 2
+      - key: sewPart
+        label: "\u7F1D\u4E00\u4E2A\u90E8\u4EF6"
+        hours: 2
+      cancelMinHours: 1
+      boltLength: 8
+      clothPerYarnMeter: 1
+      reelYieldMeters: 4
+      widthDefault: 50
+      widthMin: 45
+      widthMax: 55
+    season:
+      springBase: 80
+      feedGoodUniformity: 8
+      overfeedPenalty: -10
+      crowdingShapePenalty: -8
+      summerHeatPerDay: -6
+      seedPerTray: 1
+      trayBatch: 3
+      reelBeats: 12
+    quality:
+      weights:
+        material: 0.15
+        yarn: 0.1
+        weave: 0.25
+        dye: 0.15
+        finish: 0.05
+        cut: 0.15
+        sew: 0.15
+      undyedDyeScore: 70
+      unfinishedFinishScore: 60
+      layerOuter: 0.5
+      layerMiddle: 0.3
+      layerInner: 0.2
+      bands:
+      - tier: common
+        label: "\u666E\u901A"
+        qMin: 0
+        qMax: 59
+        tBase: 0
+        qOffset: 0
+        denominator: 59
+        span: 0.35
+      - tier: fine
+        label: "\u7CBE\u826F"
+        qMin: 60
+        qMax: 84
+        tBase: 0.45
+        qOffset: 60
+        denominator: 24
+        span: 0.25
+      - tier: legendary
+        label: "\u4F20\u4E16"
+        qMin: 85
+        qMax: 100
+        tBase: 0.75
+        qOffset: 85
+        denominator: 15
+        span: 0.25
+      dynasties:
+      - dynasty: han
+        label: "\u6C49"
+        launch: 1
+        parsed: 1
+        density: 0.8
+        bend: 0.6
+        wind: 1.3
+        gloss: 0.9
+      - dynasty: tang
+        label: "\u5510"
+        launch: 0
+        parsed: 0
+        density: 0
+        bend: 0
+        wind: 0
+        gloss: 0
+      - dynasty: song
+        label: "\u5B8B"
+        launch: 0
+        parsed: 1
+        density: 0.95
+        bend: 0.9
+        wind: 1.1
+        gloss: 0.95
+      - dynasty: ming
+        label: "\u660E"
+        launch: 0
+        parsed: 1
+        density: 1.15
+        bend: 1.25
+        wind: 0.85
+        gloss: 1.1
+      presentation:
+      - mode: history
+        label: "\u5386\u53F2\u8FD8\u539F"
+        hasTMax: 1
+        tMax: 0.55
+        hasTMin: 0
+        tMin: 0
+        glossFactor: 0.9
+        gauzeWindFactor: 1
+        syncCapPercent: 40
+      - mode: standard
+        label: "\u6807\u51C6"
+        hasTMax: 0
+        tMax: 0
+        hasTMin: 0
+        tMin: 0
+        glossFactor: 1
+        gauzeWindFactor: 1
+        syncCapPercent: 70
+      - mode: enhanced
+        label: "\u89C6\u89C9\u589E\u5F3A"
+        hasTMax: 0
+        tMax: 0
+        hasTMin: 1
+        tMin: 0.7
+        glossFactor: 1
+        gauzeWindFactor: 1.1
+        syncCapPercent: 100
+    penalties:
+      reelBreak: -8
+      chaosRatioThreshold: 0.2
+      chaosSegmentCap: 60
+      wrongPatternMotifScore: 0
+      orientation90: -10
+      seamFront: -15
+      legendaryInnerWaste: -10
+      sewOrder: -12
+      formSkipped: -5
+      sewLowThreshold: 50
+      edgeGlossPerPoint: -0.2
+      edgeNoLegendaryOuter: 2
+      unpickEdgeDamage: 1
+    weave:
+      rhythm: 0.6
+      densityStable: 0.25
+      motif: 0.15
+      noMotifScore: 100
+      steadyWindowMs: 120
+      offWindowMs: 240
+      beatSteady: 100
+      beatOff: 70
+      beatChaos: 30
+      beatInterval: 0.9
+      beatsPerSegment: 8
+      segments: 4
+      sewNeedlesPerPart: 12
+      cutStartScore: 100
+      defectLine: 40
+      coarseGauzeCap: 70
+      legendaryGauzeMaxJoints: 1
+    dye:
+      concentration:
+      - key: light
+        label: "\u6DE1"
+        value: 0.35
+      - key: medium
+        label: "\u4E2D"
+        value: 0.6
+      - key: strong
+        label: "\u6D53"
+        value: 0.85
+      strengthCap: 0.85
+      scoreTemp: 40
+      scoreTime: 30
+      scoreStir: 30
+      colorMix: 0.85
+      maxLayers: 4
+      overflowPenalty: -10
+      opacityPerLayer: 0.08
+      mods:
+      - key: plantLayer
+        label: "\u6BCF\u5C42\u690D\u7269\u67D3"
+        damping: 0.005
+        bend: 0.02
+        bendFactor: 1
+        gloss: -0.4
+      - key: strongExtra
+        label: "\u6D53\u6863\u989D\u5916"
+        damping: 0.008
+        bend: 0.02
+        bendFactor: 1
+        gloss: -0.3
+      - key: fromSecondLayer
+        label: "\u7B2C 2 \u5C42\u8D77"
+        damping: 0.003
+        bend: 0
+        bendFactor: 1
+        gloss: -0.2
+      - key: vitriol
+        label: "\u7EFF\u77FE"
+        damping: 0.005
+        bend: 0.02
+        bendFactor: 1
+        gloss: -0.2
+      - key: calender
+        label: "\u7811\u5149"
+        damping: -0.005
+        bend: -0.02
+        bendFactor: 1
+        gloss: 1.2
+      - key: goldMask
+        label: "\u91D1\u7EBF\u63A9\u819C\u5185"
+        damping: 0
+        bend: 0
+        bendFactor: 1.08
+        gloss: 1
+      costPerBolt: 1
+      bestTemp: "\u6E29"
+      tempMatchBest: 1
+      tempMatchOther: 0.6
+      liftBandWidth: 2
+      liftCenter:
+      - key: light
+        label: "\u6DE1"
+        value: 4
+      - key: medium
+        label: "\u4E2D"
+        value: 6
+      - key: strong
+        label: "\u6D53"
+        value: 8
+      liftPenaltyPerSecond: 0.2
+      liftMatchMin: 0.2
+      stirOffWeight: 0.5
+      unevenAllowedMax: 0.3
+      livelyMin: 0.1
+      colors:
+      - dyeId: base
+        label: "\u672A\u67D3\u4E1D\u5E95\u8272"
+        r: 0.9294117647058824
+        g: 0.9019607843137255
+        b: 0.8392156862745098
+      - dyeId: indigo
+        label: "\u975B\u84DD"
+        r: 0.16862745098039217
+        g: 0.27058823529411763
+        b: 0.3764705882352941
+      - dyeId: madder
+        label: "\u831C\u8349"
+        r: 0.6352941176470588
+        g: 0.2549019607843137
+        b: 0.1843137254901961
+      - dyeId: gardenia
+        label: "\u6800\u5B50"
+        r: 0.8431372549019608
+        g: 0.6470588235294118
+        b: 0.2549019607843137
+      - dyeId: safflower
+        label: "\u7EA2\u82B1"
+        r: 0.788235294117647
+        g: 0.30980392156862746
+        b: 0.3333333333333333
+      - dyeId: pagoda
+        label: "\u69D0\u7C73"
+        r: 0.803921568627451
+        g: 0.7098039215686275
+        b: 0.3058823529411765
+      - dyeId: sappan
+        label: "\u82CF\u6728"
+        r: 0.5568627450980392
+        g: 0.1803921568627451
+        b: 0.23137254901960785
+      - dyeId: acorn
+        label: "\u7682\u6597"
+        r: 0.30980392156862746
+        g: 0.25882352941176473
+        b: 0.21568627450980393
+    affection:
+      events:
+      - key: fitHigh
+        label: "\u5951\u5408 \u2265 60 \u7684\u6F14\u51FA"
+        value: 8
+      - key: fitMid
+        label: "\u5951\u5408 30\u201359"
+        value: 4
+      - key: fitLow
+        label: "\u5951\u5408 < 30"
+        value: 1
+      - key: themeQuest
+        label: "\u4E3B\u9898\u59D4\u6258\uFF0C\u6BCF\u89D2\u8272\u4E00\u6B21"
+        value: 15
+      - key: legendaryReplay
+        label: "\u540C\u4E00\u4EF6\u4F20\u4E16\u8863\uFF0C\u6BCF\u5929\u7B2C\u4E00\u6B21\u91CD\u6F14"
+        value: 2
+      fitHighMin: 60
+      fitMidMin: 30
+      tierThresholds: 000000001e00000046000000i
+      fitVariety: 40
+      fitDynasty: 30
+      fitTrait: 20
+      fitNote: 10
+      fitBase: 20
+      heatQ: 0.5
+      heatFit: 0.3
+      heatStage: 0.2
+      stageScores:
+      - tier: 0
+        score: 40
+      - tier: 30
+        score: 70
+      - tier: 70
+        score: 100
+      maxTraits: 3
+      traits:
+      - name: "\u8749\u7FFC"
+        condition: "\u7D20\u7EB1\u6216\u82B1\u7EB1\uFF0C\u539F\u6599\u5206\u548C\u7EC7\u9020\u5206\u90FD \u2265 80"
+        effect: "\u8FB9\u7F18\u5149\u518D \xD71.15\uFF0C\u4E0D\u8D85\u8FC7\u706F\u7684\u4E0A\u9650"
+        thresholds: 50000000i
+      - name: "\u6D41\u5149"
+        condition: "\u7EC7\u9020\u5206 \u2265 85\uFF0C\u4E14\u7EC4\u7EC7\u662F\u7F0E\u6216\u9526"
+        effect: "\u9AD8\u5149\u53D6\u8BE5\u884C\u9AD8\u7AEF\u3002\u9996\u53D1\u4E09\u79CD\u4E1D\u7EC7\u4E0D\u4F1A\u51FA\u73B0"
+        thresholds: 55000000i
+      - name: "\u6D3B\u8272"
+        condition: "\u67D3\u8272\u4E0D\u5747\u843D\u5728\u8BE5\u5C42\u914D\u65B9\u5141\u8BB8\u8303\u56F4\u5185\uFF0C\u4E14\u4E0D\u662F\u5931\u8BEF\u8272\u82B1"
+        effect: "\u4E0D\u53E6\u6539\u5206\u6570"
+        thresholds: 
+      - name: "\u5C42\u53E0"
+        condition: "\u7F1D\u5236\u5206 \u2265 85\uFF0C\u4E14\u6210\u8863\u81F3\u5C11\u4E24\u5C42"
+        effect: "\u4E2D\u8D28\u91CF\u4ECD\u4FDD\u7559\u5916\u5C42\u548C\u62AB\u5E1B\u7684\u5B9E\u65F6\u89E3\u7B97"
+        thresholds: 55000000i
+      - name: "\u5408\u5236"
+        condition: "\u671D\u4EE3\u4E0E\u5F62\u5236\u5339\u914D\uFF0C\u88C1\u526A\u5206 \u2265 80"
+        effect: "\u5C55\u89C8\u5386\u53F2\u8FD8\u539F +10"
+        thresholds: 50000000i
+      - name: "\u8D8A\u4EE3"
+        condition: "\u54C1\u79CD\u4E0D\u5728\u8BE5\u671D\u4EE3\u7684\u5178\u578B\u8868\u5185"
+        effect: "\u5C55\u89C8\u5386\u53F2\u8FD8\u539F \u221215\u3002\u9996\u53D1\u6C49\u98CE\u52A0\u7D20\u7EB1\u3001\u7EE2\u3001\u7EF8\u4E0D\u4EA7\u751F"
+        thresholds: 
+    economy:
+      startCoin: 40
+      exhibitPointsPer: 10
+      exhibitCoinsPer: 2
+      exhibitCoinCap: 30
+      sellCommonPerMeter: 1
+      dryDyePrice: 4
+      threadPrice: 2
+      goldThreadPrice: 12
+      seedPrice: 3
+      xpPerHour: 4
+      xpCommon: 1
+      xpFine: 1.2
+      xpLegendary: 1.5
+      xpDefectFactor: 0.5
+      levels:
+      - level: 1
+        xp: 0
+        launch: 1
+      - level: 2
+        xp: 80
+        launch: 1
+      - level: 3
+        xp: 200
+        launch: 1
+      - level: 4
+        xp: 400
+        launch: 0
+      - level: 5
+        xp: 700
+        launch: 0
+      - level: 6
+        xp: 1100
+        launch: 0
+    windLight:
+      baseWindMin: 0.3
+      baseWindMax: 0.8
+      tier30WindMax: 4
+      tier70PeakMin: 6
+      tier70PeakMax: 9
+      tier70EndMax: 0.3
+      maxConcurrentWinds: 4
+      rimPercentInit: 15
+      colorTemps:
+      - label: "\u7EA2"
+        kelvin: 3800
+      - label: "\u84DD"
+        kelvin: 6200
+      - label: "\u9EC4"
+        kelvin: 3200
+      - label: "\u7D20"
+        kelvin: 5200
+      timelines:
+      - characterId: xiShi
+        tier: 0
+        setup: 14
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: xiShi
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: wangZhaoJun
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: zhaoFeiYan
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+    exhibit:
+      quality: 0.4
+      theme: 0.3
+      label: 0.1
+      image: 0.2
+      minItems: 2
+      launchSlots: 2
+    questRules:
+      dailyFromLevel: 3
+      dailyCount: 2
+      maxHeld: 3
+      days: 3
+    clothDecimals: 3

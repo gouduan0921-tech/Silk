@@ -10,7 +10,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 OUT = ROOT / "华裳从蚕到神文档.html"
-STYLE_SOURCE = Path("/Users/liweng/Downloads/3D/LuoJi/丝瓜络工坊文档.html")
+STYLE_FILE = ROOT / "tools" / "reader_style.css"   # 已是本工程配色
+SCRIPT_FILE = ROOT / "tools" / "reader_script.js"
 
 INLINE = re.compile(
     r"(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))"
@@ -178,57 +179,10 @@ def chapter(path: Path) -> tuple[str, str, str, str]:
     return number, nav, link, section
 
 
-def retheme(style: str) -> str:
-    style = re.sub(
-        r"--forest-950:\s*#[0-9a-fA-F]+;",
-        "--forest-950: #3a2418;",
-        style,
-        count=1,
-    )
-    replacements = {
-        "--forest-900: #1e3f2e;": "--forest-900: #4a2c24;",
-        "--forest-800: #28513a;": "--forest-800: #6b3a32;",
-        "--forest-700: #356748;": "--forest-700: #8c4a3a;",
-        "--forest-600: #4a7c59;": "--forest-600: #a85a42;",
-        "--leaf-300: #a9c39c;": "--leaf-300: #e4c99a;",
-        "--leaf-100: #e4ecdc;": "--leaf-100: #f3e6d4;",
-        "--fiber-100: #f4ecd9;": "--fiber-100: #f6efe2;",
-        "--fiber-200: #e7d9bd;": "--fiber-200: #eadcc4;",
-        "--fiber-300: #d2bd95;": "--fiber-300: #d2b48c;",
-        "--ink: #24352b;": "--ink: #2c2118;",
-        "--muted: #657167;": "--muted: #7a6a5c;",
-        "--accent: #b07836;": "--accent: #9a6232;",
-        "#234b36": "#4a2c24",
-        "rgba(169, 195, 156, .3)": "rgba(212, 176, 122, .35)",
-        "rgba(28, 53, 38, .11)": "rgba(58, 36, 24, .12)",
-        "rgba(18, 39, 27, .1)": "rgba(48, 28, 20, .12)",
-        "#254934": "#5c3a32",
-        "#edf2e8": "#f3ebe3",
-        "#e9efe5": "#f6efe6",
-        "#dfe9da": "#efe4d6",
-        "#c9d6c5": "#e0d0bc",
-        "#20392b": "#3a2a22",
-        "#e7ede1": "#f0e4d4",
-        "#45584a": "#6a5348",
-        "rgba(74,124,89,.16)": "rgba(168,90,66,.18)",
-        "rgba(43,63,48,.08)": "rgba(74,44,36,.08)",
-        "rgba(23,51,38,.98)": "rgba(58,36,24,.98)",
-        "rgba(45,92,63,.94)": "rgba(107,58,50,.94)",
-        "rgba(23,51,38,.2)": "rgba(58,36,24,.2)",
-        "rgba(10,25,16,.48)": "rgba(28,16,12,.48)",
-        "rgba(35,75,54,.22)": "rgba(90,52,40,.28)",
-        "rgba(35,75,54,.12)": "rgba(90,52,40,.16)",
-    }
-    for old, new in replacements.items():
-        style = style.replace(old, new)
-    return style
-
 
 def main() -> None:
-    source = STYLE_SOURCE.read_text(encoding="utf-8")
-    style = re.search(r"<style>(.*)</style>", source, re.S).group(1)
-    script = re.search(r"<script>\s*(\(\(\) => \{.*?\}\)\(\);)\s*</script>", source, re.S).group(1)
-    style = retheme(style)
+    style = STYLE_FILE.read_text(encoding="utf-8")
+    script = SCRIPT_FILE.read_text(encoding="utf-8")
     files = sorted(DOCS.glob("[0-9][0-9]_*.md"))
     chapters = [chapter(path) for path in files]
     nav = "".join(item[2] for item in chapters)

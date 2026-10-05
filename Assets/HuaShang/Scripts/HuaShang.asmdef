@@ -1,7 +1,16 @@
 {
     "name": "HuaShang",
     "rootNamespace": "HuaShang",
-    "references": [],
+    "references": [
+        "HuaShang.Rules",
+        "HuaShang.Data",
+        "HuaShang.Save",
+        "HuaShang.Play",
+        "MagicaClothV2",
+        "Unity.Timeline",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
