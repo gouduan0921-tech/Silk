@@ -82,11 +82,23 @@ MonoBehaviour:
     preferVariety:
     - huaLuo
     - chou
-    preferDynasty: 
-    launchTierMax: 0
-    enabled: 0
+    preferDynasty: han
+    launchTierMax: 70
+    enabled: 1
     stageEffect: 
     note: "\u6247\u5B50\u662F\u9053\u5177"
+    substitutes: []
+  - id: yuJi
+    name: "\u865E\u59EC"
+    template: rich
+    preferVariety:
+    - chou
+    - puTongJin
+    preferDynasty: han
+    launchTierMax: 70
+    enabled: 1
+    stageEffect: 
+    note: 
     substitutes: []
   - id: liShiShi
     name: "\u674E\u5E08\u5E08"
@@ -95,21 +107,9 @@ MonoBehaviour:
     - juan
     - chou
     - keSi
-    preferDynasty: 
-    launchTierMax: 0
-    enabled: 0
-    stageEffect: 
-    note: 
-    substitutes: []
-  - id: yuJi
-    name: "\u865E\u59EC"
-    template: rich
-    preferVariety:
-    - chou
-    - puTongJin
-    preferDynasty: 
-    launchTierMax: 0
-    enabled: 0
+    preferDynasty: song
+    launchTierMax: 70
+    enabled: 1
     stageEffect: 
     note: 
     substitutes: []
@@ -119,9 +119,9 @@ MonoBehaviour:
     preferVariety:
     - chou
     - ling
-    preferDynasty: 
-    launchTierMax: 0
-    enabled: 0
+    preferDynasty: han
+    launchTierMax: 70
+    enabled: 1
     stageEffect: 
     note: 
     substitutes: []
@@ -131,9 +131,9 @@ MonoBehaviour:
     preferVariety:
     - huaDuan
     - gaiJi
-    preferDynasty: 
-    launchTierMax: 0
-    enabled: 0
+    preferDynasty: ming
+    launchTierMax: 70
+    enabled: 1
     stageEffect: 
     note: 
     substitutes: []
@@ -143,9 +143,9 @@ MonoBehaviour:
     preferVariety:
     - gaiJi
     - huaDuan
-    preferDynasty: 
-    launchTierMax: 0
-    enabled: 0
+    preferDynasty: ming
+    launchTierMax: 70
+    enabled: 1
     stageEffect: 
     note: 
     substitutes: []

@@ -29,7 +29,8 @@ namespace HuaShang.Tests
             Assert.IsTrue(C.varieties.Exists(v => !v.launch), "docs/04 §8 的非首发品种应保留");
             // 工艺章后八种染料都已开放；染料表的行数不随开放而变
             Assert.AreEqual(8, C.dyes.Count, "docs/05 §3 的染料行都在表里");
-            Assert.IsTrue(C.characters.Exists(ch => !ch.enabled), "非首发角色应保留且关闭");
+            // 续启用后 16 §3 与 11 §1 的角色都已开放；启用名单之外不应有启用角色
+            Assert.IsTrue(C.characters.TrueForAll(ch => !ch.enabled || System.Array.IndexOf(HuaShang.Rules.Config.ConfigValidator.EnabledCharacters, ch.id) >= 0), "启用名单之外的角色应关闭");
             Assert.IsTrue(C.stages.Exists(s => !s.launch), "关闭的舞台应保留");
             Assert.AreEqual(C.balance.economy.levels.Count, C.unlocks.Count, "等级表每一级都在");
             Assert.IsTrue(C.activities.TrueForAll(a => !a.enabled), "活动默认关闭");
@@ -39,7 +40,7 @@ namespace HuaShang.Tests
         public void 首发角色与舞台()
         {
             var enabled = C.characters.FindAll(ch => ch.enabled);
-            CollectionAssert.AreEquivalent(new[] { "xiShi", "wangZhaoJun", "zhaoFeiYan", "liQingZhao", "yangGuiFei", "luoShen", "changE", "baiSuZhen", "daJi", "haiLun", "aFuLuoDiTe", "keLiAoPaTeLa", "xiaoYeXiaoTing" }, enabled.ConvertAll(ch => ch.id), "首发三位，工艺章加李清照、杨贵妃（docs/16 §2），篇章一加洛神、嫦娥（docs/11 §5），篇章二加白素贞、妲己（§6），篇章三加海伦、阿佛洛狄忒（§7），篇章四、五加克利奥帕特拉、小野小町（§8、§9）");
+            CollectionAssert.AreEquivalent(new[] { "xiShi", "wangZhaoJun", "zhaoFeiYan", "liQingZhao", "yangGuiFei", "luoShen", "changE", "baiSuZhen", "daJi", "haiLun", "aFuLuoDiTe", "keLiAoPaTeLa", "xiaoYeXiaoTing", "diaoChan", "yuJi", "liShiShi", "hongFu", "chenYuanYuan", "liuRuShi" }, enabled.ConvertAll(ch => ch.id), "首发三位，工艺章加李清照、杨贵妃（docs/16 §2），篇章一加洛神、嫦娥（docs/11 §5），篇章二加白素贞、妲己（§6），篇章三加海伦、阿佛洛狄忒（§7），篇章四、五加克利奥帕特拉、小野小町（§8、§9），续启用六位（docs/16 §5）");
             Assert.IsTrue(C.stages.Find(s => s.id == "stage_classic").launch);
         }
 

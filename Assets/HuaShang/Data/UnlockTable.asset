@@ -320,3 +320,81 @@ MonoBehaviour:
       tiers: 46000000i
     other: []
     raw: "\u514B\u5229\u5965\u5E15\u7279\u62C9 70 \u6863\u3001\u5C0F\u91CE\u5C0F\u753A 70 \u6863"
+  - level: 25
+    xpRequired: 29200
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: diaoChan
+      tiers: 
+    - characterId: yuJi
+      tiers: 
+    other: []
+    raw: "\u8C82\u8749\u3001\u865E\u59EC"
+  - level: 26
+    xpRequired: 32200
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: liShiShi
+      tiers: 
+    - characterId: hongFu
+      tiers: 
+    other: []
+    raw: "\u674E\u5E08\u5E08\u3001\u7EA2\u62C2\u5973"
+  - level: 27
+    xpRequired: 35400
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: chenYuanYuan
+      tiers: 
+    - characterId: liuRuShi
+      tiers: 
+    other: []
+    raw: "\u9648\u5706\u5706\u3001\u67F3\u5982\u662F"
+  - level: 28
+    xpRequired: 38800
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: diaoChan
+      tiers: 46000000i
+    - characterId: yuJi
+      tiers: 46000000i
+    other: []
+    raw: "\u8C82\u8749 70 \u6863\u3001\u865E\u59EC 70 \u6863"
+  - level: 29
+    xpRequired: 42400
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: liShiShi
+      tiers: 46000000i
+    - characterId: hongFu
+      tiers: 46000000i
+    other: []
+    raw: "\u674E\u5E08\u5E08 70 \u6863\u3001\u7EA2\u62C2\u5973 70 \u6863"
+  - level: 30
+    xpRequired: 46200
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: chenYuanYuan
+      tiers: 46000000i
+    - characterId: liuRuShi
+      tiers: 46000000i
+    other: []
+    raw: "\u9648\u5706\u5706 70 \u6863\u3001\u67F3\u5982\u662F 70 \u6863"

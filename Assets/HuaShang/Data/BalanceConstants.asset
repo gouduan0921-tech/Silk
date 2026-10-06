@@ -514,6 +514,24 @@ MonoBehaviour:
       - level: 24
         xp: 26400
         launch: 0
+      - level: 25
+        xp: 29200
+        launch: 0
+      - level: 26
+        xp: 32200
+        launch: 0
+      - level: 27
+        xp: 35400
+        launch: 0
+      - level: 28
+        xp: 38800
+        launch: 0
+      - level: 29
+        xp: 42400
+        launch: 0
+      - level: 30
+        xp: 46200
+        launch: 0
     windLight:
       baseWindMin: 0.3
       baseWindMax: 0.8
@@ -762,6 +780,114 @@ MonoBehaviour:
         climax: 10
         coda: 8
       - characterId: xiaoYeXiaoTing
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: diaoChan
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: diaoChan
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: diaoChan
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: yuJi
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: yuJi
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: yuJi
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: liShiShi
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: liShiShi
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: liShiShi
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: hongFu
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: hongFu
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: hongFu
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: chenYuanYuan
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: chenYuanYuan
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: chenYuanYuan
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: liuRuShi
+        tier: 0
+        setup: 12
+        develop: 0
+        climax: 0
+        coda: 6
+      - characterId: liuRuShi
+        tier: 30
+        setup: 6
+        develop: 10
+        climax: 8
+        coda: 6
+      - characterId: liuRuShi
         tier: 70
         setup: 8
         develop: 12

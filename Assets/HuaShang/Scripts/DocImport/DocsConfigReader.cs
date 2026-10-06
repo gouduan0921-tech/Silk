@@ -335,8 +335,11 @@ namespace HuaShang.DocImport
                 ch.launchTierMax = max;
                 c.characters.Add(ch);
             }
+            // §3 只剩说明；若仍有待启用表，按关闭角色读入
             var s3 = d16.SectionOf(3);
-            foreach (var r in s3.Table("id"))
+            List<string[]> closed;
+            try { closed = s3.Table("id"); } catch (DocParseException) { closed = new List<string[]>(); }
+            foreach (var r in closed)
             {
                 if (!ClosedCharacterNames.TryGetValue(r[0], out var cname) || !s3.text.Contains(cname))
                     throw new DocParseException(s3.where + " 的角色 " + r[0] + " 找不到对应的中文名");
@@ -345,12 +348,35 @@ namespace HuaShang.DocImport
                 ParsePrefs(r[2], ch, c);
                 c.characters.Add(ch);
             }
+            // §5 续启用：表格式同 docs/11 §5
+            ReadCharacterTable(d16.SectionOf(5), c);
         }
 
         static readonly Dictionary<string, string> StageEffects = new Dictionary<string, string>
         {
             { "水波", "water" }, { "月华", "moon" }, { "白蛇", "snake" }, { "花瓣", "petal" }, { "海沫", "foam" }, { "金沙", "gold" }, { "细雨", "rain" },
         };
+
+        /// <summary>角色表（docs/11 §5 起、docs/16 §5）：id | 名称 | 模板 | 偏好 | 风格 | 档位 | 特效；表里的角色启用。</summary>
+        static void ReadCharacterTable(Section s, ConfigSnapshot c)
+        {
+            foreach (var r in s.Table("id"))
+            {
+                if (c.characters.Exists(x => x.id == r[0])) throw new DocParseException(s.where + " 的角色 " + r[0] + " 重复");
+                var ch = new CharacterRow { id = r[0], name = r[1], enabled = true };
+                ch.template = Template(r[2], s.where);
+                ParsePrefs(r[3], ch, c);
+                if (!Dynasties.TryGetValue(r[4], out var dyn)) throw new DocParseException(s.where + " 的风格「" + r[4] + "」不在 docs/05 的朝代取值内");
+                ch.preferDynasty = dyn;
+                int max = 0;
+                foreach (Match m in Regex.Matches(r[5], "\\d+")) max = Math.Max(max, int.Parse(m.Value));
+                ch.launchTierMax = max;
+                string fx = r[6].Trim();
+                if (fx.Length > 0 && fx != "无" && !StageEffects.TryGetValue(fx, out ch.stageEffect))
+                    throw new DocParseException(s.where + " 的特效「" + fx + "」未知");
+                c.characters.Add(ch);
+            }
+        }
 
         /// <summary>docs/11 §5 起每一篇一张角色表；表里的角色启用，未列入的篇章角色仍关闭（docs/11 §1）。</summary>
         static void ReadChapters(MarkdownDoc d11, ConfigSnapshot c)
@@ -360,22 +386,7 @@ namespace HuaShang.DocImport
                 Section s;
                 try { s = d11.SectionOf(n); } catch (DocParseException) { break; }
                 if (s == null) break;
-                foreach (var r in s.Table("id"))
-                {
-                    if (c.characters.Exists(x => x.id == r[0])) throw new DocParseException(s.where + " 的角色 " + r[0] + " 重复");
-                    var ch = new CharacterRow { id = r[0], name = r[1], enabled = true };
-                    ch.template = Template(r[2], s.where);
-                    ParsePrefs(r[3], ch, c);
-                    if (!Dynasties.TryGetValue(r[4], out var dyn)) throw new DocParseException(s.where + " 的风格「" + r[4] + "」不在 docs/05 的朝代取值内");
-                    ch.preferDynasty = dyn;
-                    int max = 0;
-                    foreach (Match m in Regex.Matches(r[5], "\\d+")) max = Math.Max(max, int.Parse(m.Value));
-                    ch.launchTierMax = max;
-                    string fx = r[6].Trim();
-                    if (fx.Length > 0 && fx != "无" && !StageEffects.TryGetValue(fx, out ch.stageEffect))
-                        throw new DocParseException(s.where + " 的特效「" + fx + "」未知");
-                    c.characters.Add(ch);
-                }
+                ReadCharacterTable(s, c);
             }
         }
 

@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &800520106
+--- !u!1 &1608523190
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,9 +127,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 800520109}
-  - component: {fileID: 800520108}
-  - component: {fileID: 800520107}
+  - component: {fileID: 1608523193}
+  - component: {fileID: 1608523192}
+  - component: {fileID: 1608523191}
   m_Layer: 0
   m_Name: HuaShang
   m_TagString: Untagged
@@ -137,13 +137,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &800520107
+--- !u!114 &1608523191
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 800520106}
+  m_GameObject: {fileID: 1608523190}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96b59903f79e1420a8875031234cb2e0, type: 3}
@@ -267,13 +267,67 @@ MonoBehaviour:
   - characterId: xiaoYeXiaoTing
     tier: 70
     timeline: {fileID: 11400000, guid: 378ff1ccf7e9b493b81665d9e80a4a42, type: 2}
---- !u!114 &800520108
+  - characterId: diaoChan
+    tier: 0
+    timeline: {fileID: 11400000, guid: 67048f778d7364721bef2804ab09b322, type: 2}
+  - characterId: diaoChan
+    tier: 30
+    timeline: {fileID: 11400000, guid: e49e096de20694b8e96197ece7375057, type: 2}
+  - characterId: diaoChan
+    tier: 70
+    timeline: {fileID: 11400000, guid: 6fdd0b4938abd43299ccf6e64d3b7cc2, type: 2}
+  - characterId: yuJi
+    tier: 0
+    timeline: {fileID: 11400000, guid: 793a0c8572d7b4ecfaaf1df6cdf23eed, type: 2}
+  - characterId: yuJi
+    tier: 30
+    timeline: {fileID: 11400000, guid: 9674b8512a37b4bfa9a6819a1f4c7314, type: 2}
+  - characterId: yuJi
+    tier: 70
+    timeline: {fileID: 11400000, guid: 35cc04ac1abb84a3585a8d9d5bd38786, type: 2}
+  - characterId: liShiShi
+    tier: 0
+    timeline: {fileID: 11400000, guid: cd5489cef7f664bb78aedaf5d3395cc7, type: 2}
+  - characterId: liShiShi
+    tier: 30
+    timeline: {fileID: 11400000, guid: 994b913473e83402baf377221a5d3e77, type: 2}
+  - characterId: liShiShi
+    tier: 70
+    timeline: {fileID: 11400000, guid: c7d33e5b3cd44445887dae38f8aea254, type: 2}
+  - characterId: hongFu
+    tier: 0
+    timeline: {fileID: 11400000, guid: 2a3b4dadd20b84d1ea693ddad937542a, type: 2}
+  - characterId: hongFu
+    tier: 30
+    timeline: {fileID: 11400000, guid: f8dc781f16e5f448eae3c11db40d2beb, type: 2}
+  - characterId: hongFu
+    tier: 70
+    timeline: {fileID: 11400000, guid: 47983458f4b7245beb19587f67baf718, type: 2}
+  - characterId: chenYuanYuan
+    tier: 0
+    timeline: {fileID: 11400000, guid: 59f9379a59a234402b4960ab440667ec, type: 2}
+  - characterId: chenYuanYuan
+    tier: 30
+    timeline: {fileID: 11400000, guid: d60d8a06858fb4ab4b11f2a8ae9dcd40, type: 2}
+  - characterId: chenYuanYuan
+    tier: 70
+    timeline: {fileID: 11400000, guid: f0dbd7f723b1c4478b440176e8921c41, type: 2}
+  - characterId: liuRuShi
+    tier: 0
+    timeline: {fileID: 11400000, guid: 002f11377174647968c7e93b38bb9219, type: 2}
+  - characterId: liuRuShi
+    tier: 30
+    timeline: {fileID: 11400000, guid: c5774374093c24ea39d546f8aaa28bee, type: 2}
+  - characterId: liuRuShi
+    tier: 70
+    timeline: {fileID: 11400000, guid: 34e2cefe59f0943c5bef530e9610b10c, type: 2}
+--- !u!114 &1608523192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 800520106}
+  m_GameObject: {fileID: 1608523190}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee2cf9e3cf2c64bb2b7d58dcf8824ea6, type: 3}
@@ -281,13 +335,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: HuaShang::HuaShang.Game.GameSession
   database: {fileID: 11400000, guid: 3156b577a62b647d08035a83d689c770, type: 2}
   saveFileName: huashang_save_1.json
---- !u!4 &800520109
+--- !u!4 &1608523193
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 800520106}
+  m_GameObject: {fileID: 1608523190}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -300,4 +354,4 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 800520109}
+  - {fileID: 1608523193}
