@@ -67,7 +67,7 @@ MonoBehaviour:
   - id: huaSha
     name: "\u82B1\u7EB1"
     group: gauze
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 1.25
@@ -84,7 +84,7 @@ MonoBehaviour:
   - id: suLuo
     name: "\u7D20\u7F57"
     group: gauze
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 1.38
@@ -101,7 +101,7 @@ MonoBehaviour:
   - id: huaLuo
     name: "\u82B1\u7F57"
     group: gauze
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 1.52
@@ -118,7 +118,7 @@ MonoBehaviour:
   - id: ling
     name: "\u7EEB"
     group: plain
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 2.49
@@ -169,7 +169,7 @@ MonoBehaviour:
   - id: puTongJin
     name: "\u666E\u901A\u9526"
     group: brocade
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 4.43
@@ -186,7 +186,7 @@ MonoBehaviour:
   - id: shuJin
     name: "\u8700\u9526"
     group: brocade
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 4.71
@@ -203,7 +203,7 @@ MonoBehaviour:
   - id: songJin
     name: "\u5B8B\u9526"
     group: brocade
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 4.57
@@ -237,7 +237,7 @@ MonoBehaviour:
   - id: zhuangHuaDuan
     name: "\u5986\u82B1\u7F0E"
     group: brocade
-    launch: 0
+    launch: 1
     idProvisional: 1
     liningOnly: 0
     densityMin: 5.82

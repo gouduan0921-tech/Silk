@@ -273,10 +273,15 @@ namespace HuaShang.UI
             foreach (var g in m.options)
             {
                 if (!string.IsNullOrEmpty(g.label)) UiKit.Label(plaque, g.label, UiTheme.Note, UiTheme.OldGrey);
-                var row = UiKit.Rect("Options", plaque);
-                UiKit.Horizontal(row.gameObject, 6);
+                // 选项多时折行，每行最多 4 个（上场门有 19 位角色）
+                RectTransform row = null;
                 for (int i = 0; i < g.choices.Count; i++)
                 {
+                    if (i % 4 == 0)
+                    {
+                        row = UiKit.Rect("Options", plaque);
+                        UiKit.Horizontal(row.gameObject, 6);
+                    }
                     int idx = i;
                     var grp = g;
                     UiKit.Chip(row, g.choices[i], g.selected == i, () => { grp.selected = idx; grp.onSelect?.Invoke(idx); BuildPlaque(); });

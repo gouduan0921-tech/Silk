@@ -187,17 +187,14 @@ namespace HuaShang.Tests
         [Test]
         public void N9_赵飞燕首发对素纱计品种命中_花纱启用后不再计()
         {
+            // 花纱在二轮（31 级）开放：之前素纱代计，之后不再代计
             var row = C.Character("zhaoFeiYan");
-            Assert.IsTrue(Stage.VarietyHit(C, row, "suSha"));
-            var huaSha = C.Variety("huaSha");
-            bool old = huaSha.launch;
-            try
-            {
-                huaSha.launch = true;
-                Assert.IsFalse(Stage.VarietyHit(C, row, "suSha"));
-                Assert.IsTrue(Stage.VarietyHit(C, row, "huaSha"));
-            }
-            finally { huaSha.launch = old; }
+            var s = NewGame();
+            s.level = 30;
+            Assert.IsTrue(Stage.VarietyHit(C, row, "suSha", s));
+            s.level = 31;
+            Assert.IsFalse(Stage.VarietyHit(C, row, "suSha", s));
+            Assert.IsTrue(Stage.VarietyHit(C, row, "huaSha", s));
         }
 
         [Test]

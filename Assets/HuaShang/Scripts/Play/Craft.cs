@@ -46,6 +46,7 @@ namespace HuaShang.Play
         {
             if (patternId == PatternJacquard || (v != null && (v.group == "brocade" || v.id == "gaiJi" || v.id == "keSi"))) return "weaveJacquard";
             if (v != null && (v.name.Contains("缎") || v.name == "绫")) return "weaveTwillSatin";
+            if (v != null && v.group == "gauze" && v.id != "suSha") return "weaveLeno"; // 素罗（花罗、花纱用提花，上面已取提花工时）
             return "weavePlain";
         }
 
@@ -53,23 +54,24 @@ namespace HuaShang.Play
         public static bool PatternFits(VarietyRow v, string patternId) => v == null || !NeedsJacquard(v.id) || patternId == PatternJacquard;
 
         /// <summary>三台织机（docs/07 §1）。</summary>
-        public enum Loom { Plain, Satin, Draw }
+        public enum Loom { Plain, Satin, Draw, Leno }
 
         /// <summary>品种上哪台织机：提花与锦上花楼机，缎与绫上缎机，其余（含缂丝）上平纹机。</summary>
         public static Loom LoomOf(VarietyRow v)
         {
             if (v == null) return Loom.Plain;
             if (v.id == "keSi") return Loom.Plain;
+            if (v.group == "gauze" && v.id != "suSha") return Loom.Leno; // 罗与花纱用绞综（docs/07 §1）
             if (NeedsJacquard(v.id) || v.group == "brocade") return Loom.Draw;
             if (v.name.Contains("缎") || v.name == "绫") return Loom.Satin;
             return Loom.Plain;
         }
 
         /// <summary>织机在等级表里的开放词；平纹机无需开放。</summary>
-        public static string LoomToken(Loom k) => k == Loom.Satin ? "缎机" : k == Loom.Draw ? "花楼机" : null;
+        public static string LoomToken(Loom k) => k == Loom.Satin ? "缎机" : k == Loom.Draw ? "花楼机" : k == Loom.Leno ? "罗机" : null;
 
         /// <summary>花缎、云锦、改机必须用提花花本（docs/07 §1）。</summary>
-        public static bool NeedsJacquard(string varietyId) => varietyId == "huaDuan" || varietyId == "yunJin" || varietyId == "gaiJi";
+        public static bool NeedsJacquard(string varietyId) => varietyId == "huaDuan" || varietyId == "yunJin" || varietyId == "gaiJi" || varietyId == "huaSha" || varietyId == "huaLuo";
 
         /// <summary>织造分 = 节奏×w + 密度稳定×w + 花位×w（docs/04 §5）。</summary>
         public static double WeaveScore(WeaveInput input, Yarn yarn, VarietyRow variety, ConfigSnapshot c)

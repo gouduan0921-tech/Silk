@@ -54,18 +54,19 @@ namespace HuaShang.Play
             var outer = g.parts.Find(p => ItemQuality.LayerOf(p.slot) == "outer");
             var bolt = outer != null ? Find.Bolt(s, outer.boltId) : null;
             int fit = 0;
-            if (bolt != null && VarietyHit(c, row, bolt.variety)) fit += a.fitVariety;
+            if (bolt != null && VarietyHit(c, row, bolt.variety, s)) fit += a.fitVariety;
             if (!string.IsNullOrEmpty(row.preferDynasty) && row.preferDynasty == g.dynastyStyle) fit += a.fitDynasty;
             return fit == 0 ? a.fitBase : fit;
         }
 
-        public static bool VarietyHit(ConfigSnapshot c, CharacterRow row, string varietyId)
+        /// <summary>代计只在被代的品种对这位玩家还不可选时成立；s 为空时按表的开放列判断（docs/16 §2）。</summary>
+        public static bool VarietyHit(ConfigSnapshot c, CharacterRow row, string varietyId, SaveRoot s = null)
         {
             if (row.preferVariety.Contains(varietyId)) return true;
             foreach (var sub in row.substitutes)
             {
                 var missing = c.varieties.Find(v => v.id == sub.whenMissing);
-                bool selectable = missing != null && missing.launch;
+                bool selectable = missing != null && missing.launch && (s == null || Unlocks.VarietyOpen(s, c, missing.id));
                 if (!selectable && sub.countsAs == varietyId && row.preferVariety.Contains(sub.whenMissing)) return true;
             }
             return false;

@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &1608523190
+--- !u!1 &1298237546
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,9 +127,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1608523193}
-  - component: {fileID: 1608523192}
-  - component: {fileID: 1608523191}
+  - component: {fileID: 1298237549}
+  - component: {fileID: 1298237548}
+  - component: {fileID: 1298237547}
   m_Layer: 0
   m_Name: HuaShang
   m_TagString: Untagged
@@ -137,13 +137,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1608523191
+--- !u!114 &1298237547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1608523190}
+  m_GameObject: {fileID: 1298237546}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96b59903f79e1420a8875031234cb2e0, type: 3}
@@ -321,13 +321,13 @@ MonoBehaviour:
   - characterId: liuRuShi
     tier: 70
     timeline: {fileID: 11400000, guid: 34e2cefe59f0943c5bef530e9610b10c, type: 2}
---- !u!114 &1608523192
+--- !u!114 &1298237548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1608523190}
+  m_GameObject: {fileID: 1298237546}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee2cf9e3cf2c64bb2b7d58dcf8824ea6, type: 3}
@@ -335,13 +335,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: HuaShang::HuaShang.Game.GameSession
   database: {fileID: 11400000, guid: 3156b577a62b647d08035a83d689c770, type: 2}
   saveFileName: huashang_save_1.json
---- !u!4 &1608523193
+--- !u!4 &1298237549
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1608523190}
+  m_GameObject: {fileID: 1298237546}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -354,4 +354,4 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1608523193}
+  - {fileID: 1298237549}

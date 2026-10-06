@@ -158,6 +158,31 @@ namespace HuaShang.Greybox
             return b.Finish();
         }
 
+        /// <summary>齐胸襦裙的裙：裙腰系在胸上，一路放宽到地（docs/07 §3）。</summary>
+        public static Mesh ChestSkirt(string name)
+        {
+            var b = new Builder(name);
+            var spine = new List<Vector3> { new Vector3(0, 1.33f, 0), new Vector3(0, 1.0f, 0), new Vector3(0, 0.5f, 0), new Vector3(0, 0.03f, 0) };
+            b.Sweep(spine, new[] { 0.2f, 0.27f, 0.36f, 0.46f }, 48, new Vector2(1.15f, 1f), 1,
+                (angle, down) => 1f + 0.06f * down * Mathf.Sin(angle * 12f));
+            return b.Finish();
+        }
+
+        /// <summary>齐胸襦裙的上襦：很短，只到胸下，袖宽（docs/07 §3）。</summary>
+        public static Mesh ShortUpper(string name)
+        {
+            var b = new Builder(name);
+            var spine = new List<Vector3> { new Vector3(0, 1.47f, 0), new Vector3(0, 1.36f, 0), new Vector3(0, 1.28f, 0) };
+            b.Sweep(spine, new[] { 0.16f, 0.19f, 0.215f }, 28, new Vector2(1.25f, 0.9f), 1, null);
+            foreach (int side in new[] { -1, 1 })
+            {
+                var arm = GreyboxBody.ArmPoints(side);
+                var path = new List<Vector3> { arm[0] + new Vector3(side * 0.02f, 0.02f, 0), arm[1], arm[2], arm[2] + (arm[2] - arm[1]).normalized * 0.06f };
+                b.Sweep(path, new[] { 0.075f, 0.12f, 0.18f, 0.2f }, 18, Vector2.one, 1, null);
+            }
+            return b.Finish();
+        }
+
         public static Mesh Skirt(string name)
         {
             var b = new Builder(name);

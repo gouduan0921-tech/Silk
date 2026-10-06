@@ -103,6 +103,27 @@ MonoBehaviour:
       length: 2.5
     dynasty: ming
     launch: 1
+  - id: qiXiong
+    name: "\u9F50\u80F8\u8966\u88D9"
+    parts:
+    - upper
+    - skirt
+    - drape
+    - inner
+    optionalParts:
+    - drape
+    - inner
+    partLengths:
+    - slot: upper
+      length: 2
+    - slot: skirt
+      length: 4
+    - slot: drape
+      length: 2
+    - slot: inner
+      length: 2.5
+    dynasty: tang
+    launch: 1
   - id: chiton
     name: "\u5E0C\u987F"
     parts:

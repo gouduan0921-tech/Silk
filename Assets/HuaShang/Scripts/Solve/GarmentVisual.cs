@@ -51,7 +51,7 @@ namespace HuaShang.Solve
                 Mesh mesh; ClothLayer layer;
                 switch (sp.slot)
                 {
-                    case "skirt": mesh = sp.pattern == "juniHitoe" ? GarmentShapes.Hakama("SK_part_hakama") : GarmentShapes.Skirt("SK_part_skirt"); layer = ClothLayer.Outer; break;
+                    case "skirt": mesh = sp.pattern == "juniHitoe" ? GarmentShapes.Hakama("SK_part_hakama") : sp.pattern == "qiXiong" ? GarmentShapes.ChestSkirt("SK_part_qixiong") : GarmentShapes.Skirt("SK_part_skirt"); layer = ClothLayer.Outer; break;
                     case "inner": mesh = GarmentShapes.Inner("SK_part_inner"); layer = ClothLayer.Inner; break;
                     case "drape": mesh = GarmentShapes.Drape("SK_part_drape"); layer = ClothLayer.Drape; break;
                     case "wrap": mesh = GarmentShapes.Beizi("SK_part_beizi"); layer = ClothLayer.Outer; break; // 画在裙外，层位算中层由 ItemQuality 决定
@@ -63,7 +63,7 @@ namespace HuaShang.Solve
                              : GarmentShapes.Robe("SK_part_robe");
                         layer = ClothLayer.Outer; break;
                     default:
-                        mesh = sp.pattern == "aoQun" ? GarmentShapes.Ao("SK_part_ao") : GarmentShapes.Upper("SK_part_upper");
+                        mesh = sp.pattern == "aoQun" ? GarmentShapes.Ao("SK_part_ao") : sp.pattern == "qiXiong" ? GarmentShapes.ShortUpper("SK_part_shortupper") : GarmentShapes.Upper("SK_part_upper");
                         layer = ClothLayer.Outer; break;
                 }
                 var go = new GameObject("Part_" + sp.slot);

@@ -99,7 +99,7 @@ namespace HuaShang.DocImport
         static readonly Dictionary<string, string> HourKeys = new Dictionary<string, string>
         {
             { "喂蚕或控温", "feed" }, { "缫丝一束", "reel" }, { "平纹一匹", "weavePlain" },
-            { "斜纹或素缎一匹", "weaveTwillSatin" }, { "提花、锦、缂丝一匹", "weaveJacquard" },
+            { "斜纹或素缎一匹", "weaveTwillSatin" }, { "素罗一匹", "weaveLeno" }, { "提花、锦、缂丝一匹", "weaveJacquard" },
             { "浸染一匹", "dyeBath" }, { "扎染或夹缬", "dyeResist" },
             { "裁一个部件", "cutPart" }, { "缝一个部件", "sewPart" },
         };
@@ -115,7 +115,7 @@ namespace HuaShang.DocImport
         };
         static readonly Dictionary<string, string> PatternNames = new Dictionary<string, string>
         {
-            { "襦裙", "ruQun" }, { "直裾", "zhiJu" }, { "大袖衫", "daXiuShan" }, { "褙子", "beiZi" }, { "袄裙", "aoQun" }, { "希顿", "chiton" }, { "卡拉西里斯", "kalasiris" }, { "十二单", "juniHitoe" },
+            { "襦裙", "ruQun" }, { "直裾", "zhiJu" }, { "大袖衫", "daXiuShan" }, { "褙子", "beiZi" }, { "袄裙", "aoQun" }, { "希顿", "chiton" }, { "卡拉西里斯", "kalasiris" }, { "十二单", "juniHitoe" }, { "齐胸襦裙", "qiXiong" },
         };
 
         /// <summary>从工程根目录（含 docs/ 的目录）读出全部配置。</summary>
@@ -311,7 +311,7 @@ namespace HuaShang.DocImport
 
         /// <summary>开放列：「是」为首发，「工艺章」「高阶织物」为首发后依次开放的阶段（docs/01 §7）；「否」不开放。</summary>
         static bool IsOpen(string cell) => cell.StartsWith("是", StringComparison.Ordinal) || cell.StartsWith("工艺章", StringComparison.Ordinal)
-                                           || cell.StartsWith("高阶织物", StringComparison.Ordinal) || cell.StartsWith("篇章", StringComparison.Ordinal);
+                                           || cell.StartsWith("高阶织物", StringComparison.Ordinal) || cell.StartsWith("篇章", StringComparison.Ordinal) || cell.StartsWith("二轮", StringComparison.Ordinal);
 
         // ---- docs/16 角色 ----
 
@@ -716,7 +716,7 @@ namespace HuaShang.DocImport
                     else o.parsed = false;
                 }
                 if (o.parsed) { o.density = vals[0]; o.bend = vals[1]; o.wind = vals[2]; o.gloss = vals[3]; }
-                o.launch = o.parsed && (r[0] == launchDynasty || Regex.IsMatch(s.text, r[0] + "的行在(工艺章|篇章)启用"));
+                o.launch = o.parsed && (r[0] == launchDynasty || Regex.IsMatch(s.text, r[0] + "的行在(工艺章|篇章|二轮)启用"));
                 q.dynasties.Add(o);
             }
 

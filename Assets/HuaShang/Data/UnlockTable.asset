@@ -398,3 +398,41 @@ MonoBehaviour:
       tiers: 46000000i
     other: []
     raw: "\u9648\u5706\u5706 70 \u6863\u3001\u67F3\u5982\u662F 70 \u6863"
+  - level: 31
+    xpRequired: 50200
+    launch: 1
+    varieties:
+    - suLuo
+    - huaSha
+    - huaLuo
+    dyes: []
+    patterns: []
+    characters: []
+    other:
+    - "\u7F57\u673A"
+    raw: "\u7F57\u673A\u3001\u7D20\u7F57\u3001\u82B1\u7EB1\u3001\u82B1\u7F57"
+  - level: 32
+    xpRequired: 54400
+    launch: 1
+    varieties:
+    - ling
+    - puTongJin
+    - shuJin
+    - songJin
+    dyes: []
+    patterns: []
+    characters: []
+    other: []
+    raw: "\u7EEB\u3001\u666E\u901A\u9526\u3001\u8700\u9526\u3001\u5B8B\u9526"
+  - level: 33
+    xpRequired: 58800
+    launch: 1
+    varieties:
+    - zhuangHuaDuan
+    dyes: []
+    patterns:
+    - qiXiong
+    characters: []
+    other:
+    - "\u5510\u98CE"
+    raw: "\u5510\u98CE\u3001\u9F50\u80F8\u8966\u88D9\u3001\u5986\u82B1\u7F0E"

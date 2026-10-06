@@ -57,6 +57,19 @@ namespace HuaShang.Stations
                 for (int i = 0; i < 5; i++)
                     Props.Box(root, "Treadle", new Vector3(-0.4f + i * 0.2f, 0.12f, -0.75f), new Vector3(0.08f, 0.03f, 0.6f), Props.Wood);
             }
+            else if (kind == Craft.Loom.Leno)
+            {
+                // 罗机：绞综——成对的细杆交叉，经线在其间绞转
+                for (int i = 0; i < 12; i++)
+                {
+                    float x = -0.6f + i * (1.2f / 11f);
+                    var a = Props.Box(root, "Doup", new Vector3(x, 1.25f, -0.05f), new Vector3(0.008f, 0.32f, 0.008f), Props.WoodLight);
+                    a.transform.localEulerAngles = new Vector3(0, 0, 18f);
+                    var b2 = Props.Box(root, "Doup", new Vector3(x, 1.25f, -0.05f), new Vector3(0.008f, 0.32f, 0.008f), Props.WoodLight);
+                    b2.transform.localEulerAngles = new Vector3(0, 0, -18f);
+                }
+                Props.Box(root, "DoupBar", new Vector3(0, 1.42f, -0.05f), new Vector3(1.4f, 0.03f, 0.03f), Props.Wood);
+            }
             else if (kind == Craft.Loom.Draw)
             {
                 // 花楼机：机身上加高楼，拽花的人坐在楼上，衢线垂下
@@ -184,6 +197,7 @@ namespace HuaShang.Stations
                 var patterns = new List<string>();
                 if (kind == Craft.Loom.Draw && Unlocks.OtherOpen(S, C, "提花花本")) patterns.Add(Craft.PatternJacquard);
                 else patterns.Add(Craft.PatternPlain);
+                if (kind == Craft.Loom.Leno && Unlocks.OtherOpen(S, C, "提花花本")) patterns.Add(Craft.PatternJacquard); // 罗机：素与提花
                 if (kind == Craft.Loom.Plain && S.level >= 2) patterns.Add(Craft.PatternGrid);
                 if (!patterns.Contains(patternId)) patternId = patterns[0];
                 var pg = new OptionGroup { label = "花本" };
