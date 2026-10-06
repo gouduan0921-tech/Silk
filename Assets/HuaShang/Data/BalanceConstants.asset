@@ -502,6 +502,18 @@ MonoBehaviour:
       - level: 20
         xp: 17200
         launch: 0
+      - level: 21
+        xp: 19200
+        launch: 0
+      - level: 22
+        xp: 21400
+        launch: 0
+      - level: 23
+        xp: 23800
+        launch: 0
+      - level: 24
+        xp: 26400
+        launch: 0
     windLight:
       baseWindMin: 0.3
       baseWindMax: 0.8
@@ -707,6 +719,54 @@ MonoBehaviour:
         develop: 10
         climax: 8
         coda: 6
+      - characterId: luoShen
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: changE
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: baiSuZhen
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: daJi
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: haiLun
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: aFuLuoDiTe
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: keLiAoPaTeLa
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
+      - characterId: xiaoYeXiaoTing
+        tier: 70
+        setup: 8
+        develop: 12
+        climax: 10
+        coda: 8
     exhibit:
       quality: 0.4
       theme: 0.3

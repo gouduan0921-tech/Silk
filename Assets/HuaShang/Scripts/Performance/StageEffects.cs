@@ -24,6 +24,7 @@ namespace HuaShang.Performance
         Light extra;
         GameObject root;
         int spawnCursor;
+        int dens = 1;
         float spawnTimer;
 
         /// <summary>舞台上的成衣显示；白蛇特效跟披帛末端（docs/11 §3）。</summary>
@@ -34,6 +35,7 @@ namespace HuaShang.Performance
             End();
             if (string.IsNullOrEmpty(effect) || tier < 30) return;
             kind = effect;
+            dens = tier >= 70 ? 2 : 1; // 70 档特效加密一倍（docs/11 §3）
             t = 0f;
             root = new GameObject("FX_" + effect);
             root.transform.SetParent(transform, false);
@@ -58,7 +60,7 @@ namespace HuaShang.Performance
 
         void BuildWater()
         {
-            for (int i = 0; i < RingCount; i++)
+            for (int i = 0; i < RingCount * dens; i++)
             {
                 var g = Props.Prim(PrimitiveType.Cylinder, root.transform, "Ripple", new Vector3(0, 0.005f, 0), new Vector3(0.5f, 0.002f, 0.5f), Color.white, false);
                 var m = LitMaterials.New(LitMaterials.Kind.Transparent, new Color(0.55f, 0.78f, 0.80f, 0.35f));
@@ -76,7 +78,7 @@ namespace HuaShang.Performance
             extra.colorTemperature = 7500f;
             var mat = LitMaterials.New(LitMaterials.Kind.Unlit, new Color(0.92f, 0.95f, 1f));
             var rnd = new System.Random(7);
-            for (int i = 0; i < MoteCount; i++)
+            for (int i = 0; i < MoteCount * dens; i++)
             {
                 var g = Props.Prim(PrimitiveType.Sphere, root.transform, "Mote",
                     new Vector3((float)rnd.NextDouble() * 2.4f - 1.2f, (float)rnd.NextDouble() * 3.0f, (float)rnd.NextDouble() * 1.6f - 1.0f),
@@ -94,7 +96,7 @@ namespace HuaShang.Performance
         void BuildSnake()
         {
             // 鳞光碎点池：从披帛两端轮流放出，原地慢慢下沉、渐隐
-            for (int i = 0; i < ScaleCount; i++)
+            for (int i = 0; i < ScaleCount * dens; i++)
             {
                 var g = Props.Prim(PrimitiveType.Cube, root.transform, "Scale", Vector3.zero, new Vector3(0.022f, 0.004f, 0.016f), Color.white, false);
                 var m = LitMaterials.New(LitMaterials.Kind.Transparent, new Color(0.88f, 0.93f, 0.95f, 0f));
@@ -110,7 +112,7 @@ namespace HuaShang.Performance
         void BuildPetals()
         {
             var rnd = new System.Random(11);
-            for (int i = 0; i < MoteCount; i++)
+            for (int i = 0; i < MoteCount * dens; i++)
             {
                 var g = Props.Prim(PrimitiveType.Cube, root.transform, "Petal", Vector3.zero, new Vector3(0.05f, 0.004f, 0.035f), Color.white, false);
                 var m = LitMaterials.New(LitMaterials.Kind.Opaque, Color.Lerp(new Color(0.93f, 0.55f, 0.62f), new Color(0.97f, 0.75f, 0.78f), (float)rnd.NextDouble()));
@@ -128,7 +130,7 @@ namespace HuaShang.Performance
             var mat = LitMaterials.New(LitMaterials.Kind.Opaque, new Color(0.95f, 0.97f, 0.97f));
             moteMats.Add(mat);
             var rnd = new System.Random(5);
-            for (int i = 0; i < MoteCount; i++)
+            for (int i = 0; i < MoteCount * dens; i++)
             {
                 var g = Props.Prim(PrimitiveType.Sphere, root.transform, "Foam", Vector3.zero, Vector3.one * 0.03f, Color.white, false);
                 var r = g.GetComponent<Renderer>();
@@ -145,7 +147,7 @@ namespace HuaShang.Performance
             var mat = LitMaterials.New(LitMaterials.Kind.Unlit, new Color(1f, 0.82f, 0.42f));
             moteMats.Add(mat);
             var rnd = new System.Random(3);
-            for (int i = 0; i < MoteCount; i++)
+            for (int i = 0; i < MoteCount * dens; i++)
             {
                 var g = Props.Prim(PrimitiveType.Cube, root.transform, "Gold", Vector3.zero, Vector3.one * 0.012f, Color.white, false);
                 var r = g.GetComponent<Renderer>();
@@ -161,7 +163,7 @@ namespace HuaShang.Performance
             var mat = LitMaterials.New(LitMaterials.Kind.Transparent, new Color(0.8f, 0.84f, 0.88f, 0.35f));
             moteMats.Add(mat);
             var rnd = new System.Random(9);
-            for (int i = 0; i < MoteCount * 2; i++)
+            for (int i = 0; i < MoteCount * 2 * dens; i++)
             {
                 var g = Props.Prim(PrimitiveType.Cube, root.transform, "Rain",
                     new Vector3((float)rnd.NextDouble() * 4.4f - 2.2f, (float)rnd.NextDouble() * 3.4f, (float)rnd.NextDouble() * 2.4f - 1.2f),
@@ -219,7 +221,7 @@ namespace HuaShang.Performance
             {
                 for (int i = 0; i < rings.Count; i++)
                 {
-                    float p = Mathf.Repeat(t / RingPeriod + i / (float)RingCount, 1f);
+                    float p = Mathf.Repeat(t / RingPeriod + i / (float)rings.Count, 1f);
                     float d = Mathf.Lerp(0.4f, 3.0f, p);
                     rings[i].localScale = new Vector3(d, 0.002f, d);
                     var col = ringMats[i].color; col.a = 0.35f * (1f - p);
@@ -230,9 +232,9 @@ namespace HuaShang.Performance
             {
                 spawnTimer += dt;
                 SnakeEnds(out var ea, out var eb);
-                while (spawnTimer > 0.05f)
+                while (spawnTimer > 0.05f / dens)
                 {
-                    spawnTimer -= 0.05f;
+                    spawnTimer -= 0.05f / dens;
                     int i = spawnCursor; spawnCursor = (spawnCursor + 1) % motes.Count;
                     var at = (i % 2 == 0 ? ea : eb) + new Vector3(Mathf.Sin(t * 13f + i) * 0.03f, 0, Mathf.Cos(t * 11f + i) * 0.03f);
                     motes[i].position = at;

@@ -268,3 +268,55 @@ MonoBehaviour:
       tiers: 
     other: []
     raw: "\u5341\u4E8C\u5355\u3001\u5C0F\u91CE\u5C0F\u753A"
+  - level: 21
+    xpRequired: 19200
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: luoShen
+      tiers: 46000000i
+    - characterId: changE
+      tiers: 46000000i
+    other: []
+    raw: "\u6D1B\u795E 70 \u6863\u3001\u5AE6\u5A25 70 \u6863"
+  - level: 22
+    xpRequired: 21400
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: baiSuZhen
+      tiers: 46000000i
+    - characterId: daJi
+      tiers: 46000000i
+    other: []
+    raw: "\u767D\u7D20\u8D1E 70 \u6863\u3001\u59B2\u5DF1 70 \u6863"
+  - level: 23
+    xpRequired: 23800
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: haiLun
+      tiers: 46000000i
+    - characterId: aFuLuoDiTe
+      tiers: 46000000i
+    other: []
+    raw: "\u6D77\u4F26 70 \u6863\u3001\u963F\u4F5B\u6D1B\u72C4\u5FD2 70 \u6863"
+  - level: 24
+    xpRequired: 26400
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters:
+    - characterId: keLiAoPaTeLa
+      tiers: 46000000i
+    - characterId: xiaoYeXiaoTing
+      tiers: 46000000i
+    other: []
+    raw: "\u514B\u5229\u5965\u5E15\u7279\u62C9 70 \u6863\u3001\u5C0F\u91CE\u5C0F\u753A 70 \u6863"

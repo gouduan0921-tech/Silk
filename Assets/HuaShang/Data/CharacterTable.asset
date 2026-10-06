@@ -156,7 +156,7 @@ MonoBehaviour:
     - suSha
     - huaDuan
     preferDynasty: han
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     stageEffect: water
     note: "\u8981\u62AB\u5E1B"
@@ -168,7 +168,7 @@ MonoBehaviour:
     - suSha
     - suDuan
     preferDynasty: han
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     stageEffect: moon
     note: "\u8981\u62AB\u5E1B"
@@ -180,7 +180,7 @@ MonoBehaviour:
     - suDuan
     - juan
     preferDynasty: song
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     stageEffect: snake
     note: "\u8981\u62AB\u5E1B"
@@ -192,7 +192,7 @@ MonoBehaviour:
     - yunJin
     - huaDuan
     preferDynasty: han
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     stageEffect: petal
     note: 
@@ -204,7 +204,7 @@ MonoBehaviour:
     - juan
     - suDuan
     preferDynasty: greek
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     stageEffect: 
     note: 
@@ -216,7 +216,7 @@ MonoBehaviour:
     - suSha
     - juan
     preferDynasty: greek
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     stageEffect: foam
     note: "\u8981\u62AB\u5E1B"
@@ -228,7 +228,7 @@ MonoBehaviour:
     - suSha
     - yunJin
     preferDynasty: egypt
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     stageEffect: gold
     note: 
@@ -240,7 +240,7 @@ MonoBehaviour:
     - juan
     - suDuan
     preferDynasty: heian
-    launchTierMax: 30
+    launchTierMax: 70
     enabled: 1
     stageEffect: rain
     note: 
