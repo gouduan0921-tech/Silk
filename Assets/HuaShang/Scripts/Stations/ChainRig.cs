@@ -148,8 +148,8 @@ namespace HuaShang.Stations
             var s = g.AddComponent<T>();
             s.stationId = id; s.number = number; s.title = title; s.englishKicker = kicker; s.subtitle = sub;
             build(s);
-            // 正式美术（docs/17 §7）：工坊工位整体换外形，会动的部件留着；人台、戏台、展柜里有人体与布，不整体替换
-            if (id != "station_form" && id != "station_stage" && id != "station_museum")
+            // 正式美术（docs/17 §7）：工位整体换外形，会动的部件与人体留着（LiveRenderers）
+            if (id != "station_stage") // 戏台的两套布景由 StageStation 自己换
             {
                 var art = ArtLibrary.Prop(id);
                 if (art != null) ArtLibrary.Swap(art, g.transform, g.GetComponentsInChildren<Renderer>(), new HashSet<Renderer>(s.LiveRenderers()));

@@ -23,6 +23,11 @@ namespace HuaShang.Stations
         string draftTitle;
         bool draftMat, draftDye, draftDyn;
 
+        Renderer glassRenderer;
+
+        /// <summary>玻璃罩是程序材质（透明、关反射），换外形时留着。</summary>
+        public override IEnumerable<Renderer> LiveRenderers() { if (glassRenderer != null) yield return glassRenderer; }
+
         public void BuildProps()
         {
             var root = transform;
@@ -33,6 +38,7 @@ namespace HuaShang.Stations
             var gm = LitMaterials.New(LitMaterials.Kind.Glass, new Color(0.85f, 0.9f, 0.92f, 0.08f));
             gm.SetFloat("_Smoothness", 0.9f);
             var gr = glass.GetComponent<MeshRenderer>();
+            glassRenderer = gr;
             gr.sharedMaterial = gm;
             gr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; // 玻璃不投影，否则柜内整片发暗
             gr.receiveShadows = false;
@@ -88,6 +94,7 @@ namespace HuaShang.Stations
                     if (g == null) continue;
                     var body = GreyboxBody.Create("Form", GreyboxBody.FacingPivot(holder.transform), Props.Mat(new Color(0.82f, 0.8f, 0.76f)));
                     body.transform.localScale = Vector3.one * 0.62f;
+                    body.ApplyCharacterArt("form");
                     var vis = body.gameObject.AddComponent<GarmentVisual>();
                     vis.body = body;
                     vis.context = ClothContext.Exhibit;

@@ -27,7 +27,7 @@ namespace HuaShang.EditorTools
             sb.AppendLine("|---|---|---|");
             foreach (var ch in c.characters) if (ch.enabled) Row("角色", "Characters/SK_" + ch.id, ArtLibrary.Character(ch.id) != null);
             foreach (var p in c.patterns)
-                foreach (var slot in p.parts) Row("衣片", "Garments/SK_part_" + slot + "_" + p.id, ArtLibrary.GarmentMesh(slot, p.id) != null);
+                foreach (var slot in p.parts) Row("衣片", "Garments/SK_part_" + slot + "_" + p.id + "（或 _any）", ArtLibrary.GarmentMesh(slot, p.id) != null);
             foreach (var v in c.varieties) if (v.launch && !v.liningOnly) Row("面料", "Fabrics/T_fabric_" + v.id + "_n", ArtLibrary.FabricNormal(v.id) != null);
             foreach (var id in new[] { "workshop", "station_silk", "station_loom", "station_loom_satin", "station_loom_draw", "station_loom_leno", "station_dye", "station_cut", "station_sew", "station_market", "stage_classic", "stage_ink" })
                 Row("场景", "Props/SM_" + id, ArtLibrary.Prop(id) != null);

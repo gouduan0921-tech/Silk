@@ -137,9 +137,55 @@ def workshop():
                 box("Transom", (cx, 1.75 + k * 1.1 / 4, 3.08), (1.7, 0.025, 0.03), Wd, bevel=0)
     export("Props/SM_workshop")
 
+def form():
+    clear(); W, Wd = WOOD(), WOOD_DARK()
+    lathe("Plinth", (0, 0, 0), [(0.0, 0), (0.42, 0), (0.42, 0.06), (0.4, 0.08), (0.36, 0.1), (0.0, 0.1)], Wd, 48)
+    lathe("Rim", (0, 0.098, 0), [(0.37, 0), (0.38, 0), (0.38, 0.006), (0.37, 0.006)], BRASS(), 48)
+    # 透光对照的格子窗与叶影（在 transRig 的位置）
+    ox, oz = 2.4, 0.4
+    box("WindowSill", (ox, 0.45, oz + 0.3), (1.4, 0.06, 0.2), W)
+    for i in range(7):
+        box("LatticeV", (ox - 0.6 + i * 0.2, 1.2, oz + 0.3), (0.03, 1.4, 0.03), Wd)
+        box("LatticeH", (ox, 0.55 + i * 0.2, oz + 0.3), (1.25, 0.03, 0.03), Wd)
+    box("Frame", (ox, 1.92, oz + 0.3), (1.35, 0.06, 0.06), Wd)
+    rod("Rod", (ox - 0.7, 1.85, oz), (ox + 0.7, 1.85, oz), 0.015, W, 12)
+    for i in range(6):
+        ellipsoid("Leaf", (ox - 0.5 + i * 0.2, 1.0 + (i % 2) * 0.35, oz + 0.36), (0.06, 0.11, 0.01), LEAF(), 10, 6)
+    # 镜架与针插台
+    box("MirrorFrame", (-1.1, 1.0, 0.3), (0.5, 1.6, 0.05), Wd)
+    box("Mirror", (-1.1, 1.05, 0.27), (0.42, 1.4, 0.01), mat("M_glass_prop", (0.75, 0.8, 0.82)), bevel=0)
+    box("MirrorFoot", (-1.1, 0.03, 0.3), (0.6, 0.06, 0.3), Wd)
+    export("Props/SM_station_form")
+
+def museum():
+    clear(); W, Wd, L = WOOD(), WOOD_DARK(), LACQUER()
+    box("Wall", (0, 1.8, 1.2), (4.0, 3.6, 0.1), PLASTER())
+    box("WallPanel", (0, 1.6, 1.14), (3.2, 2.4, 0.02), mat("M_paper", (0.9, 0.87, 0.8)))
+    box("WallFrame", (0, 2.82, 1.13), (3.3, 0.06, 0.03), Wd)
+    box("WallFrame", (0, 0.38, 1.13), (3.3, 0.06, 0.03), Wd)
+    box("CaseBase", (0, 0.3, 0), (2.6, 0.6, 1.2), Wd)
+    for x in (-0.9, 0, 0.9):
+        box("BasePanel", (x, 0.3, -0.61), (0.7, 0.4, 0.02), L)
+    box("Plinth", (0, 0.61, 0), (2.62, 0.03, 1.22), W)
+    # 玻璃罩的木框：十二条棱
+    for x in (-1.3, 1.3):
+        for z in (-0.6, 0.6):
+            box("Mullion", (x, 1.45, z), (0.04, 1.7, 0.04), Wd)
+    for y in (0.6, 2.3):
+        for z in (-0.6, 0.6):
+            box("Rail", (0, y, z), (2.64, 0.04, 0.04), Wd)
+        for x in (-1.3, 1.3):
+            box("Rail", (x, y, 0), (0.04, 0.04, 1.24), Wd)
+    box("Cornice", (0, 2.36, -0.66), (2.74, 0.08, 0.06), Wd)  # 顶面留空（玻璃），只在正面加一道檐
+    # 说明牌与吊灯
+    box("Label", (0, 0.45, -0.62), (0.5, 0.14, 0.01), PAPER())
+    lathe("Lamp", (0, 2.62, -0.6), [(0.0, 0), (0.08, 0.0), (0.06, 0.08), (0.02, 0.1), (0.0, 0.1)], BRASS(), 16)
+    rod("LampCord", (0, 2.7, -0.6), (0, 3.6, -0.6), 0.005, INK(), 6)
+    export("Props/SM_station_museum")
+
 result = {}
 import sys
 only = globals().get("ONLY")
-for fn in (silk, dye, cut, sew, market, workshop):
+for fn in (silk, dye, cut, sew, market, workshop, form, museum):
     if only and fn.__name__ not in only: continue
     fn(); result[fn.__name__] = stats()

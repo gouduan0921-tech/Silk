@@ -379,7 +379,9 @@ namespace HuaShang.UI
             UiKit.Clear(corridor);
             var row = UiKit.Rect("Stops", corridor);
             // 每站最宽 136，放不下时等分可用宽度（1280×720 下 10 站也不出屏）
-            float avail = Screen.width / Mathf.Max(0.01f, scaler.scaleFactor) - 32f;
+            // 用画布自身宽度（编辑器里从别的窗口触发重建时 Screen.width 不是游戏视图的宽）
+            float canvasW = root != null && root.rect.width > 1f ? root.rect.width : Screen.width / Mathf.Max(0.01f, scaler.scaleFactor);
+            float avail = canvasW - 32f;
             float half = Mathf.Min(68f, avail / (2f * Mathf.Max(1, stops.Count)));
             Anchor(row, new Vector2(0.5f, 0), new Vector2(0.5f, 1), new Vector2(-stops.Count * half, 8), new Vector2(stops.Count * half, -8));
             UiKit.Horizontal(row.gameObject, 2).childForceExpandHeight = true;

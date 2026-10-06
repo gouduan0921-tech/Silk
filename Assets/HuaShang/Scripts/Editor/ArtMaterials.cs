@@ -42,6 +42,9 @@ namespace HuaShang.EditorTools
             S("M_ink_light", "T_paper", new Color(0.74f, 0.74f, 0.72f), 0.05f, 0, 1f),
             S("M_ink_mid", "T_paper", new Color(0.54f, 0.55f, 0.54f), 0.05f, 0, 1f),
             S("M_curtain", "T_paper", new Color(0.55f, 0.16f, 0.12f), 0.2f, 0, 1f),
+            S("M_form", "T_paper", new Color(0.86f, 0.82f, 0.72f), 0.1f, 0, 3f),
+            S("M_glass_prop", null, new Color(0.72f, 0.78f, 0.8f), 0.95f, 0.3f, 1f),
+            S("M_blush", null, new Color(0.92f, 0.68f, 0.62f), 0.3f, 0, 1f),
             S("M_leaf", "T_noise", new Color(0.33f, 0.48f, 0.24f), 0.35f, 0, 1f),
         };
 
@@ -77,7 +80,7 @@ namespace HuaShang.EditorTools
                 if (imp == null) continue;
                 imp.materialImportMode = ModelImporterMaterialImportMode.ImportStandard;
                 imp.importAnimation = false;
-                imp.isReadable = false;
+                imp.isReadable = path.Contains("/Garments/"); // 衣片要给 MagicaCloth 读顶点
                 bool changed = false;
                 foreach (var o in AssetDatabase.LoadAllAssetsAtPath(path))
                 {

@@ -26,7 +26,8 @@ namespace HuaShang.Greybox
         public static GameObject Character(string characterId) => string.IsNullOrEmpty(characterId) ? null : Load<GameObject>("Characters/SK_" + characterId);
 
         /// <summary>衣片网格：Garments/SK_part_{slot}_{pattern}（uv.v ≥ 0.999 固定，≤ 0.9 可动，同灰盒约定）。</summary>
-        public static Mesh GarmentMesh(string slot, string pattern) => Load<Mesh>("Garments/SK_part_" + slot + "_" + (pattern ?? "ruQun"));
+        public static Mesh GarmentMesh(string slot, string pattern)
+            => Load<Mesh>("Garments/SK_part_" + slot + "_" + (pattern ?? "ruQun")) ?? Load<Mesh>("Garments/SK_part_" + slot + "_any"); // 衬里、披帛、裙多形制共用
 
         /// <summary>面料结构法线：Fabrics/T_fabric_{varietyId}_n。</summary>
         public static Texture2D FabricNormal(string varietyId) => Load<Texture2D>("Fabrics/T_fabric_" + varietyId + "_n");

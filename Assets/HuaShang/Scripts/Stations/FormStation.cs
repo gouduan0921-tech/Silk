@@ -33,6 +33,7 @@ namespace HuaShang.Stations
             turntable.SetParent(root, false);
             turntable.localPosition = new Vector3(0, 0.1f, 0);
             body = GreyboxBody.Create("SK_xiShi_Form", GreyboxBody.FacingPivot(turntable), Props.Mat(new Color(0.82f, 0.8f, 0.76f)));
+            body.ApplyCharacterArt("form"); // 立裁人台（ArtLibrary Characters/SK_form）
             visual = body.gameObject.AddComponent<GarmentVisual>();
             visual.body = body;
             visual.context = ClothContext.Form;
@@ -85,6 +86,12 @@ namespace HuaShang.Stations
                 part.Build(d, ClothLook.DyedColor(null, C.balance.dye), C.clothFixed, paint, null, false);
                 i++;
             }
+        }
+
+        /// <summary>人体（及其外形）留着，工位外形整体替换时不隐藏。</summary>
+        public override IEnumerable<Renderer> LiveRenderers()
+        {
+            if (body != null) foreach (var r in body.GetComponentsInChildren<Renderer>()) yield return r;
         }
 
         public override bool Done => S.garments.Count > 0;

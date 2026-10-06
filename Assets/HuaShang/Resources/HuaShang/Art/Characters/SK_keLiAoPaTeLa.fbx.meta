@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_blush
+    second: {fileID: 2100000, guid: 6545a3aa98615466db2663ba5870fb64, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_gold
     second: {fileID: 2100000, guid: 67ce4861658ff46dcba9f0f9b5ed46cb, type: 2}
   - first:
@@ -24,6 +29,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: M_lacquer_red
     second: {fileID: 2100000, guid: 6e551e29706ac406aacccd967435c638, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_paper
+    second: {fileID: 2100000, guid: 6ad3ff6ccaf4e4bbaa099d89b2123738, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
