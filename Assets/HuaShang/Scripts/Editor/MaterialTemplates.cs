@@ -26,8 +26,44 @@ namespace HuaShang.EditorTools
                 m.EnableKeyword("_ENVIRONMENTREFLECTIONS_OFF");
             });
             Make(LitMaterials.Kind.Unlit, m => { });
+            // 带结构法线的布料：保留细节贴图 _DETAIL_MULX2 变体（ClothLook.ApplyFabric 在运行时打开）
+            string clothNormal = Dir + "/M_template_cloth_normal.mat";
+            var cn = AssetDatabase.LoadAssetAtPath<Material>(clothNormal);
+            if (cn == null) { cn = new Material(Shader.Find(LitMaterials.ShaderOf(LitMaterials.Kind.Transparent))); AssetDatabase.CreateAsset(cn, clothNormal); }
+            SetTransparent(cn);
+            cn.EnableKeyword("_DETAIL_MULX2");
+            var tex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/HuaShang/Resources/HuaShang/Art/Fabrics/T_fabric_juan_n.png");
+            var neutral = NeutralDetail();
+            if (tex != null) cn.SetTexture("_DetailNormalMap", tex);
+            cn.SetTexture("_DetailAlbedoMap", neutral);
+            EditorUtility.SetDirty(cn);
+            // 不透明也要一份
+            string clothNormalOpaque = Dir + "/M_template_cloth_normal_opaque.mat";
+            var co = AssetDatabase.LoadAssetAtPath<Material>(clothNormalOpaque);
+            if (co == null) { co = new Material(Shader.Find(LitMaterials.ShaderOf(LitMaterials.Kind.Opaque))); AssetDatabase.CreateAsset(co, clothNormalOpaque); }
+            co.EnableKeyword("_DETAIL_MULX2");
+            if (tex != null) co.SetTexture("_DetailNormalMap", tex);
+            co.SetTexture("_DetailAlbedoMap", neutral);
+            EditorUtility.SetDirty(co);
             AssetDatabase.SaveAssets();
             Debug.Log("[HuaShang] 运行时材质模板已生成：" + Dir);
+        }
+
+        /// <summary>细节反照率的中性灰（sRGB 128，乘 2 后不改颜色）。</summary>
+        static Texture2D NeutralDetail()
+        {
+            string path = Dir + "/T_detail_neutral.png";
+            if (!System.IO.File.Exists(path))
+            {
+                var t = new Texture2D(4, 4, TextureFormat.RGBA32, false);
+                var px = new Color32[16];
+                for (int i = 0; i < 16; i++) px[i] = new Color32(128, 128, 128, 255);
+                t.SetPixels32(px);
+                System.IO.File.WriteAllBytes(path, t.EncodeToPNG());
+                Object.DestroyImmediate(t);
+                AssetDatabase.ImportAsset(path);
+            }
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
 
         static void SetTransparent(Material m)

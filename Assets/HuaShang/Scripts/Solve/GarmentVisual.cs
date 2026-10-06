@@ -66,6 +66,8 @@ namespace HuaShang.Solve
                         mesh = sp.pattern == "aoQun" ? GarmentShapes.Ao("SK_part_ao") : sp.pattern == "qiXiong" ? GarmentShapes.ShortUpper("SK_part_shortupper") : GarmentShapes.Upper("SK_part_upper");
                         layer = ClothLayer.Outer; break;
                 }
+                var artMesh = ArtLibrary.GarmentMesh(sp.slot, sp.pattern); // 正式衣片网格（docs/17 §7）
+                if (artMesh != null) mesh = artMesh;
                 var go = new GameObject("Part_" + sp.slot);
                 go.transform.SetParent(body.transform, false);
                 go.AddComponent<MeshFilter>().sharedMesh = mesh;
@@ -83,6 +85,7 @@ namespace HuaShang.Solve
                 part.Build(d, ClothLook.DyedColor(b.dyeLayers, c.balance.dye), c.clothFixed, paint, body.colliders, false);
                 var resist = ClothLook.ResistTexture(b.dyeLayers, c.balance.dye, out var resistKind); // 扎染、夹缬纹样（docs/04 §5）
                 if (resist != null) ClothLook.ApplyResist(part.material, resist, resistKind);
+                ClothLook.ApplyFabric(part.material, ArtLibrary.FabricNormal(b.variety)); // 面料结构法线（docs/17 §4）
                 parts.Add(part);
             }
         }

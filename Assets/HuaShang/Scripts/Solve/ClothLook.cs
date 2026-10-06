@@ -71,6 +71,26 @@ namespace HuaShang.Solve
             return tex;
         }
 
+        static readonly int DetailAlbedoId = Shader.PropertyToID("_DetailAlbedoMap");
+        static readonly int DetailNormalId = Shader.PropertyToID("_DetailNormalMap");
+        static readonly int DetailNormalScaleId = Shader.PropertyToID("_DetailNormalMapScale");
+        static Texture2D neutralDetail;
+
+        /// <summary>
+        /// 面料结构法线（docs/17 §4）：走 URP Lit 的细节法线，单独平铺得很密，不占主贴图的平铺（防染纹样用主贴图）。
+        /// 细节反照率用中性灰，不改颜色。没有贴图时什么都不做。
+        /// </summary>
+        public static void ApplyFabric(Material m, Texture2D normal)
+        {
+            if (m == null || normal == null) return;
+            if (neutralDetail == null) neutralDetail = Resources.Load<Texture2D>("HuaShang/Materials/T_detail_neutral");
+            m.SetTexture(DetailNormalId, normal);
+            m.SetFloat(DetailNormalScaleId, 0.8f);
+            if (neutralDetail != null) m.SetTexture(DetailAlbedoId, neutralDetail);
+            m.SetTextureScale(DetailAlbedoId, new Vector2(40f, 60f)); // 细节贴图共用这一组平铺
+            m.EnableKeyword("_DETAIL_MULX2");
+        }
+
         public static void ApplyResist(Material m, Texture2D tex, string kind)
         {
             if (m == null || tex == null) return;

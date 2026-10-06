@@ -33,6 +33,24 @@ namespace HuaShang.Greybox
         }
 
         /// <summary>身高约 1.6 米，脚底在原点。arms 为 false 时不做手臂（P1 探针用筒形上襦验证穿模，留无臂）。</summary>
+        GameObject art;
+        string artFor;
+
+        /// <summary>
+        /// 换上正式角色外形（ArtLibrary.Character）；没有就显示灰盒。碰撞仍用灰盒胶囊，布料碰撞不受影响。
+        /// </summary>
+        public void ApplyCharacterArt(string characterId)
+        {
+            if (artFor == characterId) return;
+            artFor = characterId;
+            if (art != null) Destroy(art);
+            art = null;
+            var own = new List<Renderer>(GetComponentsInChildren<Renderer>());
+            own.RemoveAll(r => r.GetComponentInParent<HuaShang.Solve.ClothPart>() != null);
+            foreach (var r in own) r.enabled = true;
+            art = ArtLibrary.Swap(ArtLibrary.Character(characterId), transform, own);
+        }
+
         public static GreyboxBody Create(string name, Transform parent, Material skin, bool arms = true)
         {
             var root = new GameObject(name);

@@ -50,6 +50,8 @@ namespace HuaShang.Stations
             }
         }
 
+        public override IEnumerable<Renderer> LiveRenderers() { if (trayRoot != null) yield return trayRoot.GetComponent<Renderer>(); }
+
         public override bool Done => S.yarns.Exists(y => y.id != NewGameFactory.OpeningYarnId) || S.tray.stage != TrayStage.Empty;
 
         public override void OnEnter() { base.OnEnter(); track = null; pending = null; SyncTray(); }

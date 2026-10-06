@@ -48,6 +48,8 @@ namespace HuaShang.Stations
             col.center = new Vector3(0, 0.9f, 0.2f); col.size = new Vector3(2.6f, 1.9f, 1.8f);
         }
 
+        public override IEnumerable<Renderer> LiveRenderers() { if (liquid != null) yield return liquid; if (hangingCloth != null) yield return hangingCloth; }
+
         public override bool Done
         {
             get { var b = Play.Find.Bolt(S, NewGameFactory.OpeningBoltId); return b != null && b.dyeLayers.Count > 0 || S.garments.Count > 0; }

@@ -89,6 +89,8 @@ namespace HuaShang.Stations
             col.center = new Vector3(0, h * 0.45f, 0); col.size = new Vector3(2, h, 2);
         }
 
+        public override IEnumerable<Renderer> LiveRenderers() { if (shuttle != null) yield return shuttle.GetComponent<Renderer>(); if (clothOnLoom != null) yield return clothOnLoom; }
+
         public override string LockedNote
         {
             get

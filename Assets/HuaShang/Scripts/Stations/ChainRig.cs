@@ -51,6 +51,14 @@ namespace HuaShang.Stations
             Props.Box(transform, "BackWall", new Vector3(41, 2.2f, 3.2f), new Vector3(102, 4.4f, 0.2f), Props.Wall);
             for (int i = 0; i < 12; i++) Props.Box(transform, "Beam", new Vector3(-3.5f + i * 8f, 2.2f, 2.6f), new Vector3(0.18f, 4.4f, 0.18f), Props.Wood);
 
+            var workshopArt = ArtLibrary.Prop("workshop"); // 地面、墙、梁
+            if (workshopArt != null)
+            {
+                var env = new List<Renderer>();
+                foreach (Transform t in transform) if (t.name == "Floor" || t.name == "BackWall" || t.name == "Beam") env.Add(t.GetComponent<Renderer>());
+                ArtLibrary.Swap(workshopArt, transform, env);
+            }
+
             var camGo = go("Main Camera");
             camGo.tag = "MainCamera";
             var cam = camGo.AddComponent<Camera>();
@@ -140,6 +148,12 @@ namespace HuaShang.Stations
             var s = g.AddComponent<T>();
             s.stationId = id; s.number = number; s.title = title; s.englishKicker = kicker; s.subtitle = sub;
             build(s);
+            // 正式美术（docs/17 §7）：工坊工位整体换外形，会动的部件留着；人台、戏台、展柜里有人体与布，不整体替换
+            if (id != "station_form" && id != "station_stage" && id != "station_museum")
+            {
+                var art = ArtLibrary.Prop(id);
+                if (art != null) ArtLibrary.Swap(art, g.transform, g.GetComponentsInChildren<Renderer>(), new HashSet<Renderer>(s.LiveRenderers()));
+            }
             s.approachPose = Props.Pose(g.transform, "ApproachPose", new Vector3(0, 2.3f, -4.6f), new Vector3(0, 0.9f, 0));
             // 进入机位整体左移一点：左侧木牌与右侧侧架之间的空处中心略偏右（素材/工位特写构图）
             s.enterPose = Props.Pose(g.transform, "EnterPose", new Vector3(-0.15f, 1.5f, -2.5f), new Vector3(-0.15f, 0.95f, 0.1f));

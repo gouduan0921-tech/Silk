@@ -26,17 +26,17 @@ namespace HuaShang.Game
             music.playOnAwake = false;
             music.loop = true;
             clips = new AudioClip[System.Enum.GetValues(typeof(Cue)).Length];
-            clips[(int)Cue.ShuttleSteady] = Tone("shuttle_steady", 0.06f, 1800f, 0.0f, 40f);
-            clips[(int)Cue.ShuttleRough] = Tone("shuttle_rough", 0.14f, 900f, 0.5f, 18f);
-            clips[(int)Cue.Break] = Tone("thread_break", 0.05f, 2600f, 0.2f, 60f);
-            clips[(int)Cue.Needle] = Tone("needle", 0.04f, 3200f, 0.05f, 70f);
-            clips[(int)Cue.NeedleDry] = Tone("needle_dry", 0.09f, 1400f, 0.6f, 30f);
-            clips[(int)Cue.Water] = Tone("water", 0.35f, 300f, 0.8f, 8f);
-            clips[(int)Cue.WaterBroken] = Tone("water_broken", 0.2f, 500f, 0.95f, 20f);
-            clips[(int)Cue.Wood] = Tone("wood", 0.12f, 220f, 0.15f, 25f);
-            clips[(int)Cue.ClothGauze] = Tone("cloth_gauze", 0.08f, 2400f, 0.9f, 35f);
-            clips[(int)Cue.ClothSilk] = Tone("cloth_silk", 0.16f, 900f, 0.9f, 18f);
-            clips[(int)Cue.Confirm] = Tone("confirm", 0.1f, 660f, 0.0f, 20f);
+            clips[(int)Cue.ShuttleSteady] = Clip("shuttle_steady", 0.06f, 1800f, 0.0f, 40f);
+            clips[(int)Cue.ShuttleRough] = Clip("shuttle_rough", 0.14f, 900f, 0.5f, 18f);
+            clips[(int)Cue.Break] = Clip("thread_break", 0.05f, 2600f, 0.2f, 60f);
+            clips[(int)Cue.Needle] = Clip("needle", 0.04f, 3200f, 0.05f, 70f);
+            clips[(int)Cue.NeedleDry] = Clip("needle_dry", 0.09f, 1400f, 0.6f, 30f);
+            clips[(int)Cue.Water] = Clip("water", 0.35f, 300f, 0.8f, 8f);
+            clips[(int)Cue.WaterBroken] = Clip("water_broken", 0.2f, 500f, 0.95f, 20f);
+            clips[(int)Cue.Wood] = Clip("wood", 0.12f, 220f, 0.15f, 25f);
+            clips[(int)Cue.ClothGauze] = Clip("cloth_gauze", 0.08f, 2400f, 0.9f, 35f);
+            clips[(int)Cue.ClothSilk] = Clip("cloth_silk", 0.16f, 900f, 0.9f, 18f);
+            clips[(int)Cue.Confirm] = Clip("confirm", 0.1f, 660f, 0.0f, 20f);
             ApplyVolumes();
             Settings.Changed += ApplyVolumes;
         }
@@ -64,6 +64,10 @@ namespace HuaShang.Game
             I.operation.PlayOneShot(I.clips[(int)cue]);
             PlayedCount++;
         }
+
+        /// <summary>有正式音效（ArtLibrary.Sfx）就用，否则用合成的占位音。</summary>
+        static AudioClip Clip(string name, float seconds, float freq, float noise, float decay)
+            => HuaShang.Greybox.ArtLibrary.Sfx(name) ?? Tone(name, seconds, freq, noise, decay);
 
         /// <summary>正弦加噪声的衰减短音。noise 0 为纯音，1 为纯噪声。</summary>
         static AudioClip Tone(string name, float seconds, float freq, float noise, float decay)

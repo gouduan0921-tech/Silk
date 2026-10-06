@@ -69,6 +69,7 @@ namespace HuaShang.Performance
             var tl = Find(ch, t);
             if (g == null || tl == null) return;
             characterId = ch; tier = t; garmentId = gid; shownMode = presentMode;
+            performer.ApplyCharacterArt(ch); // 有正式角色模型就换上（docs/17 §7）
             visual.ownerId = ch;
             visual.BuildGarment(s, c, g, presentMode); // 呈现模式只改显示拷贝（docs/03 §2）
             if (ClothQualityDirector.Instance != null) ClothQualityDirector.Instance.stageFocusOwner = ch; // 同时只有一位角色用高档

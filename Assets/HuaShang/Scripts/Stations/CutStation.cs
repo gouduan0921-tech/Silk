@@ -35,6 +35,8 @@ namespace HuaShang.Stations
             col.center = new Vector3(0, 0.6f, 0); col.size = new Vector3(2.4f, 1.3f, 1.4f);
         }
 
+        public override IEnumerable<Renderer> LiveRenderers() { if (spread != null) yield return spread; if (pieceOutline != null) yield return pieceOutline.GetComponent<Renderer>(); }
+
         public override bool Done => S.pieces.Count > 0 || S.garments.Count > 0;
 
         public override void OnEnter()

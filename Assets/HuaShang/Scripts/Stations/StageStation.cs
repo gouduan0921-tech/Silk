@@ -61,6 +61,8 @@ namespace HuaShang.Stations
                     peak.transform.localEulerAngles = new Vector3(0, 0, 45f);
                 }
             }
+            ArtLibrary.Swap(ArtLibrary.Prop("stage_classic"), classicSet, classicSet.GetComponentsInChildren<Renderer>());
+            ArtLibrary.Swap(ArtLibrary.Prop("stage_ink"), inkSet, inkSet.GetComponentsInChildren<Renderer>());
             inkSet.gameObject.SetActive(false);
 
             var stageRoot = new GameObject("StageRoot").transform;
@@ -143,6 +145,7 @@ namespace HuaShang.Stations
         void ShowOnPerformer()
         {
             var g = garmentId != null ? Play.Find.Garment(S, garmentId) : S.garments.Find(x => !S.exhibit.slots.Exists(e => e.itemId == x.id));
+            performance.performer.ApplyCharacterArt(characterId);
             if (g != null) { performance.visual.ownerId = characterId; performance.visual.BuildGarment(S, C, g, presentMode); }
             else performance.visual.Clear();
         }

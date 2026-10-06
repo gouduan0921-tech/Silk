@@ -76,5 +76,8 @@ namespace HuaShang.Stations
         }
 
         protected virtual void Update() { }
+
+        /// <summary>会动或会变色的灰盒部件；换上正式美术时它们保留（docs/17 §7）。</summary>
+        public virtual IEnumerable<Renderer> LiveRenderers() { yield break; }
     }
 }
