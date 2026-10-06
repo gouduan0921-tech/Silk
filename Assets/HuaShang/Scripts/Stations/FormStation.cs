@@ -32,7 +32,7 @@ namespace HuaShang.Stations
             turntable = new GameObject("Turntable").transform;
             turntable.SetParent(root, false);
             turntable.localPosition = new Vector3(0, 0.1f, 0);
-            body = GreyboxBody.Create("SK_xiShi_Form", turntable, Props.Mat(new Color(0.82f, 0.8f, 0.76f)));
+            body = GreyboxBody.Create("SK_xiShi_Form", GreyboxBody.FacingPivot(turntable), Props.Mat(new Color(0.82f, 0.8f, 0.76f)));
             visual = body.gameObject.AddComponent<GarmentVisual>();
             visual.body = body;
             visual.context = ClothContext.Form;

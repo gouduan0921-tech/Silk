@@ -68,7 +68,7 @@ namespace HuaShang.Stations
             var stageRoot = new GameObject("StageRoot").transform;
             stageRoot.SetParent(root, false);
             stageRoot.localPosition = new Vector3(0, 0.5f, 0);
-            var body = GreyboxBody.Create("SK_xiShi_Stage", stageRoot, Props.Mat(new Color(0.8f, 0.76f, 0.72f)));
+            var body = GreyboxBody.Create("SK_xiShi_Stage", GreyboxBody.FacingPivot(stageRoot), Props.Mat(new Color(0.8f, 0.76f, 0.72f)));
             body.gameObject.AddComponent<Animator>();
             var vis = body.gameObject.AddComponent<GarmentVisual>();
             vis.body = body;

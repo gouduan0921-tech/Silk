@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9220489773097690880
+--- !u!114 &-8059939957264151058
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,15 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f68fe3a6b3f4008826177cd6d35507, type: 3}
-  m_Name: CameraPoseClip
-  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.CameraPoseClip
+  m_Script: {fileID: 11500000, guid: 5973347d07db742918670163892ff3c2, type: 3}
+  m_Name: WindClip
+  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.WindClip
   template:
-    fromPosition: {x: 0.3, y: 1.55, z: -4.4}
-    toPosition: {x: 0.1, y: 1.4, z: -3.3}
-    lookAt: {x: 0, y: 1.15, z: 0}
-    fov: 34
---- !u!74 &-8366191126937602447
+    speed: 0.55
+    direction: {x: 0, y: 0, z: -1}
+--- !u!74 &-6921091793325123276
 AnimationClip:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -615,344 +613,7 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_Events: []
---- !u!114 &-8079603812113200347
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 030f85c3f73729f4f976f66ffb23b875, type: 3}
-  m_Name: LS_yuJi_t0_body
-  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AnimationPlayableAsset
-  m_Clip: {fileID: -8366191126937602447}
-  m_Position: {x: 0, y: 0, z: 0}
-  m_EulerAngles: {x: 0, y: 0, z: 0}
-  m_UseTrackMatchFields: 1
-  m_MatchTargetFields: 63
-  m_RemoveStartOffset: 1
-  m_ApplyFootIK: 1
-  m_Loop: 0
-  m_Version: 1
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &-7405952129344689393
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5973347d07db742918670163892ff3c2, type: 3}
-  m_Name: WindClip
-  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.WindClip
-  template:
-    speed: 0.55
-    direction: {x: 0, y: 0, z: -1}
---- !u!114 &-6292212423992195152
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10cc3392e7b3e4b18861ded8bfb47571, type: 3}
-  m_Name: LightClip
-  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.LightClip
-  template:
-    keyIntensity: 1
-    kelvin: 5200
-    rimIntensity: 0
---- !u!114 &-4529560306641321535
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86b9de344e0f6437ea77d2251c7af9ff, type: 3}
-  m_Name: "\u706F"
-  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.LightTrack
-  m_Version: 3
-  m_AnimClip: {fileID: 0}
-  m_Locked: 0
-  m_Muted: 0
-  m_CustomPlayableFullTypename: 
-  m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
-  m_Children: []
-  m_Clips:
-  - m_Version: 1
-    m_Start: 0
-    m_ClipIn: 0
-    m_Asset: {fileID: -6292212423992195152}
-    m_Duration: 12
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -4529560306641321535}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: "\u67D4\u5149"
-  - m_Version: 1
-    m_Start: 12
-    m_ClipIn: 0
-    m_Asset: {fileID: -738009512176278981}
-    m_Duration: 6
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -4529560306641321535}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: "\u67D4\u5149"
-  m_Markers:
-    m_Objects: []
---- !u!114 &-3266504553201050796
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b6107544bc084381b5865e7deddf23f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.SubtitleMarker
-  m_Time: 0.5
-  text: "\uFF08\u865E\u59EC\u6309\u5251\u7ACB\u4E8E\u5E10\u524D\uFF09"
---- !u!114 &-2488993410187389934
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e30591c3d1634984b685770cdd4d298, type: 3}
-  m_Name: "\u6444\u50CF\u673A"
-  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.CameraPoseTrack
-  m_Version: 3
-  m_AnimClip: {fileID: 0}
-  m_Locked: 0
-  m_Muted: 0
-  m_CustomPlayableFullTypename: 
-  m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
-  m_Children: []
-  m_Clips:
-  - m_Version: 1
-    m_Start: 0
-    m_ClipIn: 0
-    m_Asset: {fileID: -9220489773097690880}
-    m_Duration: 18
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -2488993410187389934}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: "\u673A\u4F4D"
-  m_Markers:
-    m_Objects:
-    - {fileID: -3266504553201050796}
-    - {fileID: -229346591681444453}
-    - {fileID: -1511965752529049658}
---- !u!114 &-1511965752529049658
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b6107544bc084381b5865e7deddf23f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.SubtitleMarker
-  m_Time: 12.3
-  text: "\uFF08\u5B9A\u683C\uFF09"
---- !u!114 &-738009512176278981
+--- !u!114 &-5580871497459781180
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -968,7 +629,23 @@ MonoBehaviour:
     keyIntensity: 0.9
     kelvin: 5200
     rimIntensity: 0
---- !u!114 &-229346591681444453
+--- !u!114 &-4080611382324818808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10cc3392e7b3e4b18861ded8bfb47571, type: 3}
+  m_Name: LightClip
+  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.LightClip
+  template:
+    keyIntensity: 1
+    kelvin: 5200
+    rimIntensity: 0
+--- !u!114 &-3349135775315998536
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -980,8 +657,206 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6107544bc084381b5865e7deddf23f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HuaShang::HuaShang.Performance.SubtitleMarker
-  m_Time: 6
-  text: "\uFF08\u8863\u6446\u538B\u7740\u5730\u9762\u4E0D\u52A8\uFF09"
+  m_Time: 12.3
+  text: "\uFF08\u5B9A\u683C\uFF09"
+--- !u!114 &-1651226430819765713
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 030f85c3f73729f4f976f66ffb23b875, type: 3}
+  m_Name: LS_yuJi_t0_body
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AnimationPlayableAsset
+  m_Clip: {fileID: -6921091793325123276}
+  m_Position: {x: 0, y: 0, z: 0}
+  m_EulerAngles: {x: 0, y: 0, z: 0}
+  m_UseTrackMatchFields: 1
+  m_MatchTargetFields: 63
+  m_RemoveStartOffset: 1
+  m_ApplyFootIK: 1
+  m_Loop: 0
+  m_Version: 1
+  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+--- !u!114 &-445846111781842785
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5973347d07db742918670163892ff3c2, type: 3}
+  m_Name: WindClip
+  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.WindClip
+  template:
+    speed: 0.3
+    direction: {x: 0, y: 0, z: -1}
+--- !u!114 &-122115650321731279
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdc55b025cdac4f929df83423a8dadc8, type: 3}
+  m_Name: MagicaWindZone
+  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.WindTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 0
+    m_ClipIn: 0
+    m_Asset: {fileID: -8059939957264151058}
+    m_Duration: 12
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -122115650321731279}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: "\u98CE 0.6"
+  - m_Version: 1
+    m_Start: 12
+    m_ClipIn: 0
+    m_Asset: {fileID: -445846111781842785}
+    m_Duration: 6
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -122115650321731279}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: "\u98CE 0.3"
+  m_Markers:
+    m_Objects: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -996,17 +871,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.TimelineAsset
   m_Version: 0
   m_Tracks:
-  - {fileID: 2620098692625293387}
-  - {fileID: 8509470679143542747}
-  - {fileID: -4529560306641321535}
-  - {fileID: -2488993410187389934}
+  - {fileID: 1339543236075046122}
+  - {fileID: -122115650321731279}
+  - {fileID: 9150945635164960196}
+  - {fileID: 4351210256697651201}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
     m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: 0}
---- !u!114 &2620098692625293387
+--- !u!114 &1040427502654124652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b6107544bc084381b5865e7deddf23f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.SubtitleMarker
+  m_Time: 0.5
+  text: "\uFF08\u865E\u59EC\u6309\u5251\u7ACB\u4E8E\u5E10\u524D\uFF09"
+--- !u!114 &1339543236075046122
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1030,10 +919,10 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: -8079603812113200347}
+    m_Asset: {fileID: -1651226430819765713}
     m_Duration: 18
     m_TimeScale: 1
-    m_ParentTrack: {fileID: 2620098692625293387}
+    m_ParentTrack: {fileID: 1339543236075046122}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
@@ -1116,7 +1005,7 @@ MonoBehaviour:
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
---- !u!114 &8196379803403744196
+--- !u!114 &2773434557860449138
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1125,13 +1014,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5973347d07db742918670163892ff3c2, type: 3}
-  m_Name: WindClip
-  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.WindClip
+  m_Script: {fileID: 11500000, guid: 8b6107544bc084381b5865e7deddf23f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.SubtitleMarker
+  m_Time: 6
+  text: "\uFF08\u8863\u6446\u538B\u7740\u5730\u9762\u4E0D\u52A8\uFF09"
+--- !u!114 &2836579695303679049
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f68fe3a6b3f4008826177cd6d35507, type: 3}
+  m_Name: CameraPoseClip
+  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.CameraPoseClip
   template:
-    speed: 0.3
-    direction: {x: 0, y: 0, z: -1}
---- !u!114 &8509470679143542747
+    fromPosition: {x: 0.3, y: 1.55, z: -4.4}
+    toPosition: {x: 0.1, y: 1.4, z: -3.3}
+    lookAt: {x: 0, y: 1.15, z: 0}
+    fov: 34
+--- !u!114 &4351210256697651201
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1140,9 +1045,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdc55b025cdac4f929df83423a8dadc8, type: 3}
-  m_Name: MagicaWindZone
-  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.WindTrack
+  m_Script: {fileID: 11500000, guid: 3e30591c3d1634984b685770cdd4d298, type: 3}
+  m_Name: "\u6444\u50CF\u673A"
+  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.CameraPoseTrack
   m_Version: 3
   m_AnimClip: {fileID: 0}
   m_Locked: 0
@@ -1155,10 +1060,10 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: -7405952129344689393}
-    m_Duration: 12
+    m_Asset: {fileID: 2836579695303679049}
+    m_Duration: 18
     m_TimeScale: 1
-    m_ParentTrack: {fileID: 8509470679143542747}
+    m_ParentTrack: {fileID: 4351210256697651201}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
@@ -1220,14 +1125,109 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: "\u98CE 0.6"
+    m_DisplayName: "\u673A\u4F4D"
+  m_Markers:
+    m_Objects:
+    - {fileID: 1040427502654124652}
+    - {fileID: 2773434557860449138}
+    - {fileID: -3349135775315998536}
+--- !u!114 &9150945635164960196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b9de344e0f6437ea77d2251c7af9ff, type: 3}
+  m_Name: "\u706F"
+  m_EditorClassIdentifier: HuaShang::HuaShang.Performance.LightTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 0
+    m_ClipIn: 0
+    m_Asset: {fileID: -4080611382324818808}
+    m_Duration: 12
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 9150945635164960196}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: "\u67D4\u5149"
   - m_Version: 1
     m_Start: 12
     m_ClipIn: 0
-    m_Asset: {fileID: 8196379803403744196}
+    m_Asset: {fileID: -5580871497459781180}
     m_Duration: 6
     m_TimeScale: 1
-    m_ParentTrack: {fileID: 8509470679143542747}
+    m_ParentTrack: {fileID: 9150945635164960196}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
@@ -1289,6 +1289,6 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: "\u98CE 0.3"
+    m_DisplayName: "\u67D4\u5149"
   m_Markers:
     m_Objects: []

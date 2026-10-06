@@ -51,6 +51,18 @@ namespace HuaShang.Greybox
             art = ArtLibrary.Swap(ArtLibrary.Character(characterId), transform, own);
         }
 
+        /// <summary>
+        /// 人体本地朝 +Z（手臂前伸、披帛搭在 -Z 的肩后）。人台、戏台、展柜的镜头在 -Z 一侧，
+        /// 所以人体挂在一个转了 180° 的节点下，正面对着观众。
+        /// </summary>
+        public static Transform FacingPivot(Transform parent)
+        {
+            var t = new GameObject("FacingPivot").transform;
+            t.SetParent(parent, false);
+            t.localRotation = Quaternion.Euler(0, 180f, 0);
+            return t;
+        }
+
         public static GreyboxBody Create(string name, Transform parent, Material skin, bool arms = true)
         {
             var root = new GameObject(name);

@@ -86,7 +86,7 @@ namespace HuaShang.Stations
                 {
                     var g = Play.Find.Garment(S, slot.itemId);
                     if (g == null) continue;
-                    var body = GreyboxBody.Create("Form", holder.transform, Props.Mat(new Color(0.82f, 0.8f, 0.76f)));
+                    var body = GreyboxBody.Create("Form", GreyboxBody.FacingPivot(holder.transform), Props.Mat(new Color(0.82f, 0.8f, 0.76f)));
                     body.transform.localScale = Vector3.one * 0.62f;
                     var vis = body.gameObject.AddComponent<GarmentVisual>();
                     vis.body = body;
