@@ -41,6 +41,9 @@ MonoBehaviour:
       - key: dyeResist
         label: "\u624E\u67D3\u6216\u5939\u7F2C"
         hours: 3
+      - key: calender
+        label: "\u7811\u5149\u4E00\u5339"
+        hours: 1
       - key: cutPart
         label: "\u88C1\u4E00\u4E2A\u90E8\u4EF6"
         hours: 2
@@ -543,6 +546,12 @@ MonoBehaviour:
         launch: 0
       - level: 33
         xp: 58800
+        launch: 0
+      - level: 34
+        xp: 63400
+        launch: 0
+      - level: 35
+        xp: 68200
         launch: 0
     windLight:
       baseWindMin: 0.3

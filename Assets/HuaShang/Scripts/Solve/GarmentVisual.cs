@@ -81,6 +81,8 @@ namespace HuaShang.Solve
                     ? ClothDescribe.FromLayers(c, b.variety, t, sp.dynasty ?? b.dynastyStyle, b.dyeLayers, b.finish, b.edgeDamage, sp.sewScore)
                     : ClothDescribe.ForPresentation(c, presentMode, b.variety, t, sp.dynasty ?? b.dynastyStyle, b.dyeLayers, b.finish, b.edgeDamage, sp.sewScore);
                 part.Build(d, ClothLook.DyedColor(b.dyeLayers, c.balance.dye), c.clothFixed, paint, body.colliders, false);
+                var resist = ClothLook.ResistTexture(b.dyeLayers, c.balance.dye, out var resistKind); // 扎染、夹缬纹样（docs/04 §5）
+                if (resist != null) ClothLook.ApplyResist(part.material, resist, resistKind);
                 parts.Add(part);
             }
         }

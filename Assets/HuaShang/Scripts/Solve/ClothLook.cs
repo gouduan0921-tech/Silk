@@ -21,6 +21,63 @@ namespace HuaShang.Solve
         static readonly int CullId = Shader.PropertyToID("_Cull");
 
         /// <summary>按染层逐层叠色（sRGB 空间，与 docs/04 §5 的写法一致）。</summary>
+        static readonly int BaseMapId = Shader.PropertyToID("_BaseMap");
+
+        /// <summary>
+        /// 防染纹样（docs/04 §5）：取最后一个防染层，纹样内露出「去掉该层」的颜色。
+        /// 贴图存的是两色的线性比值（半精度，可大于 1），与 _BaseColor（整匹颜色）相乘；
+        /// 这样材质颜色被重写时纹样仍然对。没有防染层返回 null。
+        /// </summary>
+        public static Texture2D ResistTexture(IList<DyeLayer> layers, DyeData dye, out string kind)
+        {
+            kind = null;
+            if (layers == null) return null;
+            int idx = -1;
+            for (int i = layers.Count - 1; i >= 0; i--) if (!string.IsNullOrEmpty(layers[i].resist)) { idx = i; break; }
+            if (idx < 0) return null;
+            kind = layers[idx].resist;
+            var without = new List<DyeLayer>(layers);
+            without.RemoveAt(idx);
+            Color top = DyedColor(layers, dye).linear, under = DyedColor(without, dye).linear;
+            Color ratio = new Color(under.r / Mathf.Max(top.r, 1e-3f), under.g / Mathf.Max(top.g, 1e-3f), under.b / Mathf.Max(top.b, 1e-3f), 1f);
+            const int N = 64;
+            var tex = new Texture2D(N, N, TextureFormat.RGBAHalf, false, true) { name = "T_resist_" + kind, wrapMode = TextureWrapMode.Repeat, filterMode = FilterMode.Bilinear };
+            var px = new Color[N * N];
+            for (int y = 0; y < N; y++)
+                for (int x = 0; x < N; x++)
+                {
+                    float u = (x + 0.5f) / N - 0.5f, v = (y + 0.5f) / N - 0.5f;
+                    float r = Mathf.Sqrt(u * u + v * v);
+                    float m;
+                    if (kind == "clamp")
+                    {
+                        // 夹缬：对称四瓣团花加花心
+                        float ang = Mathf.Atan2(v, u);
+                        float petal = 0.22f + 0.12f * Mathf.Abs(Mathf.Cos(2f * ang));
+                        m = Mathf.Clamp01((petal - r) / 0.025f) * (r > 0.07f ? 1f : 0f) + (r < 0.04f ? 1f : 0f);
+                    }
+                    else
+                    {
+                        // 扎染：晕圈与中心点，边缘发虚
+                        float ring = 1f - Mathf.Clamp01(Mathf.Abs(r - 0.28f) / 0.05f);
+                        float dot = Mathf.Clamp01((0.08f - r) / 0.04f);
+                        m = Mathf.Max(ring, dot) * (0.8f + 0.2f * Mathf.PerlinNoise(x * 0.3f, y * 0.3f));
+                    }
+                    m = Mathf.Clamp01(m);
+                    px[y * N + x] = Color.Lerp(Color.white, ratio, m);
+                }
+            tex.SetPixels(px);
+            tex.Apply(false, true);
+            return tex;
+        }
+
+        public static void ApplyResist(Material m, Texture2D tex, string kind)
+        {
+            if (m == null || tex == null) return;
+            m.SetTexture(BaseMapId, tex);
+            m.SetTextureScale(BaseMapId, kind == "clamp" ? new Vector2(4f, 6f) : new Vector2(6f, 9f));
+        }
+
         public static Color DyedColor(IList<DyeLayer> layers, DyeData dye)
         {
             var baseColor = dye.ColorOf("base");

@@ -20,7 +20,7 @@ namespace HuaShang.Play
 
         public static double? BoltQ(Bolt b, ConfigSnapshot c)
         {
-            if (QualityCalc.TryComputeBoltQ(b.materialScore, b.yarnScore, b.weaveScore, BoltDyeScore(b), null, c.balance.quality, out var q))
+            if (QualityCalc.TryComputeBoltQ(b.materialScore, b.yarnScore, b.weaveScore, BoltDyeScore(b), b.finishScore, c.balance.quality, out var q))
                 return q;
             return null;
         }
@@ -82,7 +82,7 @@ namespace HuaShang.Play
             sc.yarn = Avg(parts, p => Find.Bolt(s, p.boltId)?.yarnScore);
             sc.weave = Avg(parts, p => Find.Bolt(s, p.boltId)?.weaveScore);
             sc.dye = Avg(parts, p => { var b = Find.Bolt(s, p.boltId); return b == null ? (double?)null : BoltDyeScore(b); });
-            sc.finish = null;
+            sc.finish = Avg(parts, p => Find.Bolt(s, p.boltId)?.finishScore);
             sc.cut = Avg(parts, p => p.cutScore);
             sc.sew = Avg(parts, p => p.sewScore);
             return sc;

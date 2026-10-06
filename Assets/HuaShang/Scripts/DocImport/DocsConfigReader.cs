@@ -100,7 +100,7 @@ namespace HuaShang.DocImport
         {
             { "喂蚕或控温", "feed" }, { "缫丝一束", "reel" }, { "平纹一匹", "weavePlain" },
             { "斜纹或素缎一匹", "weaveTwillSatin" }, { "素罗一匹", "weaveLeno" }, { "提花、锦、缂丝一匹", "weaveJacquard" },
-            { "浸染一匹", "dyeBath" }, { "扎染或夹缬", "dyeResist" },
+            { "浸染一匹", "dyeBath" }, { "扎染或夹缬", "dyeResist" }, { "砑光一匹", "calender" },
             { "裁一个部件", "cutPart" }, { "缝一个部件", "sewPart" },
         };
         static readonly Dictionary<string, string> ModKeys = new Dictionary<string, string>

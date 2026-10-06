@@ -65,6 +65,8 @@ namespace HuaShang.Save
         public string patternId;
         public List<DyeLayer> dyeLayers = new List<DyeLayer>();
         public string finish;
+        /// <summary>砑光的后整理分（docs/04 §5）；未砑光为空。</summary>
+        public int? finishScore;
         public int edgeDamage;
         /// <summary>挤层扣分累计（docs/21 §4）。</summary>
         public int dyePenalty;

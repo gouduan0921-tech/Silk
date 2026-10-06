@@ -16,6 +16,8 @@ namespace HuaShang.Rules.Calc
         /// <summary>这一层的染色分（docs/21 §4）。</summary>
         public double score;
         public string maskId;
+        /// <summary>防染（docs/04 §5）：tie 扎染 / clamp 夹缬；空为整匹浸染。</summary>
+        public string resist;
     }
 
     public class AddLayerResult

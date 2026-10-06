@@ -24,6 +24,9 @@ namespace HuaShang.Stations
         float immersedAt = -1;
         BeatTrack stir;
         string resultBoltId;
+        string resist; // 防染：null / tie / clamp（docs/04 §5）
+        BeatTrack calender; // 砑光的 8 拍
+        bool lastWasCalender;
 
         static readonly string[] ConcKeys = { DyeCalc.Light, DyeCalc.Medium, DyeCalc.Strong };
         static readonly string[] TempKeys = { Craft.TempCold, Craft.TempWarm, Craft.TempHot };
@@ -61,15 +64,29 @@ namespace HuaShang.Stations
         public override bool Back()
         {
             if (immersedAt >= 0) { immersedAt = -1; stir = null; depth = 0; Refresh(); return true; } // 未起布：不扣料、不记层
+            if (calender != null) { calender = null; depth = 0; Refresh(); return true; } // 砑光未完：不记
             if (depth == 2) { depth = 0; Refresh(); return true; }
             return base.Back();
         }
 
-        public override void BeatKey() { stir?.Press(); }
+        public override void BeatKey() { stir?.Press(); calender?.Press(); }
 
         protected override void Update()
         {
             stir?.Tick();
+            if (calender != null)
+            {
+                calender.Tick();
+                if (calender.Done)
+                {
+                    var beats = new List<Beat>(calender.results);
+                    string id = boltId;
+                    calender = null;
+                    if (Run((s, c) => Craft.Calender(s, c, id, beats))) { resultBoltId = id; depth = 2; lastWasCalender = true; }
+                    else depth = 0;
+                    Refresh();
+                }
+            }
             var b = boltId != null ? Play.Find.Bolt(S, boltId) : null;
             if (hangingCloth != null && b != null) Props.SetColor(hangingCloth, Names.BoltColor(C, b));
             if (liquid != null)
@@ -95,6 +112,22 @@ namespace HuaShang.Stations
                     Refresh();
                 }));
 
+            if (depth == 2 && lastWasCalender)
+            {
+                var cb = Play.Find.Bolt(S, resultBoltId);
+                var cm = Plaque("砑光完成", "完成");
+                if (cb != null)
+                {
+                    var cq = ItemQuality.BoltQ(cb, C);
+                    cm.resultTier = Names.Tier(cq.HasValue ? QualityCalc.TierOf(cq.Value, C.balance.quality) : null);
+                    cm.source = Names.Bolt(C, cb) + "，布面压亮";
+                    cm.details = "后整理分 " + cb.finishScore;
+                }
+                cm.primaryLabel = "走去裁桌";
+                cm.onPrimary = () => Workshop.Approach(Workshop.stations.Find(x => x.stationId == "station_cut"));
+                Show(cm);
+                return;
+            }
             if (depth == 2)
             {
                 var b = Play.Find.Bolt(S, resultBoltId);
@@ -108,6 +141,15 @@ namespace HuaShang.Stations
                 m.primaryLabel = "走去裁桌";
                 m.onPrimary = () => Workshop.Approach(Workshop.stations.Find(x => x.stationId == "station_cut"));
                 Show(m);
+                return;
+            }
+
+            if (calender != null)
+            {
+                var cm = Plaque("砑光：砑石压过布面");
+                cm.beat = calender.View;
+                cm.body = "跟着节拍压磨。8 拍的平均记为后整理分；中途退出不记。";
+                Show(cm);
                 return;
             }
 
@@ -133,12 +175,34 @@ namespace HuaShang.Stations
             var temp = new OptionGroup { label = "水温", choices = new List<string> { "冷", "温", "热" }, selected = System.Array.IndexOf(TempKeys, temperature) };
             temp.onSelect = i => temperature = TempKeys[i];
             mm.options.Add(temp);
-            int hours = C.balance.day.HoursOf("dyeBath");
+            var resists = new List<string> { null };
+            if (Unlocks.OtherOpen(S, C, "扎染")) resists.Add(Craft.ResistTie);
+            if (Unlocks.OtherOpen(S, C, "夹缬")) resists.Add(Craft.ResistClamp);
+            if (!resists.Contains(resist)) resist = null;
+            if (resists.Count > 1)
+            {
+                var rg = new OptionGroup { label = "防染", choices = resists.ConvertAll(r => r == null ? "整匹浸染" : Craft.ResistToken(r)), selected = resists.IndexOf(resist) };
+                rg.onSelect = i => { resist = resists[i]; Refresh(); };
+                mm.options.Add(rg);
+            }
+            int hours = C.balance.day.HoursOf(resist != null ? "dyeResist" : "dyeBath");
             bool hasStock = dyeId != null && (Play.Find.Dye(S, dyeId, freshDye)?.count ?? 0) >= C.balance.dye.costPerBolt;
             mm.primaryLabel = "将" + (bolt != null ? Names.Variety(C, bolt.variety) : "布") + "浸入缸中";
             mm.primaryEnabled = bolt != null && hasStock && Progress.CanSpend(S, C, hours);
             mm.body = bolt == null ? "侧架上没有布。" : !Progress.CanSpend(S, C, hours) ? "今天的工时不够浸染一匹（需要 " + hours + "）。"
                 : "取料、浓淡与搅拌在起布前都不改库存。起布记一层，扣 " + C.balance.dye.costPerBolt + " 份染料，耗 " + hours + " 工时。";
+            if (bolt != null && Unlocks.OtherOpen(S, C, "砑光") && bolt.finish != ClothDescribe.Calender)
+            {
+                int ch = C.balance.day.HoursOf("calender");
+                mm.secondary.Add(new KeyValuePair<string, System.Action>("砑光这匹（" + ch + " 工时）", () =>
+                {
+                    if (!Progress.CanSpend(S, C, ch)) { H.Toast("今天的工时不够砑光（需要 " + ch + "）"); return; }
+                    calender = new BeatTrack(C.balance.weave, 8, "砑光");
+                    calender.onBeat = bt => Sfx.Play(bt == Beat.Steady ? Sfx.Cue.ShuttleSteady : Sfx.Cue.ShuttleRough);
+                    depth = 1;
+                    Refresh();
+                }));
+            }
             mm.onPrimary = () =>
             {
                 immersedAt = Time.time;
@@ -158,11 +222,11 @@ namespace HuaShang.Stations
             var input = new Craft.DyeInput
             {
                 boltId = boltId, dyeId = dyeId, fresh = freshDye, concentration = concentration, temperature = temperature,
-                liftSeconds = Time.time - immersedAt, stirSteady = steady, stirOff = off, stirTotal = stir.Total,
+                liftSeconds = Time.time - immersedAt, stirSteady = steady, stirOff = off, stirTotal = stir.Total, resist = resist,
             };
             immersedAt = -1;
             stir = null;
-            if (Run((s, c) => Craft.Dye(s, c, input))) { resultBoltId = boltId; depth = 2; dyeId = null; }
+            if (Run((s, c) => Craft.Dye(s, c, input))) { resultBoltId = boltId; depth = 2; dyeId = null; lastWasCalender = false; }
             else depth = 0;
             Refresh();
         }

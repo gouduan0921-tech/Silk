@@ -436,3 +436,24 @@ MonoBehaviour:
     other:
     - "\u5510\u98CE"
     raw: "\u5510\u98CE\u3001\u9F50\u80F8\u8966\u88D9\u3001\u5986\u82B1\u7F0E"
+  - level: 34
+    xpRequired: 63400
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters: []
+    other:
+    - "\u624E\u67D3"
+    - "\u5939\u7F2C"
+    raw: "\u624E\u67D3\u3001\u5939\u7F2C"
+  - level: 35
+    xpRequired: 68200
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters: []
+    other:
+    - "\u7811\u5149"
+    raw: "\u7811\u5149"

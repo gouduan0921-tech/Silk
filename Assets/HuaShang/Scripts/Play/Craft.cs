@@ -156,6 +156,8 @@ namespace HuaShang.Play
             public int stirSteady, stirOff, stirTotal;
             /// <summary>用当季新鲜染料（浓度系数加成，docs/04 §5）。</summary>
             public bool fresh;
+            /// <summary>防染：null / tie / clamp（docs/04 §5）。</summary>
+            public string resist;
         }
 
         public class DyePreview
@@ -194,7 +196,8 @@ namespace HuaShang.Play
             var stock = Find.Dye(s, input.dyeId, input.fresh);
             int cost = c.balance.dye.costPerBolt;
             if (stock == null || stock.count < cost) return Result.Fail("侧架上没有足够的" + (input.fresh ? "鲜" : "干") + dyeRow.name);
-            int hours = c.balance.day.HoursOf("dyeBath");
+            if (input.resist != null && !Unlocks.OtherOpen(s, c, ResistToken(input.resist))) return Result.Fail(ResistToken(input.resist) + "还没解锁");
+            int hours = c.balance.day.HoursOf(input.resist != null ? "dyeResist" : "dyeBath");
             if (!Progress.CanSpend(s, c, hours)) return Result.Fail("今天的工时不够浸染一匹（需要 " + hours + "）");
 
             var pv = PreviewDye(input, c);
@@ -206,6 +209,7 @@ namespace HuaShang.Play
                 uneven = pv.uneven,
                 score = Math.Round(pv.score, 1),
                 maskId = pv.failureMottle ? "mask_" + bolt.id + "_" + (bolt.dyeLayers.Count + 1) : null,
+                resist = input.resist,
             };
             var added = DyeCalc.AddLayer(bolt.dyeLayers, layer, c.balance.dye);
             bolt.dyeLayers = added.layers;
@@ -218,6 +222,28 @@ namespace HuaShang.Play
             if (added.removed != null) r.notes.Add("第 " + (c.balance.dye.maxLayers + 1) + " 层挤掉了最早的一层");
             if (pv.failureMottle) r.notes.Add("色花：搅拌不稳，布上留下掩膜");
             return r;
+        }
+
+        public const string ResistTie = "tie", ResistClamp = "clamp";
+        public static string ResistToken(string resist) => resist == ResistTie ? "扎染" : resist == ResistClamp ? "夹缬" : null;
+
+        /// <summary>砑光（docs/04 §5）：8 拍，后整理分取节拍平均；一匹只砑一次。</summary>
+        public static Result Calender(SaveRoot s, ConfigSnapshot c, string boltId, IList<Beat> beats)
+        {
+            var bolt = Find.Bolt(s, boltId);
+            if (bolt == null) return Result.Fail("没有这匹布");
+            if (!Unlocks.OtherOpen(s, c, "砑光")) return Result.Fail("砑光还没解锁");
+            if (bolt.finish == ClothDescribe.Calender) return Result.Fail("这匹布已经砑过光");
+            int hours = c.balance.day.HoursOf("calender");
+            if (!Progress.CanSpend(s, c, hours)) return Result.Fail("今天的工时不够砑光（需要 " + hours + "）");
+            if (beats == null || beats.Count == 0) return Result.Fail("没有砑光的节拍");
+            double sum = 0;
+            foreach (var b in beats) sum += Beats.ScoreOf(b, c.balance.weave);
+            bolt.finish = ClothDescribe.Calender;
+            bolt.finishScore = (int)Math.Round(sum / beats.Count);
+            Progress.Spend(s, hours);
+            Progress.AwardProcessXp(s, c, hours, ItemQuality.IsDefect(bolt, c));
+            return Result.Ok(bolt.id);
         }
 
         // ---------------- 裁 ----------------
