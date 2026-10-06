@@ -37,6 +37,8 @@ namespace HuaShang.Performance
         public MagicaWindZone stageWind;
         public StageLights lights;
         public StageEffects effects;
+        /// <summary>当前舞台（docs/15 §5），写进演出记录。</summary>
+        public string stageId = Stage.StageClassic;
         public Camera cam;
         public List<TimelineEntry> timelines = new List<TimelineEntry>();
         public Bounds freeCameraBox = new Bounds(new Vector3(0, 1.4f, -2.2f), new Vector3(5f, 2.4f, 3.6f));
@@ -181,7 +183,7 @@ namespace HuaShang.Performance
             Hud.I.SetPerformanceMode(false, null);
             if (ClothQualityDirector.Instance != null) ClothQualityDirector.Instance.stageFocusOwner = null;
             // 演出完成才写记录（docs/21 §6）
-            var r = GameSession.I.Run((s, c) => Stage.Record(s, c, characterId, tier, garmentId, shownMode));
+            var r = GameSession.I.Run((s, c) => Stage.Record(s, c, characterId, tier, garmentId, shownMode, stageId));
             if (r.ok) SaveSnapshot(r.createdId);
             else Hud.I.Toast(r.error);
             onFinished?.Invoke(r.ok ? r.createdId : null);

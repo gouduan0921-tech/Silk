@@ -19,6 +19,8 @@ namespace HuaShang.Stations
     public class StageStation : StationBase
     {
         public PerformanceDirector performance;
+        Transform classicSet, inkSet;
+        string stageId = Stage.StageClassic;
         string characterId = "xiShi";
         int tier;
         string garmentId;
@@ -32,13 +34,34 @@ namespace HuaShang.Stations
         public void BuildProps()
         {
             var root = transform;
-            Props.Box(root, "Platform", new Vector3(0, 0.25f, 0), new Vector3(5f, 0.5f, 3.4f), Props.Wood);
-            Props.Box(root, "Backdrop", new Vector3(0, 2.2f, 1.6f), new Vector3(5.2f, 3.6f, 0.1f), new Color(0.22f, 0.18f, 0.15f));
+            // 古典戏台：木台、暗背景、柱与额枋
+            classicSet = new GameObject("Set_classic").transform;
+            classicSet.SetParent(root, false);
+            Props.Box(classicSet, "Platform", new Vector3(0, 0.25f, 0), new Vector3(5f, 0.5f, 3.4f), Props.Wood);
+            Props.Box(classicSet, "Backdrop", new Vector3(0, 2.2f, 1.6f), new Vector3(5.2f, 3.6f, 0.1f), new Color(0.22f, 0.18f, 0.15f));
             foreach (var x in new[] { -2.4f, 2.4f })
             {
-                Props.Box(root, "Pillar", new Vector3(x, 2.1f, 1.4f), new Vector3(0.22f, 3.6f, 0.22f), new Color(0.3f, 0.2f, 0.15f));
+                Props.Box(classicSet, "Pillar", new Vector3(x, 2.1f, 1.4f), new Vector3(0.22f, 3.6f, 0.22f), new Color(0.3f, 0.2f, 0.15f));
             }
-            Props.Box(root, "Lintel", new Vector3(0, 3.95f, 1.4f), new Vector3(5.2f, 0.25f, 0.3f), new Color(0.3f, 0.2f, 0.15f));
+            Props.Box(classicSet, "Lintel", new Vector3(0, 3.95f, 1.4f), new Vector3(5.2f, 0.25f, 0.3f), new Color(0.3f, 0.2f, 0.15f));
+            // 水墨台（docs/15 §5）：宣纸色天幕，淡墨远山三层退远，灰白地面，不设木柱
+            inkSet = new GameObject("Set_ink").transform;
+            inkSet.SetParent(root, false);
+            Props.Box(inkSet, "Platform", new Vector3(0, 0.25f, 0), new Vector3(5f, 0.5f, 3.4f), new Color(0.78f, 0.77f, 0.74f));
+            Props.Box(inkSet, "Backdrop", new Vector3(0, 2.2f, 1.62f), new Vector3(5.2f, 3.6f, 0.1f), new Color(0.88f, 0.86f, 0.8f));
+            var inkTones = new[] { new Color(0.74f, 0.74f, 0.72f), new Color(0.56f, 0.57f, 0.56f), new Color(0.36f, 0.37f, 0.37f) };
+            for (int layer = 0; layer < 3; layer++)
+            {
+                var rnd = new System.Random(17 + layer);
+                for (int k = 0; k < 4; k++)
+                {
+                    float x = -2.1f + k * 1.4f + (float)rnd.NextDouble() * 0.4f;
+                    float h = 0.9f + (float)rnd.NextDouble() * 0.9f - layer * 0.25f;
+                    var peak = Props.Box(inkSet, "InkHill", new Vector3(x, 0.5f + h * 0.5f, 1.55f - layer * 0.04f), new Vector3(h * 0.9f, h * 0.9f, 0.02f), inkTones[layer]);
+                    peak.transform.localEulerAngles = new Vector3(0, 0, 45f);
+                }
+            }
+            inkSet.gameObject.SetActive(false);
 
             var stageRoot = new GameObject("StageRoot").transform;
             stageRoot.SetParent(root, false);
@@ -80,6 +103,14 @@ namespace HuaShang.Stations
 
             var col = gameObject.AddComponent<BoxCollider>();
             col.center = new Vector3(0, 1.5f, 0.5f); col.size = new Vector3(5.4f, 3.4f, 3.6f);
+        }
+
+        /// <summary>换舞台只换布景，不改品质与契合（docs/15 §5）。</summary>
+        void ApplyStageSet()
+        {
+            bool ink = stageId == Stage.StageInk;
+            if (classicSet != null) classicSet.gameObject.SetActive(!ink);
+            if (inkSet != null) inkSet.gameObject.SetActive(ink);
         }
 
         static Light MakeLight(Transform parent, string name, Vector3 pos, Vector3 look, float intensity)
@@ -153,6 +184,12 @@ namespace HuaShang.Stations
                 if (!tiers.Contains(tier)) tier = tiers.Count > 0 ? tiers[0] : 0;
                 mm.options.Add(new OptionGroup { label = "档位", choices = tiers.ConvertAll(t => t + " 档"), selected = tiers.IndexOf(tier), onSelect = i => tier = tiers[i] });
                 mm.options.Add(new OptionGroup { label = "呈现", choices = new List<string>(ModeNames), selected = System.Array.IndexOf(Modes, presentMode), onSelect = i => { presentMode = Modes[i]; ShowOnPerformer(); } });
+                if (Unlocks.OtherOpen(S, C, "水墨台"))
+                {
+                    var stages = new List<string> { Stage.StageClassic, Stage.StageInk };
+                    mm.options.Add(new OptionGroup { label = "舞台", choices = new List<string> { "古典戏台", "水墨台" }, selected = stages.IndexOf(stageId), onSelect = i => { stageId = stages[i]; ApplyStageSet(); } });
+                }
+                else if (stageId != Stage.StageClassic) { stageId = Stage.StageClassic; ApplyStageSet(); }
                 mm.options.Add(new OptionGroup { label = "主光", choices = new List<string> { "按衣色推荐", "锁定素光" }, selected = lockNeutral ? 1 : 0, onSelect = i => lockNeutral = i == 1 });
             }
             var g = garmentId != null ? Play.Find.Garment(S, garmentId) : null;
@@ -165,6 +202,7 @@ namespace HuaShang.Stations
                 if (lockNeutral) { var t = C.balance.windLight.colorTemps.Find(x => x.label == "素"); locked = t != null ? t.kelvin : 0; }
                 Workshop.performing = true;
                 performance.onFinished = id => { Workshop.performing = false; lastPerformanceId = id; depth = id != null ? 2 : 0; Workshop.RefreshChrome(); Refresh(); };
+                performance.stageId = stageId;
                 performance.Play(characterId, tier, garmentId, presentMode, locked);
             };
             Show(mm);

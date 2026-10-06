@@ -457,3 +457,13 @@ MonoBehaviour:
     other:
     - "\u7811\u5149"
     raw: "\u7811\u5149"
+  - level: 36
+    xpRequired: 73400
+    launch: 1
+    varieties: []
+    dyes: []
+    patterns: []
+    characters: []
+    other:
+    - "\u6C34\u58A8\u53F0"
+    raw: "\u6C34\u58A8\u53F0"

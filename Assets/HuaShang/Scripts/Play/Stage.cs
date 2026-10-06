@@ -96,7 +96,9 @@ namespace HuaShang.Play
 
         /// <summary>演出播完才调用：写演出记录与好感（docs/21 §6）。</summary>
         /// <param name="shownMode">这一场实际用的呈现模式；为空时取成衣覆盖或根设置（docs/21 §7）。</param>
-        public static Result Record(SaveRoot s, ConfigSnapshot c, string characterId, int tier, string garmentId, string shownMode = null)
+        public const string StageClassic = "stage_classic", StageInk = "stage_ink";
+
+        public static Result Record(SaveRoot s, ConfigSnapshot c, string characterId, int tier, string garmentId, string shownMode = null, string stageId = null)
         {
             var g = Find.Garment(s, garmentId);
             if (g == null) return Result.Fail("没有这件成衣");
@@ -112,6 +114,7 @@ namespace HuaShang.Play
                 tier = tier,
                 garmentId = g.id,
                 presentMode = shownMode ?? g.presentMode ?? s.presentMode,
+                stageId = stageId ?? StageClassic,
                 heat = Math.Round(Heat(q, fit, tier, c), 1),
                 fit = fit,
                 dayIndex = s.dayIndex,

@@ -553,6 +553,9 @@ MonoBehaviour:
       - level: 35
         xp: 68200
         launch: 0
+      - level: 36
+        xp: 73400
+        launch: 0
     windLight:
       baseWindMin: 0.3
       baseWindMax: 0.8

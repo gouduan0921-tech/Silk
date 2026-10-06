@@ -182,6 +182,8 @@ namespace HuaShang.Save
         public int tier;
         public string garmentId;
         public string presentMode;
+        /// <summary>用的是哪座舞台（docs/15 §5）；旧档为空即古典戏台。</summary>
+        public string stageId;
         public double? heat;
         public double? fit;
         public int dayIndex;

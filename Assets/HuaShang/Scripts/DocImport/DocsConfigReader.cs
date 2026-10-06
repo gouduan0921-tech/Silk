@@ -427,7 +427,7 @@ namespace HuaShang.DocImport
             foreach (var r in s6.Table("id"))
             {
                 var m = Regex.Match(r[0], "`?(\\w+)`?");
-                c.stages.Add(new StageRow { id = m.Groups[1].Value, launch = r[1].Trim() == "true" });
+                c.stages.Add(new StageRow { id = m.Groups[1].Value, launch = r[1].Trim() == "true" || IsOpen(r[1].Trim()) });
             }
         }
 

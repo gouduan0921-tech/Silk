@@ -16,6 +16,6 @@ MonoBehaviour:
   - id: stage_classic
     launch: 1
   - id: stage_ink
-    launch: 0
+    launch: 1
   - id: stage_modern
     launch: 0
